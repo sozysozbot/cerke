@@ -60,3 +60,46 @@ function drawChar(x, y, txt, isRed, isReversed)
 		ctx.fillText(txt, X, Y);
 	}
 }
+
+function error(txt){alert(txt)}
+
+var conv_obj = {
+	"!": "船", 
+	"0": "無", 
+	"1": "兵", 
+	"2": "弓", 
+	"3": "車", 
+	"4": "虎", 
+	"5": "馬", 
+	"6": "筆", 
+	"7": "巫", 
+	"8": "将", 
+	"#": "王", 
+	"$": "皇"
+}
+
+
+function load_board()
+{
+	draw1();
+	var info = document.getElementById("load_board").value;
+	var res_arr = parser(info);
+	if(res_arr.length !== 81) {
+		error("Parse error: Expected 81 elements, but got " + res_arr.length + " element(s)");
+		return null;
+	}
+
+	for(var i=0; i<81; i++){
+		if(res_arr[i]) {
+			drawChar(i%9, (i/9)|0, res_arr[i].txt, res_arr[i].isRed, res_arr[i].isReversed);
+		}
+	}
+
+}
+
+
+
+
+
+
+

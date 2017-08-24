@@ -6,3 +6,7 @@
 #cv {
 	border: 2px solid green;
 }
+
+#load_board {
+	font-family: monospace;
+}

@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="main.js"></script>
+	<script src="parse.js"></script>
 	<title>机戦</title>
 </head>
 <body onload="init()" bgcolor="#fff8f8">
@@ -20,7 +21,23 @@
 盤面の高さ: <input type="number" id="height" value="400">
 <input type="button" value="draw" onclick="draw1()" />
 <hr>
-<canvas id="cv" width="420" height="500"></canvas><br>
+<table>
+<tr><td style="vertical-align: top;">
+盤面<br>
+<textarea id="load_board" cols="30" rows="10">
+_6h_5h_3h_8h_#k_8k_3k_5k_6k
+_7k_2k - _4k - _4h - _2h_7h
+_1h_1k_1h_1k_!k_1h_1k_1h_1k
+ -  -  -  -  -  -  -  -  - 
+ -  -  -  - ^$h -  -  -  -
+ -  -  -  -  -  -  -  -  - 
+^1h^1k^1h^1k^!h^1h^1k^1h^1k
+^7h^2h - ^4h - ^4k - ^2k^7k
+^6k^5k^3k^8k^#h^8h^3h^5h^6h
+</textarea><br>
+<input type="button" onclick='load_board()' value="load">
+</td><td><canvas id="cv" width="420" height="500"></canvas></td></tr>
+</table>
 <script>
 function foo()
 {
