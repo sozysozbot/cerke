@@ -3,11 +3,31 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="main.js"></script>
 	<title>机戦</title>
 </head>
-<body>
+<body onload="init()">
 <span style="font-family: PekTak;">
 兵 将 巫 弓 無 王 皇 筆 船 虎 車 馬
-</span>
+</span><br>
+盤面の高さ: <input type="number" id="height" value="400">
+<input type="button" value="draw" onclick="draw1()" />
+<hr>
+<canvas id="cv"></canvas><br>
+<script>
+function foo()
+{
+	draw1();
+	for(var i=0;i<9;i++){
+		for(var j=0;j<9;j++){
+			var str = "兵将巫弓無王皇筆船虎車馬";
+			drawChar(i,j,str[Math.random()*str.length|0],Math.random()*2|0,false)
+		}
+	}
+	
+}
+</script>
+<input type="button" onclick='foo()' value="demo">
+
 </body>
 </html>
