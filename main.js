@@ -39,6 +39,14 @@ function drawChar(x, y, txt, isRed, isReversed)
 	var height = getHeight();
 	var pads = getPaddings();
 
-	ctx.fillText(txt, pads[3] + (x + 1/2) * height / 9 , pads[0] + (y + 1/2) * height / 9);
+	var X = pads[3] + (x + 1/2) * height / 9;
+	var Y = pads[0] + (y + 1/2) * height / 9;
 
+	if(isReversed){
+		ctx.rotate(Math.PI);
+		ctx.fillText(txt, -X, -Y);
+		ctx.rotate(Math.PI);
+	} else {
+		ctx.fillText(txt, X, Y);
+	}
 }
