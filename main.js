@@ -11,8 +11,9 @@ function getHeight()
 
 function getPaddings()
 {
+	var height = getHeight();
 	// top, right, bottom, left
-	return [0,100,0,100];
+	return [50,10,50,10].map(function(x){return x*height/400;});
 }
 
 function init()
