@@ -22,9 +22,18 @@ function init()
 
 function draw1(){
 	var height = getHeight();
-	var pads = getPaddings()
-	document.getElementById("cv").width = "" + (height + pads[1] + pads[3]);
-	document.getElementById("cv").height = "" + (height + pads[0] + pads[2]);
+	var pads = getPaddings();
+	var full_w = (height + pads[1] + pads[3])
+	var full_h = (height + pads[0] + pads[2])
+
+	document.getElementById("cv").width = "" + full_w;
+	document.getElementById("cv").height = "" + full_h;
+
+	if(!document.getElementById('transparent').checked) {
+		ctx.fillStyle = "white";
+		ctx.fillRect(0, 0, full_w, full_h);
+	}
+
 	ctx.drawImage(img,pads[3],pads[0],height,height);
 }
 
