@@ -41,7 +41,7 @@ function drawChar(x, y, txt, isRed, isReversed)
 {
 	var height = getHeight();
 
-	ctx.font = Math.round(height/10)+"px PekTak"; 
+	ctx.font = Math.round(height * 0.085)+"px PekTak"; 
 	ctx.fillStyle = isRed ? "red" : "black";
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
