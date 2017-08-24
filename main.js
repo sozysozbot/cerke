@@ -30,13 +30,13 @@ function draw1(){
 
 function drawChar(x, y, txt, isRed, isReversed)
 {
+	var height = getHeight();
 
-	ctx.font = "40px PekTak"; 
+	ctx.font = Math.round(height/10)+"px PekTak"; 
 	ctx.fillStyle = isRed ? "red" : "black";
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
 
-	var height = getHeight();
 	var pads = getPaddings();
 
 	var X = pads[3] + (x + 1/2) * height / 9;
