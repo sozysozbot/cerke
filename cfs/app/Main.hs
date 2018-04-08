@@ -3,7 +3,7 @@ module Main where
 import Lib
 import Piece
 import Board
-import StateT
+import GameState
 import PrettyPrint
 
 main :: IO ()
