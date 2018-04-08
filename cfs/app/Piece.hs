@@ -8,6 +8,8 @@ module Piece
 ,profToLin
 ,asciiToProf
 ,asciiToColor
+,colorToAscii
+,sideToAscii
 ,ProfOrTam
 ) where
 data Color = Kok1 | Huok2 deriving(Show, Eq, Ord)
@@ -43,4 +45,11 @@ asciiToColor 'h' = Just Huok2
 asciiToColor 'k' = Just Kok1
 asciiToColor _   = Nothing
 
+colorToAscii :: Color -> Char
+colorToAscii Huok2 = 'h'
+colorToAscii Kok1  = 'k'
+
+sideToAscii :: Side -> Char
+sideToAscii Upward   = '^'
+sideToAscii Downward = '_'
 
