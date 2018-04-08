@@ -1,7 +1,5 @@
 module GameState
 (Fullboard(..)
-,play
-,play2
 ,play3
 )where
 import Board
@@ -47,6 +45,10 @@ movePieceFromTo' from to = StateT (foo . movePieceFromTo from to )
 * Monadic fullboard operation
 **********
 -}
+
+movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
+movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
+
 movePieceFromTo_ :: Square -> Square -> StateT Fullboard Maybe ()
 movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo' from to
 
@@ -75,6 +77,7 @@ dropPiece pp sq = do
 **********
 -}
 
+play3 :: Board1 -> Maybe Fullboard
 play3 b = execStateT play2 Fullboard{board = b, hand = []}
 
 play2 :: StateT Fullboard Maybe ()
@@ -90,25 +93,7 @@ play2 = do
  movePieceFromToTaking (Square RY CK) (Square RE CZ) 
  movePieceFromToTaking (Square RA CX)  (Square RE CZ)
 
-play :: Board1 -> Maybe Board1
-play = execStateT pl 
 
-pl :: StateT Board1 Maybe ()
-pl = do
- movePieceFromTo' (Square RAU CT) (Square RY CT)
- movePieceFromTo' (Square RI CN)  (Square RU CN)
- movePieceFromTo' (Square RA CM)  (Square RO CT)
- horse <- removePiece'     (Square RO CT)
- horse' <- lift $ flipSide horse
- movePieceFromTo' (Square RY CT)  (Square RO CT)
- movePieceFromTo' (Square RA CT)  (Square RI CN)
- movePieceFromTo' (Square RAU CL)  (Square RO CL)
- movePieceFromTo' (Square RA CZ)  (Square RE CZ)
- putPiece' horse' (Square RY CK)
- king <- removePiece' (Square RE CZ)
- movePieceFromTo' (Square RY CK) (Square RE CZ) 
- horse2 <- removePiece' (Square RE CZ) 
- movePieceFromTo' (Square RA CX)  (Square RE CZ)
 
 foo :: Maybe b -> Maybe((), b)
 foo k = do
