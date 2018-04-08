@@ -91,7 +91,7 @@ drawBoard :: Board1 -> String
 drawBoard b = foo [ convert(M.lookup sq b) | sq <- sqList]
  where 
   foo [] = ""
-  foo arr = let (a,b) = splitAt 9 arr in concat a ++ "\n" ++ foo b
+  foo arr = let (a,c) = splitAt 9 arr in concat a ++ "\n" ++ foo c
 
 convert :: Maybe Piece -> String
 convert Nothing = " - "

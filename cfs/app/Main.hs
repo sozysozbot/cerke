@@ -1,7 +1,5 @@
 module Main where
 
-import Lib
-import Piece
 import Board
 import GameState
 import PrettyPrint
@@ -9,8 +7,9 @@ import PrettyPrint
 main :: IO ()
 main = do
  b <- loadFile "test/board01.txt"
- let Just final = play b
+ let Just Fullboard{board = final, hand = pieces} = play3 b
  putStrLn $ drawBoard final
+ print pieces
 
 
 
@@ -20,6 +19,7 @@ loadFile file = do
  let Just b = loadBoard str
  return b
 
+loadFile' :: [Char] -> IO ()
 loadFile' file = do
  putStrLn "--------------------"
  putStrLn $ "Loading " ++ file

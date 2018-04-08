@@ -9,10 +9,9 @@ module Board
 ,movePiece
 ,movePieceFromTo
 ) where
-import Piece
+import Piece hiding(Piece(..))
+import Piece (Piece())
 import qualified Data.Map as M
-import Data.Char
-import Control.Monad
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
 data Row = RA | RE | RI | RU | RO | RY | RAI | RAU | RIA deriving(Show,Eq, Ord,Enum)
