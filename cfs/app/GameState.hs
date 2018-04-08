@@ -34,8 +34,8 @@ putPiece' p sq = StateT (foo . putPiece p sq )
 removePiece' :: Square -> StateT Board1 Maybe Piece
 removePiece' sq = StateT (removePiece sq)
 
-movePiece' :: Vec -> Square -> StateT Board1 Maybe ()
-movePiece' vec sq = StateT (foo . movePiece vec sq )
+--movePiece' :: Vec -> Square -> StateT Board1 Maybe ()
+--movePiece' vec sq = StateT (foo . movePiece vec sq )
 
 movePieceFromTo' :: Square -> Square -> StateT Board1 Maybe ()
 movePieceFromTo' from to = StateT (foo . movePieceFromTo from to )
@@ -46,8 +46,8 @@ movePieceFromTo' from to = StateT (foo . movePieceFromTo from to )
 **********
 -}
 
-movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
-movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
+--movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
+--movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
 
 movePieceFromTo_ :: Square -> Square -> StateT Fullboard Maybe ()
 movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo' from to
@@ -69,7 +69,7 @@ dropPiece pp sq = do
   [] -> lift $ Nothing -- cannot drop
   (x:xs) -> do
    liftBoardOp $ putPiece' x sq -- modify the board,
-   modify (\k -> k{hand = xs}) -- modify the hand
+   modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
 {-
 **********
