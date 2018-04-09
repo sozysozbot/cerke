@@ -8,7 +8,7 @@ import Piece hiding(Piece(..))
 
 main :: IO ()
 main = do
- let Right Fullboard{board = final, hand = pieces} = play3 initialBoard
+ let Right Fullboard{board = final, hand = pieces} = playFromStart play2
  putStrLn $ drawBoard final
  print pieces
 
@@ -33,8 +33,6 @@ loadFile' file = do
  let Just b = loadBoard str
  putStrLn $ drawBoard b
 
-play3 :: Board1 -> M Fullboard
-play3 b = execStateT play2 Fullboard{board = b, hand = []}
 
 play2 :: StateT Fullboard M ()
 play2 = do

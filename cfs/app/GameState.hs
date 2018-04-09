@@ -3,8 +3,11 @@ module GameState
 ,movePieceFromTo_
 ,movePieceFromToTaking
 ,dropPiece
+,playFromStart
+,initialBoard
 )where
 import Board
+import PrettyPrint(initialBoard)
 import Piece hiding(Piece(..))
 import Piece (Piece())
 import Control.Monad.Trans.Class
@@ -16,6 +19,9 @@ data Fullboard = Fullboard{
  hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
 }
 
+
+playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
+playFromStart p = execStateT p Fullboard{board = initialBoard, hand = []}
 
 liftBoardOp :: Monad m => (Board1 -> m (b, Board1)) -> StateT Fullboard m b
 liftBoardOp op = do
