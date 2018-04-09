@@ -8,6 +8,7 @@ import Piece hiding(Piece(..))
 
 main :: IO ()
 main = do
+ putStrLn "仕様書の棋譜再生:"
  let Right Fullboard{board = final, hand = pieces} = playFromStart play2
  putStrLn $ drawBoard final
  print pieces

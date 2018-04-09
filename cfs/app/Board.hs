@@ -17,11 +17,11 @@ import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
 data Row = RA | RE | RI | RU | RO | RY | RAI | RAU | RIA deriving(Show,Eq, Ord,Enum)
-data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
-
+data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord,Show)
+{-
 instance Show Square where
  show (Square{col=c,row=r}) = tail(show c) ++ tail(show r)
-
+-}
 type Board1 = M.Map Square Piece
 
 type M = Either Error
@@ -81,6 +81,4 @@ movePieceFromTo :: Square -> Square -> Board1 -> M Board1
 movePieceFromTo from to b = do
  (p, new_b) <- removePiece from b
  putPiece p to new_b
-
-
 
