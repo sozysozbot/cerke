@@ -5,6 +5,7 @@ module GameState
 ,dropPiece
 ,playFromStart
 ,initialBoard
+,movePieceFromTo2
 )where
 import Board
 import PrettyPrint(initialBoard)
@@ -46,9 +47,19 @@ liftBoardOpFoo op = do
 --movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
 --movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
 
+-- implicitly takes the piece, if blocked
+movePieceFromTo2 :: Square -> Square -> StateT Fullboard M ()
+movePieceFromTo2 from to = do
+ fb <- get
+ case movePieceFromTo from to (board fb) of
+  Left (AlreadyOccupied _) -> movePieceFromToTaking from to
+  Right newBoard -> put $ fb{board = newBoard}
+  Left e -> lift $ Left e
+
 movePieceFromTo_ :: Square -> Square -> StateT Fullboard M ()
 movePieceFromTo_ from to = liftBoardOpFoo $ movePieceFromTo from to
 
+-- FIX friendly fire
 movePieceFromToTaking :: Square -> Square -> StateT Fullboard M ()
 movePieceFromToTaking from to = do
  piece <- liftBoardOp $ removePiece to
