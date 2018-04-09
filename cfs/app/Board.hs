@@ -8,8 +8,8 @@ module Board
 ,removePiece
 ,movePiece
 ,movePieceFromTo
+,M
 ) where
-import Piece hiding(Piece(..))
 import Piece (Piece())
 import qualified Data.Map as M
 
@@ -21,6 +21,8 @@ instance Show Square where
  show (Square{col=c,row=r}) = tail(show c) ++ tail(show r)
 
 type Board1 = M.Map Square Piece
+
+type M = Maybe
 
 data Vec = Vec{dx :: Int, dy :: Int}
 
@@ -38,6 +40,9 @@ add' a c
  where b = fromEnum c
 
 
+toEither :: c -> Maybe a -> Either c a
+toEither = (`maybe` Right) . Left
+
 
 {-
 ********************************************
@@ -49,11 +54,11 @@ isOccupiedFor :: Square -> Board1 -> Bool
 isOccupiedFor = M.member
 
 -- put a piece on a square. fails if already occupied.
-putPiece :: Piece -> Square -> Board1 -> Maybe Board1
+putPiece :: Piece -> Square -> Board1 -> M Board1
 putPiece p sq b = if sq `isOccupiedFor` b then Nothing else Just(M.insert sq p b)
 
 -- remove a piece. fails if empty.
-removePiece :: Square -> Board1 -> Maybe (Piece, Board1)
+removePiece :: Square -> Board1 -> M (Piece, Board1)
 removePiece sq b = do
  p <- sq `M.lookup` b
  return (p, M.delete sq b)
@@ -62,13 +67,13 @@ removePiece sq b = do
 --  the piece goes out of the board
 --  the original square is empty
 --  the resulting square is already occupied
-movePiece :: Vec -> Square -> Board1 -> Maybe Board1
+movePiece :: Vec -> Square -> Board1 -> M Board1
 movePiece vec sq b = do
  (p, new_b) <- removePiece sq b
  new_sq <- add vec sq
  putPiece p new_sq new_b
 
-movePieceFromTo :: Square -> Square -> Board1 -> Maybe Board1
+movePieceFromTo :: Square -> Square -> Board1 -> M Board1
 movePieceFromTo from to b = do
  (p, new_b) <- removePiece from b
  putPiece p to new_b

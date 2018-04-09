@@ -15,7 +15,7 @@ data Fullboard = Fullboard{
 }
 
 
-liftBoardOp :: StateT Board1 Maybe a -> StateT Fullboard Maybe a
+liftBoardOp :: StateT Board1 M a -> StateT Fullboard M a
 liftBoardOp op = do
  fb <- get
  (a, newBoard) <- lift $ runStateT op (board fb)
@@ -28,16 +28,16 @@ liftBoardOp op = do
 * Monadic board operation
 **********
 -}
-putPiece' :: Piece -> Square -> StateT Board1 Maybe ()
+putPiece' :: Piece -> Square -> StateT Board1 M ()
 putPiece' p sq = StateT (foo . putPiece p sq )
 
-removePiece' :: Square -> StateT Board1 Maybe Piece
+removePiece' :: Square -> StateT Board1 M Piece
 removePiece' sq = StateT (removePiece sq)
 
 --movePiece' :: Vec -> Square -> StateT Board1 Maybe ()
 --movePiece' vec sq = StateT (foo . movePiece vec sq )
 
-movePieceFromTo' :: Square -> Square -> StateT Board1 Maybe ()
+movePieceFromTo' :: Square -> Square -> StateT Board1 M ()
 movePieceFromTo' from to = StateT (foo . movePieceFromTo from to )
 
 {-
@@ -49,10 +49,10 @@ movePieceFromTo' from to = StateT (foo . movePieceFromTo from to )
 --movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
 --movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
 
-movePieceFromTo_ :: Square -> Square -> StateT Fullboard Maybe ()
+movePieceFromTo_ :: Square -> Square -> StateT Fullboard M ()
 movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo' from to
 
-movePieceFromToTaking :: Square -> Square -> StateT Fullboard Maybe ()
+movePieceFromToTaking :: Square -> Square -> StateT Fullboard M ()
 movePieceFromToTaking from to = do
  piece <- liftBoardOp $ removePiece' to
  flippedPiece <- lift $ flipSide piece -- fails for Tam2, which is nice because Tam2 cannot be taken
@@ -61,7 +61,7 @@ movePieceFromToTaking from to = do
 
 
 
-dropPiece :: PhantomPiece -> Square -> StateT Fullboard Maybe ()
+dropPiece :: PhantomPiece -> Square -> StateT Fullboard M ()
 dropPiece pp sq = do
  fb <- get
  let pieces = hand fb
@@ -77,10 +77,10 @@ dropPiece pp sq = do
 **********
 -}
 
-play3 :: Board1 -> Maybe Fullboard
+play3 :: Board1 -> M Fullboard
 play3 b = execStateT play2 Fullboard{board = b, hand = []}
 
-play2 :: StateT Fullboard Maybe ()
+play2 :: StateT Fullboard M ()
 play2 = do
  movePieceFromTo_ (Square RAU CT) (Square RY CT)
  movePieceFromTo_ (Square RI CN)  (Square RU CN)
@@ -95,7 +95,7 @@ play2 = do
 
 
 
-foo :: Maybe b -> Maybe((), b)
+foo :: M b -> M((), b)
 foo k = do
  u <- k
  return((),u)
