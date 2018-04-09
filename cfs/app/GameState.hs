@@ -55,7 +55,7 @@ movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo' from to
 movePieceFromToTaking :: Square -> Square -> StateT Fullboard M ()
 movePieceFromToTaking from to = do
  piece <- liftBoardOp $ removePiece' to
- flippedPiece <- lift $ flipSide piece -- fails for Tam2, which is nice because Tam2 cannot be taken
+ flippedPiece <- lift $ toEither TamCapture $ flipSide piece -- fails for Tam2, which is nice because Tam2 cannot be taken
  movePieceFromTo_ from to
  modify (\fb -> fb{hand = flippedPiece : hand fb})
 
@@ -66,7 +66,7 @@ dropPiece pp sq = do
  fb <- get
  let pieces = hand fb
  case filter (match pp) pieces of
-  [] -> lift $ Nothing -- cannot drop
+  [] -> lift $ Left NoCorrespondingPiece -- cannot drop
   (x:xs) -> do
    liftBoardOp $ putPiece' x sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand

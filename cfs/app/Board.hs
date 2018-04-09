@@ -8,7 +8,9 @@ module Board
 ,removePiece
 ,movePiece
 ,movePieceFromTo
+,Error(..)
 ,M
+,toEither
 ) where
 import Piece (Piece())
 import qualified Data.Map as M
@@ -22,7 +24,7 @@ instance Show Square where
 
 type Board1 = M.Map Square Piece
 
-type M = Maybe
+type M = Either Error
 
 data Vec = Vec{dx :: Int, dy :: Int}
 
@@ -43,6 +45,8 @@ add' a c
 toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
+data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture | NoCorrespondingPiece
+ deriving(Show, Eq, Ord)
 
 {-
 ********************************************
@@ -55,11 +59,11 @@ isOccupiedFor = M.member
 
 -- put a piece on a square. fails if already occupied.
 putPiece :: Piece -> Square -> Board1 -> M Board1
-putPiece p sq b = if sq `isOccupiedFor` b then Nothing else Just(M.insert sq p b)
+putPiece p sq b = if sq `isOccupiedFor` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
 
 -- remove a piece. fails if empty.
 removePiece :: Square -> Board1 -> M (Piece, Board1)
-removePiece sq b = do
+removePiece sq b = toEither (EmptySquare sq) $ do
  p <- sq `M.lookup` b
  return (p, M.delete sq b)
 
@@ -70,7 +74,7 @@ removePiece sq b = do
 movePiece :: Vec -> Square -> Board1 -> M Board1
 movePiece vec sq b = do
  (p, new_b) <- removePiece sq b
- new_sq <- add vec sq
+ new_sq <- toEither OutOfBoard $ add vec sq
  putPiece p new_sq new_b
 
 movePieceFromTo :: Square -> Square -> Board1 -> M Board1
