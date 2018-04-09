@@ -30,5 +30,5 @@ flipSide' Downward = Upward
 type PhantomPiece = (Color, Profession, Side) -- Not a physical piece; only serves to be a template
 
 match :: PhantomPiece -> Piece -> Bool
-match (c,p,s) Tam2 = False
+match (_,_,_) Tam2 = False
 match (c,p,s) Piece{color=co, prof=pr, side=si} = (c==co) && (p==pr) && (s==si)

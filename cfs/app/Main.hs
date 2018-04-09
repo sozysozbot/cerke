@@ -8,8 +8,8 @@ import Piece hiding(Piece(..))
 
 main :: IO ()
 main = do
- putStrLn "仕様書の棋譜再生:"
- let Right Fullboard{board = final, hand = pieces} = playFromStart play2
+ putStrLn "棋譜000:"
+ let Right Fullboard{board = final, hand = pieces} = playFromStart fed000
  putStrLn $ drawBoard final
  print pieces
 
@@ -35,8 +35,8 @@ loadFile' file = do
  putStrLn $ drawBoard b
 
 
-play2 :: StateT Fullboard M ()
-play2 = do
+fed000 :: StateT Fullboard M ()
+fed000 = do
  movePieceFromTo_ (Square RAU CT) (Square RY CT)
  movePieceFromTo_ (Square RI CN)  (Square RU CN)
  movePieceFromTo_ (Square RA CM)  (Square RO CT)
