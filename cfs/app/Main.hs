@@ -1,4 +1,7 @@
-module Main where
+module Main 
+(module Main
+)
+where
 
 import Board
 import GameState
@@ -21,12 +24,12 @@ loadFile file = do
  let Just b = loadBoard str
  return b
 
-loadFile' :: [Char] -> IO ()
+loadFile' :: String -> IO ()
 loadFile' file = do
  putStrLn "--------------------"
  putStrLn $ "Loading " ++ file
  str <- readFile file
- putStrLn $ str
+ putStrLn str
  putStrLn ""
  print $ loadBoard str
  putStrLn ""

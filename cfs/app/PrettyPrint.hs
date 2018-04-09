@@ -10,7 +10,7 @@ import Data.Char
 import Control.Monad
 import Data.Maybe
 
-asciiToProf :: Char -> Maybe (ProfOrTam) -- Left () is tam2
+asciiToProf :: Char -> Maybe ProfOrTam -- Left () is tam2
 asciiToProf '!' = Just $ Right Nuak1
 asciiToProf '1' = Just $ Right Kauk2  
 asciiToProf '2' = Just $ Right Gua2 
@@ -57,7 +57,7 @@ loadBoard :: String -> Maybe Board1
 loadBoard str = do
  pieces <- load Alpha str
  guard (length pieces == 81)
- return $ M.fromList $ [ (sq, p) | (sq, Just p) <- zip sqList pieces]
+ return $ M.fromList [ (sq, p) | (sq, Just p) <- zip sqList pieces]
 
 load :: Stat -> String -> Maybe [Maybe Piece]
 load a s@(x:_)
@@ -107,7 +107,7 @@ convert (Just Piece{color=c,prof=p,side=s}) = [sideToAscii s, profToAscii p ,col
 ************
 -}
 initialBoard :: Board1
-initialBoard = fromJust $ loadBoard $
+initialBoard = fromJust $ loadBoard
  "_6h_5h_3h_8h_#k_8k_3k_5k_6k\
  \_7k_2k - _4k - _4h - _2h_7h\
  \_1h_1k_1h_1k_!k_1k_1h_1k_1h\

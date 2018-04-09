@@ -29,7 +29,7 @@ type M = Either Error
 data Vec = Vec{dx :: Int, dy :: Int}
 
 add :: Vec -> Square -> Maybe Square
-add (Vec x y) (Square{col=c,row=r}) = do
+add (Vec x y) Square{col=c,row=r} = do
  new_c <- add' x c
  new_r <- add' y r
  return Square{col=new_c, row=new_r}

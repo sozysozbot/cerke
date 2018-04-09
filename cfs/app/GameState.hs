@@ -36,7 +36,6 @@ liftBoardOpFoo op = do
  fb <- get
  newBoard <- lift $ op (board fb)
  put $ fb{board = newBoard}
- return ()
 
 {-
 **********
