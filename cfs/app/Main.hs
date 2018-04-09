@@ -6,8 +6,7 @@ import PrettyPrint
 
 main :: IO ()
 main = do
- b <- loadFile "test/board01.txt"
- let Right Fullboard{board = final, hand = pieces} = play3 b
+ let Right Fullboard{board = final, hand = pieces} = play3 initialBoard
  putStrLn $ drawBoard final
  print pieces
 

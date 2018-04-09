@@ -1,12 +1,14 @@
 module PrettyPrint
 (loadBoard
 ,drawBoard
+,initialBoard
 ) where
 import Piece
 import Board
 import qualified Data.Map as M
 import Data.Char
 import Control.Monad
+import Data.Maybe
 
 asciiToProf :: Char -> Maybe (ProfOrTam) -- Left () is tam2
 asciiToProf '!' = Just $ Right Nuak1
@@ -98,3 +100,24 @@ convert Nothing = " - "
 convert (Just Tam2) = "^$h"
 convert (Just Piece{color=c,prof=p,side=s}) = [sideToAscii s, profToAscii p ,colorToAscii c]
 
+
+{-
+************
+* default
+************
+-}
+initialBoard :: Board1
+initialBoard = fromJust $ loadBoard $
+ "_6h_5h_3h_8h_#k_8k_3k_5k_6k\
+ \_7k_2k - _4k - _4h - _2h_7h\
+ \_1h_1k_1h_1k_!k_1k_1h_1k_1h\
+ \ -  -  -  -  -  -  -  -  - \
+ \ -  -  -  - ^$h -  -  -  -\
+ \ -  -  -  -  -  -  -  -  - \
+ \^1h^1k^1h^1k^!h^1k^1h^1k^1h\
+ \^7h^2h - ^4h - ^4k - ^2k^7k\
+ \^6k^5k^3k^8k^#h^8h^3h^5h^6h"
+
+{-
+initialBoard = M.fromList [(Square {row = RA, col = CK},Piece {color = Huok2, prof = Kua2, side = Downward}),(Square {row = RA, col = CL},Piece {color = Huok2, prof = Maun1, side = Downward}),(Square {row = RA, col = CN},Piece {color = Huok2, prof = Kaun1, side = Downward}),(Square {row = RA, col = CT},Piece {color = Huok2, prof = Uai1, side = Downward}),(Square {row = RA, col = CZ},Piece {color = Kok1, prof = Io, side = Downward}),(Square {row = RA, col = CX},Piece {color = Kok1, prof = Uai1, side = Downward}),(Square {row = RA, col = CC},Piece {color = Kok1, prof = Kaun1, side = Downward}),(Square {row = RA, col = CM},Piece {color = Kok1, prof = Maun1, side = Downward}),(Square {row = RA, col = CP},Piece {color = Kok1, prof = Kua2, side = Downward}),(Square {row = RE, col = CK},Piece {color = Kok1, prof = Tuk2, side = Downward}),(Square {row = RE, col = CL},Piece {color = Kok1, prof = Gua2, side = Downward}),(Square {row = RE, col = CT},Piece {color = Kok1, prof = Dau2, side = Downward}),(Square {row = RE, col = CX},Piece {color = Huok2, prof = Dau2, side = Downward}),(Square {row = RE, col = CM},Piece {color = Huok2, prof = Gua2, side = Downward}),(Square {row = RE, col = CP},Piece {color = Huok2, prof = Tuk2, side = Downward}),(Square {row = RI, col = CK},Piece {color = Huok2, prof = Kauk2, side = Downward}),(Square {row = RI, col = CL},Piece {color = Kok1, prof = Kauk2, side = Downward}),(Square {row = RI, col = CN},Piece {color = Huok2, prof = Kauk2, side = Downward}),(Square {row = RI, col = CT},Piece {color = Kok1, prof = Kauk2, side = Downward}),(Square {row = RI, col = CZ},Piece {color = Kok1, prof = Nuak1, side = Downward}),(Square {row = RI, col = CX},Piece {color = Kok1, prof = Kauk2, side = Downward}),(Square {row = RI, col = CC},Piece {color = Huok2, prof = Kauk2, side = Downward}),(Square {row = RI, col = CM},Piece {color = Kok1, prof = Kauk2, side = Downward}),(Square {row = RI, col = CP},Piece {color = Huok2, prof = Kauk2, side = Downward}),(Square {row = RO, col = CZ},Tam2),(Square {row = RAI, col = CK},Piece {color = Huok2, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CL},Piece {color = Kok1, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CN},Piece {color = Huok2, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CT},Piece {color = Kok1, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CZ},Piece {color = Huok2, prof = Nuak1, side = Upward}),(Square {row = RAI, col = CX},Piece {color = Kok1, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CC},Piece {color = Huok2, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CM},Piece {color = Kok1, prof = Kauk2, side = Upward}),(Square {row = RAI, col = CP},Piece {color = Huok2, prof = Kauk2, side = Upward}),(Square {row = RAU, col = CK},Piece {color = Huok2, prof = Tuk2, side = Upward}),(Square {row = RAU, col = CL},Piece {color = Huok2, prof = Gua2, side = Upward}),(Square {row = RAU, col = CT},Piece {color = Huok2, prof = Dau2, side = Upward}),(Square {row = RAU, col = CX},Piece {color = Kok1, prof = Dau2, side = Upward}),(Square {row = RAU, col = CM},Piece {color = Kok1, prof = Gua2, side = Upward}),(Square {row = RAU, col = CP},Piece {color = Kok1, prof = Tuk2, side = Upward}),(Square {row = RIA, col = CK},Piece {color = Kok1, prof = Kua2, side = Upward}),(Square {row = RIA, col = CL},Piece {color = Kok1, prof = Maun1, side = Upward}),(Square {row = RIA, col = CN},Piece {color = Kok1, prof = Kaun1, side = Upward}),(Square {row = RIA, col = CT},Piece {color = Kok1, prof = Uai1, side = Upward}),(Square {row = RIA, col = CZ},Piece {color = Huok2, prof = Io, side = Upward}),(Square {row = RIA, col = CX},Piece {color = Huok2, prof = Uai1, side = Upward}),(Square {row = RIA, col = CC},Piece {color = Huok2, prof = Kaun1, side = Upward}),(Square {row = RIA, col = CM},Piece {color = Huok2, prof = Maun1, side = Upward}),(Square {row = RIA, col = CP},Piece {color = Huok2, prof = Kua2, side = Upward})]
+-}
