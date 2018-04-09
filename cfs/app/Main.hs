@@ -3,6 +3,10 @@ module Main where
 import Board
 import GameState
 import PrettyPrint
+import Control.Monad.Trans.Class
+import Control.Monad.Trans.State.Lazy
+import Piece hiding(Piece(..))
+import Piece (Piece())
 
 main :: IO ()
 main = do
@@ -30,3 +34,19 @@ loadFile' file = do
  putStrLn "Reverse:"
  let Just b = loadBoard str
  putStrLn $ drawBoard b
+
+play3 :: Board1 -> M Fullboard
+play3 b = execStateT play2 Fullboard{board = b, hand = []}
+
+play2 :: StateT Fullboard M ()
+play2 = do
+ movePieceFromTo_ (Square RAU CT) (Square RY CT)
+ movePieceFromTo_ (Square RI CN)  (Square RU CN)
+ movePieceFromTo_ (Square RA CM)  (Square RO CT)
+ movePieceFromToTaking (Square RY CT)  (Square RO CT)
+ movePieceFromTo_ (Square RA CT)  (Square RI CN)
+ movePieceFromTo_ (Square RAU CL) (Square RO CL)
+ movePieceFromTo_ (Square RA CZ)  (Square RE CZ)
+ dropPiece (Kok1, Maun1, Upward) (Square RY CK)
+ movePieceFromToTaking (Square RY CK) (Square RE CZ) 
+ movePieceFromToTaking (Square RA CX)  (Square RE CZ)
