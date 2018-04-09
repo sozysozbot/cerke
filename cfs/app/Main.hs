@@ -3,10 +3,8 @@ module Main where
 import Board
 import GameState
 import PrettyPrint
-import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 import Piece hiding(Piece(..))
-import Piece (Piece())
 
 main :: IO ()
 main = do
