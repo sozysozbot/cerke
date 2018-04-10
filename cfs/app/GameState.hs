@@ -6,6 +6,7 @@ module GameState
 ,playFromStart
 ,initialBoard
 ,movePieceFromTo2
+,pass
 )where
 import Board
 import PrettyPrint(initialBoard)
@@ -76,5 +77,7 @@ dropPiece pp sq = do
    liftBoardOpFoo $ putPiece x sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
+pass :: StateT Fullboard M ()
+pass = return ()
 
 

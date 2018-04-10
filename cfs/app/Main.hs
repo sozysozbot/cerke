@@ -40,13 +40,15 @@ loadFile' file = do
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
- movePieceFromTo_ (Square RAU CT) (Square RY CT)
- movePieceFromTo_ (Square RI CN)  (Square RU CN)
- movePieceFromTo_ (Square RA CM)  (Square RO CT)
- movePieceFromToTaking (Square RY CT)  (Square RO CT)
- movePieceFromTo_ (Square RA CT)  (Square RI CN)
- movePieceFromTo_ (Square RAU CL) (Square RO CL)
- movePieceFromTo_ (Square RA CZ)  (Square RE CZ)
- dropPiece (Kok1, Maun1, Upward) (Square RY CK)
- movePieceFromToTaking (Square RY CK) (Square RE CZ) 
- movePieceFromToTaking (Square RA CX)  (Square RE CZ)
+ movePieceFromTo2 sqTAU sqTY
+ movePieceFromTo2 sqNI sqNU
+ pass
+ movePieceFromTo2 sqMA sqTO
+ movePieceFromTo2 sqTY sqTO
+ movePieceFromTo2 sqTA sqNI
+ movePieceFromTo2 sqLAU sqLO
+ movePieceFromTo2 sqZA sqZE
+ dropPiece (Kok1, Maun1, Upward) sqKY
+ pass
+ movePieceFromTo2 sqKY sqZE 
+ movePieceFromTo2 sqXA sqZE
