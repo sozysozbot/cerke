@@ -20,7 +20,7 @@ data Row = RA | RE | RI | RU | RO | RY | RAI | RAU | RIA deriving(Show,Eq, Ord,E
 data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
 
 instance Show Square where
- show (Square{col=c,row=r}) = "sq" ++ tail(show c) ++ tail(show r)
+ show Square{col=c,row=r} = "sq" ++ tail(show c) ++ tail(show r)
 
 type Board1 = M.Map Square Piece
 
