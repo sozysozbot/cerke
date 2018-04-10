@@ -16,7 +16,7 @@ import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 
 data Fullboard = Fullboard{
--- turn :: Side,
+-- turn :: Maybe Side, -- `Nothing` means no info about the turn
  board :: Board1,
  hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
 }
