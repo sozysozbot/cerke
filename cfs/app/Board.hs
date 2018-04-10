@@ -12,16 +12,16 @@ module Board
 ,M
 ,toEither
 ) where
-import Piece (Piece(),side,Side)
+import Piece (Piece(),Side,getSide)
 import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
 data Row = RA | RE | RI | RU | RO | RY | RAI | RAU | RIA deriving(Show,Eq, Ord,Enum)
-data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord,Show)
-{-
+data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
+
 instance Show Square where
- show (Square{col=c,row=r}) = tail(show c) ++ tail(show r)
--}
+ show (Square{col=c,row=r}) = "sq" ++ tail(show c) ++ tail(show r)
+
 type Board1 = M.Map Square Piece
 
 type M = Either Error
@@ -46,7 +46,7 @@ toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
 data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture 
- | NoCorrespondingPiece | MovingOpponentPiece | FriendlyFire
+ | NoCorrespondingPieceInHand | MovingOpponentPiece | FriendlyFire
  deriving(Show, Eq, Ord)
 
 {-
@@ -78,9 +78,9 @@ movePiece vec sq b = do
  new_sq <- toEither OutOfBoard $ add vec sq
  putPiece p new_sq new_b
 
-movePieceFromTo :: Square -> Square -> Board1 -> M (Side, Board1)
+movePieceFromTo :: Square -> Square -> Board1 -> M (Maybe Side, Board1)
 movePieceFromTo from to b = do
  (p, new_b) <- removePiece from b
  newerBoard <- putPiece p to new_b
- return (side p, newerBoard)
+ return (getSide p, newerBoard)
 

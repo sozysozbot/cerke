@@ -9,6 +9,7 @@ module Piece
 ,flipSide
 ,PhantomPiece
 ,match
+,getSide
 ) where
 data Color = Kok1 | Huok2 deriving(Show, Eq, Ord)
 data Side = Upward | Downward deriving(Show, Eq, Ord)
@@ -18,6 +19,10 @@ type ProfOrTam = Either () Profession -- Left () is tam2
 
 profToLin :: Profession -> Char
 profToLin p = "船兵弓車虎馬筆巫将王" !! fromEnum p
+
+getSide :: Piece -> Maybe Side
+getSide Tam2 = Nothing
+getSide (Piece _ _ s) = Just s
 
 flipSide :: Piece -> Maybe Piece
 flipSide Tam2 = Nothing

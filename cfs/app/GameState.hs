@@ -14,7 +14,7 @@ module GameState
 import Board
 import PrettyPrint(initialBoard)
 import Piece hiding(Piece(..))
-import Piece (Piece(),side)
+import Piece (Piece(),getSide)
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 
@@ -54,7 +54,7 @@ plays sid from to = do
  case movePieceFromTo from to (board fb) of
   Left (AlreadyOccupied _) -> movePieceFromToTaking sid from to
   Right (side2, newBoard)
-   | sid == side2 -> put $ fb{board = newBoard}
+   | (Just sid == side2) || (side2 == Nothing) -> put $ fb{board = newBoard}
    | otherwise -> lift $ Left MovingOpponentPiece
   Left e -> lift $ Left e 
 
@@ -70,25 +70,27 @@ passes _ = pass
 
 
 
-movePieceFromTo_ :: Square -> Square -> StateT Fullboard M Side
+movePieceFromTo_ :: Square -> Square -> StateT Fullboard M (Maybe Side)
 movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo from to
 
 
 movePieceFromToTaking :: Side -> Square -> Square -> StateT Fullboard M ()
 movePieceFromToTaking sid from to = do
  piece <- liftBoardOp $ removePiece to
- if side piece == sid then lift $ Left FriendlyFire else do
-  flippedPiece <- lift $ toEither TamCapture $ flipSide piece -- fails for Tam2, which is nice because Tam2 cannot be taken
-  actualSide <- movePieceFromTo_ from to
-  if actualSide /= sid then lift $ Left MovingOpponentPiece else
-   modify (\fb -> fb{hand = flippedPiece : hand fb})
+ case getSide piece of
+  Nothing -> lift $ Left TamCapture
+  Just s -> if s == sid then lift $ Left FriendlyFire else do
+   let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
+   actualSide <- movePieceFromTo_ from to
+   if (actualSide /= Nothing) && (Just sid /= actualSide) then lift $ Left MovingOpponentPiece else
+    modify (\fb -> fb{hand = flippedPiece : hand fb})
 
 dropPiece :: PhantomPiece -> Square -> StateT Fullboard M ()
 dropPiece pp sq = do
  fb <- get
  let pieces = hand fb
  case filter (match pp) pieces of
-  [] -> lift $ Left NoCorrespondingPiece -- cannot drop
+  [] -> lift $ Left NoCorrespondingPieceInHand -- cannot drop
   (x:xs) -> do
    liftBoardOpFoo $ putPiece x sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
