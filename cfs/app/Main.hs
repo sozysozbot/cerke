@@ -40,15 +40,15 @@ loadFile' file = do
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
- movePieceFromTo2 sqTAU sqTY
- movePieceFromTo2 sqNI sqNU
- pass
- movePieceFromTo2 sqMA sqTO
- movePieceFromTo2 sqTY sqTO
- movePieceFromTo2 sqTA sqNI
- movePieceFromTo2 sqLAU sqLO
- movePieceFromTo2 sqZA sqZE
- dropPiece (Kok1, Maun1, Upward) sqKY
- pass
- movePieceFromTo2 sqKY sqZE 
- movePieceFromTo2 sqXA sqZE
+ plays Upward sqTAU sqTY
+ plays Downward sqNI sqNU
+ passes Upward
+ plays Downward sqMA sqTO
+ plays Upward sqTY sqTO
+ plays Downward sqTA sqNI
+ plays Upward sqLAU sqLO
+ plays Downward sqZA sqZE
+ drops Upward (Kok1, Maun1) sqKY
+ passes Downward
+ plays Upward sqKY sqZE 
+ plays Downward sqXA sqZE

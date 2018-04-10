@@ -5,8 +5,11 @@ module GameState
 ,dropPiece
 ,playFromStart
 ,initialBoard
-,movePieceFromTo2
-,pass
+--,movePieceFromTo2
+--,pass
+,plays
+,drops
+,passes
 )where
 import Board
 import PrettyPrint(initialBoard)
@@ -43,6 +46,15 @@ liftBoardOpFoo op = do
 * Monadic fullboard operation
 **********
 -}
+
+plays :: Side -> Square -> Square -> StateT Fullboard M ()
+plays _ = movePieceFromTo2 -- FIXME: think about the side
+
+drops :: Side -> (Color, Profession) -> Square -> StateT Fullboard M ()
+drops s (c,p) = dropPiece (c,p,s)
+
+passes :: Side -> StateT Fullboard M ()
+passes _ = pass
 
 --movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
 --movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
