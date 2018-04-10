@@ -12,9 +12,11 @@ import Piece hiding(Piece(..))
 main :: IO ()
 main = do
  putStrLn "棋譜000:"
- let Right Fullboard{board = final, hand = pieces} = playFromStart fed000
- putStrLn $ drawBoard final
- print pieces
+ case playFromStart fed000 of
+  Left e -> print e
+  Right Fullboard{board = final, hand = pieces} -> do 
+   putStrLn $ drawBoard final
+   print pieces
 
 
 
