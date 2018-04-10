@@ -11,9 +11,14 @@ import Piece hiding(Piece(..))
 
 main :: IO ()
 main = do
- putStrLn "棋譜000:"
- case playFromStart fed000 of
-  Left e -> print e
+ foo "棋譜000:" fed000
+ foo "エラー000:" err000
+
+foo :: String -> StateT Fullboard M a2 -> IO ()
+foo str fed = do
+ putStrLn str
+ case playFromStart fed of
+  Left e -> putStrLn $ "error: " ++ show e
   Right Fullboard{board = final, hand = pieces} -> do 
    putStrLn $ drawBoard final
    print pieces
@@ -39,6 +44,8 @@ loadFile' file = do
  let Just b = loadBoard str
  putStrLn $ drawBoard b
 
+err000 :: StateT Fullboard M ()
+err000 = plays Downward sqTAU sqTY
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
