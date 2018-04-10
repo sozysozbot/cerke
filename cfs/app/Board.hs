@@ -12,7 +12,7 @@ module Board
 ,M
 ,toEither
 ) where
-import Piece (Piece())
+import Piece (Piece(),side,Side)
 import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
@@ -45,7 +45,8 @@ add' a c
 toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
-data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture | NoCorrespondingPiece
+data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture 
+ | NoCorrespondingPiece | MovingOpponentPiece | FriendlyFire
  deriving(Show, Eq, Ord)
 
 {-
@@ -77,8 +78,9 @@ movePiece vec sq b = do
  new_sq <- toEither OutOfBoard $ add vec sq
  putPiece p new_sq new_b
 
-movePieceFromTo :: Square -> Square -> Board1 -> M Board1
+movePieceFromTo :: Square -> Square -> Board1 -> M (Side, Board1)
 movePieceFromTo from to b = do
  (p, new_b) <- removePiece from b
- putPiece p to new_b
+ newerBoard <- putPiece p to new_b
+ return (side p, newerBoard)
 

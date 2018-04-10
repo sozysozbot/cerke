@@ -14,7 +14,7 @@ module GameState
 import Board
 import PrettyPrint(initialBoard)
 import Piece hiding(Piece(..))
-import Piece (Piece())
+import Piece (Piece(),side)
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 
@@ -46,9 +46,17 @@ liftBoardOpFoo op = do
 * Monadic fullboard operation
 **********
 -}
-
+-- implicitly takes the piece, if blocked
+-- FIXME: think about the side
 plays :: Side -> Square -> Square -> StateT Fullboard M ()
-plays _ = movePieceFromTo2 -- FIXME: think about the side
+plays sid from to = do
+ fb <- get
+ case movePieceFromTo from to (board fb) of
+  Left (AlreadyOccupied _) -> movePieceFromToTaking sid from to
+  Right (side2, newBoard)
+   | sid == side2 -> put $ fb{board = newBoard}
+   | otherwise -> lift $ Left MovingOpponentPiece
+  Left e -> lift $ Left e 
 
 drops :: Side -> (Color, Profession) -> Square -> StateT Fullboard M ()
 drops s (c,p) = dropPiece (c,p,s)
@@ -59,25 +67,21 @@ passes _ = pass
 --movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
 --movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
 
--- implicitly takes the piece, if blocked
-movePieceFromTo2 :: Square -> Square -> StateT Fullboard M ()
-movePieceFromTo2 from to = do
- fb <- get
- case movePieceFromTo from to (board fb) of
-  Left (AlreadyOccupied _) -> movePieceFromToTaking from to
-  Right newBoard -> put $ fb{board = newBoard}
-  Left e -> lift $ Left e
 
-movePieceFromTo_ :: Square -> Square -> StateT Fullboard M ()
-movePieceFromTo_ from to = liftBoardOpFoo $ movePieceFromTo from to
 
--- FIX friendly fire
-movePieceFromToTaking :: Square -> Square -> StateT Fullboard M ()
-movePieceFromToTaking from to = do
+
+movePieceFromTo_ :: Square -> Square -> StateT Fullboard M Side
+movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo from to
+
+
+movePieceFromToTaking :: Side -> Square -> Square -> StateT Fullboard M ()
+movePieceFromToTaking sid from to = do
  piece <- liftBoardOp $ removePiece to
- flippedPiece <- lift $ toEither TamCapture $ flipSide piece -- fails for Tam2, which is nice because Tam2 cannot be taken
- movePieceFromTo_ from to
- modify (\fb -> fb{hand = flippedPiece : hand fb})
+ if side piece == sid then lift $ Left FriendlyFire else do
+  flippedPiece <- lift $ toEither TamCapture $ flipSide piece -- fails for Tam2, which is nice because Tam2 cannot be taken
+  actualSide <- movePieceFromTo_ from to
+  if actualSide /= sid then lift $ Left MovingOpponentPiece else
+   modify (\fb -> fb{hand = flippedPiece : hand fb})
 
 dropPiece :: PhantomPiece -> Square -> StateT Fullboard M ()
 dropPiece pp sq = do
