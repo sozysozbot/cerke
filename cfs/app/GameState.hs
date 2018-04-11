@@ -54,7 +54,7 @@ plays sid from to = do
  case movePieceFromTo from to (board fb) of
   Left (AlreadyOccupied _) -> movePieceFromToTaking sid from to
   Right (side2, newBoard)
-   | havePrivilage sid side2 -> put $ fb{board = newBoard}
+   | hasPrivilege sid side2 -> put $ fb{board = newBoard}
    | otherwise -> lift $ Left MovingOpponentPiece
   Left e -> lift $ Left e 
 
@@ -69,9 +69,9 @@ passes _ = pass
 
 
 
-havePrivilege :: Side -> Maybe Side -> Bool
-havePrivilege sid Nothing = True -- tam2 can be moved by either player
-havePrivilege sid (Just k) = sid == k
+hasPrivilege :: Side -> Maybe Side -> Bool
+hasPrivilege _ Nothing = True -- tam2 can be moved by either player
+hasPrivilege sid (Just k) = sid == k
 
 movePieceFromTo_ :: Square -> Square -> StateT Fullboard M (Maybe Side)
 movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo from to
@@ -85,7 +85,7 @@ movePieceFromToTaking sid from to = do
   Just s -> if s == sid then lift $ Left FriendlyFire else do
    let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
    actualSide <- movePieceFromTo_ from to
-   if havePrivilage sid actualSide
+   if hasPrivilege sid actualSide
     then modify (\fb -> fb{hand = flippedPiece : hand fb})
     else lift $ Left MovingOpponentPiece
 
