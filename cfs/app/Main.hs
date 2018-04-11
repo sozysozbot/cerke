@@ -16,6 +16,7 @@ main = do
  foo "エラー001:" err001
  foo "エラー002:" err002
  foo "エラー003:" err003
+ foo "エラー004:" err004
 
 foo :: String -> StateT Fullboard M a2 -> IO ()
 foo str fed = do
@@ -47,15 +48,14 @@ loadFile' file = do
  let Just b = loadBoard str
  putStrLn $ drawBoard b
 
-err000, err001, err002, err003 :: StateT Fullboard M ()
+err000, err001, err002, err003, err004 :: StateT Fullboard M ()
 err000 = plays Downward sqTAU sqTY -- error: MovingOpponentPiece
 err001 = plays Upward sqKAU sqLAU -- error: FriendlyFire
 err002 = plays Upward sqNAU sqLAU -- error: EmptySquare sqNAU
 err003 = drops Upward (Kok1, Maun1) sqKY -- error: NoCorrespondingPieceInHand
---err004 = do
- 
---  TamCapture 
--- 
+err004 = do -- error: TamCapture
+ plays Upward sqZO sqCE
+ plays Downward sqXA sqCE
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
