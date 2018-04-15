@@ -8,11 +8,12 @@ module Board
 ,removePiece
 ,movePiece
 ,movePieceFromTo
+,movePieceFromToProf
 ,Error(..)
 ,M
 ,toEither
 ) where
-import Piece3 (Piece(),Side,getSide)
+import Piece3 (Piece(),Side,Profession,getSide,getProf)
 import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
@@ -46,7 +47,8 @@ toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
 data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture 
- | NoCorrespondingPieceInHand | MovingOpponentPiece | FriendlyFire | AmbiguousColor
+ | NoCorrespondingPieceInHand | MovingOpponentPiece | FriendlyFire | AmbiguousColor 
+ | WrongProfessionSpecified {expected :: Maybe Profession, specified :: Maybe Profession}
  deriving(Show, Eq, Ord)
 
 {-
@@ -78,9 +80,17 @@ movePiece vec sq b = do
  new_sq <- toEither OutOfBoard $ add vec sq
  putPiece p new_sq new_b
 
-movePieceFromTo :: Square -> Square -> Board1 -> M (Maybe Side, Board1)
-movePieceFromTo from to b = do
+movePieceFromToFoo :: (Piece -> a)
+                            -> Square -> Square -> Board1 -> Either Error (a, Board1)
+movePieceFromToFoo f from to b = do
  (p, new_b) <- removePiece from b
  newerBoard <- putPiece p to new_b
- return (getSide p, newerBoard)
+ return (f p, newerBoard)
+
+movePieceFromTo :: Square -> Square -> Board1 -> M (Maybe Side, Board1)
+movePieceFromTo = movePieceFromToFoo getSide
+
+movePieceFromToProf :: Square -> Square -> Board1 -> M (Maybe (Side, Profession), Board1)
+movePieceFromToProf = movePieceFromToFoo f where
+ f p = do{pr <- getProf p; si <- getSide p; return (si,pr)}
 

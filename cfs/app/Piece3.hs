@@ -8,7 +8,7 @@ module Piece3
 ,flipSide
 ,PhantomPiece
 ,match
-,getSide
+,getSide,getProf
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
 ) where
 import Piece2

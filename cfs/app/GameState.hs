@@ -49,17 +49,42 @@ liftBoardOpFoo op = do
 * Monadic fullboard operation
 **********
 -}
--- implicitly takes the piece, if blocked
--- FIXME: think about the side
-plays :: Square -> Square -> Side -> StateT Fullboard M ()
-plays from to sid = do
+
+-- plays under the condition
+playsProvided :: (Maybe (Side,Profession) -> Either Error ()) -> 
+ Square -> Square -> Side -> StateT Fullboard M ()
+playsProvided validator from to sid = do
  fb <- get
- case movePieceFromTo from to (board fb) of
+ case movePieceFromToProf from to (board fb) of
   Left (AlreadyOccupied _) -> movePieceFromToTaking sid from to
-  Right (side2, newBoard)
-   | hasPrivilege sid side2 -> put $ fb{board = newBoard}
-   | otherwise -> lift $ Left MovingOpponentPiece
+  Right (side_prof, newBoard) -> case validator side_prof of
+   Right () -> put $ fb{board = newBoard}
+   Left e -> lift $ Left e
   Left e -> lift $ Left e 
+
+-- implicitly takes the piece, if blocked
+plays :: Square -> Square -> Side -> StateT Fullboard M ()
+plays from to sid = playsProvided f from to sid where
+ f Nothing = return ()
+ f (Just(q, _)) = if sid == q then return () else Left MovingOpponentPiece
+
+
+plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
+plays' from prof to sid = playsProvided f from to sid where
+ f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
+ f (Just(q, p)) = case(sid == q, prof == p) of
+  (False, _) -> Left MovingOpponentPiece -- turn violation is louder than wrong profession
+  (True, False) -> Left WrongProfessionSpecified{expected = Just p, specified = Just prof}
+  (True, True) -> return ()
+
+-- plays Tam2
+playsT :: Square -> Square -> Side -> StateT Fullboard M ()
+playsT from to sid = playsProvided f from to sid where
+ f Nothing = return ()
+ f (Just(_, p))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
+
+
+
 
 drops :: (Color, Profession) -> Square -> Side -> StateT Fullboard M ()
 drops (c,p) sq s = dropPiece (c,p,s) sq
@@ -118,7 +143,7 @@ dropPiece pp sq = do
 pass :: StateT Fullboard M ()
 pass = return ()
 
-
+-- the operation that must theoretically succeed but did not happen
 mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
 mun1 action side = do
  fb <- get
@@ -126,12 +151,5 @@ mun1 action side = do
   Left e -> lift $ Left e
   Right _ -> passes side -- discard the result and allow
 
-
-plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
-plays' a b c = plays a c
-
--- plays Tam2
-playsT :: Square -> Square -> Side -> StateT Fullboard M ()
-playsT = plays 
 
 

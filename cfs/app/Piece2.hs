@@ -9,7 +9,7 @@ module Piece2
 ,flipSide
 ,PhantomPiece
 ,match
-,getSide
+,getSide,getProf
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
 ) where
 data Color = Kok1 | Huok2 deriving(Show, Eq, Ord)
@@ -36,6 +36,10 @@ profToLin p = "船兵弓車虎馬筆巫将王" !! fromEnum p
 getSide :: Piece -> Maybe Side
 getSide Tam2 = Nothing
 getSide (Piece _ _ s) = Just s
+
+getProf :: Piece -> Maybe Profession
+getProf Tam2 = Nothing
+getProf (Piece _ p _) = Just p
 
 flipSide :: Piece -> Maybe Piece
 flipSide Tam2 = Nothing

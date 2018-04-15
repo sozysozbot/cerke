@@ -118,7 +118,7 @@ fed002 = do
  plays' sqXA  Uai1  sqCI >-> plays' sqTAU Dau2  sqLY
  plays' sqMA  Maun1 sqTO >-> plays' sqTY  Kauk2 sqTO
  playsT sqZAU       sqZO >-> playsT sqZO        sqZY
- plays' sqLE  Kaun1 sqZE >-> plays' sqZAI Nuak1 sqCAI
+ plays' sqLE  Gua2  sqZE >-> plays' sqZAI Nuak1 sqCAI
  plays' sqLA  Maun1 sqLO >-> mun1 (plays' sqXAI Uai1 sqZAI)
  plays' sqKA  Kua2  sqKU >-> plays' sqLAI Kauk2 sqLO
  plays' sqLI  Kauk2 sqLO >-> plays' sqLY  Dau2  sqTY
