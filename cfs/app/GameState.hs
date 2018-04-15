@@ -11,6 +11,9 @@ module GameState
 ,drops
 ,passes
 ,drops'
+,mun1
+,plays'
+,playsT
 )where
 import Board
 import PrettyPrint(initialBoard)
@@ -115,5 +118,16 @@ dropPiece pp sq = do
 
 pass :: StateT Fullboard M ()
 pass = return ()
+
+
+mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
+mun1 _ = passes
+
+plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
+plays' a b c = plays a c
+
+-- plays Tam2
+playsT :: Square -> Square -> Side -> StateT Fullboard M ()
+playsT = plays 
 
 

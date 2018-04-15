@@ -102,11 +102,7 @@ fed001 = do
  passes            >+> plays sqNI sqCI
  -- [SY]為行行而五 終季
 
-plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
-plays' a b c = plays a c
 
-playsT :: Square -> Square -> Side -> StateT Fullboard M ()
-playsT = plays 
 
 fed002 :: StateT Fullboard M ()
 fed002 = do
@@ -148,6 +144,3 @@ fed003 = do
  plays' sqZY  Uai1  sqCAI >+> plays' sqZE Gua2  sqZIA
  --[j.v] zau io hop1 om2.
  -- ta xot1.
-
-mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
-mun1 _ = passes
