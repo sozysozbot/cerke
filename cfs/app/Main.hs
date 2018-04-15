@@ -18,6 +18,7 @@ main = do
  foo "エラー002:" err002
  foo "エラー003:" err003
  foo "エラー004:" err004
+ foo "エラー005:" err005
 
 foo :: String -> StateT Fullboard M a2 -> IO ()
 foo str fed = do
@@ -57,6 +58,15 @@ err003 = drops Upward (Kok1, Maun1) sqKY -- error: NoCorrespondingPieceInHand
 err004 = do -- error: TamCapture
  plays Upward sqZO sqCE
  plays Downward sqXA sqCE
+err005 = do -- error: AmbiguousColor
+ plays Upward sqTAI sqTY
+ plays Downward sqTI sqTU
+ plays Upward sqTY sqTU
+ plays Downward sqNI sqNO
+ plays Upward sqNAI sqNO
+ plays Downward sqZA sqNE
+ drops' Upward Kauk2 sqNAU
+ 
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
