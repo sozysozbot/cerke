@@ -10,6 +10,7 @@ module GameState
 ,plays
 ,drops
 ,passes
+,drops'
 )where
 import Board
 import PrettyPrint(initialBoard)
@@ -60,6 +61,19 @@ plays sid from to = do
 
 drops :: Side -> (Color, Profession) -> Square -> StateT Fullboard M ()
 drops s (c,p) = dropPiece (c,p,s)
+
+drops' :: Side -> Profession -> Square -> StateT Fullboard M ()
+drops' s p sq = do
+ fb <- get
+ let kok  = dropPiece (Kok1, p, s) sq `runStateT` fb
+ let huok = dropPiece (Huok2, p, s) sq `runStateT` fb
+ case (kok, huok) of
+  (Right _, Right _) -> lift $ Left AmbiguousColor
+  (Left _, Right ((), newBoard)) -> put newBoard
+  (Right ((), newBoard), Left _) -> put newBoard
+  (Left NoCorrespondingPieceInHand, Left NoCorrespondingPieceInHand) -> lift $ Left NoCorrespondingPieceInHand
+  _ -> error "cannot happen hgi8iejrws"
+ undefined
 
 passes :: Side -> StateT Fullboard M ()
 passes _ = pass

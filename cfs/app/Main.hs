@@ -12,6 +12,7 @@ import Piece hiding(Piece(..))
 main :: IO ()
 main = do
  foo "棋譜000:" fed000
+ foo "棋譜001:" fed001
  foo "エラー000:" err000
  foo "エラー001:" err001
  foo "エラー002:" err002
@@ -71,3 +72,47 @@ fed000 = do
  passes Downward
  plays Upward sqKY sqZE 
  plays Downward sqXA sqZE
+
+fed001 :: StateT Fullboard M ()
+fed001 = do
+ plays Upward sqTAU sqTY
+ plays Downward sqXE sqXU
+ plays Upward sqLIA sqXO
+ passes Downward
+ plays Upward sqZAI sqZY
+ plays Downward sqME sqZE
+ passes Upward
+ plays Downward sqZO sqZAI
+ plays Upward sqCAI sqCY
+ passes Downward
+ plays Upward sqXIA sqCAI
+ passes Downward
+ plays Upward sqCAI sqXY
+ plays Downward sqXU sqTY
+ plays Upward sqTAI sqTY
+ plays Downward sqTE sqTU
+ plays Upward sqXY sqCAU
+ plays Downward sqTU sqMAU
+ plays Upward sqCIA sqMAU
+ plays Downward sqZAI sqXY
+ plays Upward sqCAU sqCAI
+ plays Downward sqZI sqZY
+ plays Upward sqXY sqZAU
+ plays Downward sqKE sqNE
+ drops Upward (Huok2, Dau2) sqTAI
+ plays Downward sqNI sqNU
+ plays Upward sqXAI sqXY
+ plays Downward sqNE sqNI
+ plays Upward sqTY sqZY
+ passes Downward
+ passes Upward
+ plays Downward sqNA sqXU
+ plays Upward sqXO sqMI
+ plays Downward sqCI sqMI
+ -- [SY]為獣而手三 再行
+ plays Upward sqXY sqXU
+ plays Downward sqXI sqXU
+ passes Upward
+ plays Downward sqNI sqCI
+ -- [SY]為行行而五 終季
+

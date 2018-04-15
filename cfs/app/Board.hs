@@ -46,7 +46,7 @@ toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
 data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture 
- | NoCorrespondingPieceInHand | MovingOpponentPiece | FriendlyFire
+ | NoCorrespondingPieceInHand | MovingOpponentPiece | FriendlyFire | AmbiguousColor
  deriving(Show, Eq, Ord)
 
 {-
