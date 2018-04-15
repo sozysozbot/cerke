@@ -61,7 +61,6 @@ playsProvided validator from to sid = do
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
 
--- FIXME: validator uncaught here
 movePieceFromToTaking' :: Validator -> Side -> Square -> Square -> StateT Fullboard M ()
 movePieceFromToTaking' validator sid from to = do
  piece <- liftBoardOp $ removePiece to
@@ -69,10 +68,10 @@ movePieceFromToTaking' validator sid from to = do
   Nothing -> lift $ Left TamCapture
   Just s -> if s == sid then lift $ Left FriendlyFire else do
    let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
-   actualSide <- movePieceFromTo_ from to
-   if hasPrivilege sid actualSide
-    then modify (\fb -> fb{hand = flippedPiece : hand fb})
-    else lift $ Left MovingOpponentPiece
+   side_prof <- liftBoardOp $ movePieceFromToProf from to
+   case validator side_prof of
+    Right () -> modify (\fb -> fb{hand = flippedPiece : hand fb})
+    Left e   -> lift $ Left e
 
 -- implicitly takes the piece, if blocked
 plays :: Square -> Square -> Side -> StateT Fullboard M ()
@@ -116,14 +115,6 @@ drops' p sq s = do
 
 passes :: Side -> StateT Fullboard M ()
 passes _ = return ()
-
-
-hasPrivilege :: Side -> Maybe Side -> Bool
-hasPrivilege _ Nothing = True -- tam2 can be moved by either player
-hasPrivilege sid (Just k) = sid == k
-
-movePieceFromTo_ :: Square -> Square -> StateT Fullboard M (Maybe Side)
-movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo from to
 
 
 dropPiece :: PhantomPiece -> Square -> StateT Fullboard M ()
