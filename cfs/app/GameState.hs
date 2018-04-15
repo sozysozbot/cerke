@@ -49,8 +49,8 @@ liftBoardOpFoo op = do
 -}
 -- implicitly takes the piece, if blocked
 -- FIXME: think about the side
-plays :: Side -> Square -> Square -> StateT Fullboard M ()
-plays sid from to = do
+plays :: Square -> Square -> Side -> StateT Fullboard M ()
+plays from to sid = do
  fb <- get
  case movePieceFromTo from to (board fb) of
   Left (AlreadyOccupied _) -> movePieceFromToTaking sid from to
@@ -59,11 +59,11 @@ plays sid from to = do
    | otherwise -> lift $ Left MovingOpponentPiece
   Left e -> lift $ Left e 
 
-drops :: Side -> (Color, Profession) -> Square -> StateT Fullboard M ()
-drops s (c,p) = dropPiece (c,p,s)
+drops :: (Color, Profession) -> Square -> Side -> StateT Fullboard M ()
+drops (c,p) sq s = dropPiece (c,p,s) sq
 
-drops' :: Side -> Profession -> Square -> StateT Fullboard M ()
-drops' s p sq = do
+drops' :: Profession -> Square -> Side -> StateT Fullboard M ()
+drops' p sq s = do
  fb <- get
  let kok  = dropPiece (Kok1, p, s) sq `runStateT` fb
  let huok = dropPiece (Huok2, p, s) sq `runStateT` fb
