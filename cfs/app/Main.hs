@@ -52,11 +52,11 @@ loadFile' file = do
  let Just b = loadBoard str
  putStrLn $ drawBoard b
 
-
+(>+>), (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
 f >+> g = f Upward >> g Downward
 f >-> g = f Downward >> g Upward
 
-err000, err001, err002, err003, err004 :: StateT Fullboard M ()
+err000, err001, err002, err003, err004, err005 :: StateT Fullboard M ()
 err000 = plays sqTAU sqTY Downward -- error: MovingOpponentPiece
 err001 = plays sqKAU sqLAU Upward -- error: FriendlyFire
 err002 = plays sqNAU sqLAU Upward -- error: EmptySquare sqNAU
@@ -106,7 +106,7 @@ plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
 plays' a b c = plays a c
 
 playsT :: Square -> Square -> Side -> StateT Fullboard M ()
-playsT = plays
+playsT = plays 
 
 fed002 :: StateT Fullboard M ()
 fed002 = do
@@ -136,6 +136,7 @@ fed002 = do
  -- [JV] zau saup1 ua hop1 om2.
  -- ta xot1.
 
+fed003 :: StateT Fullboard M ()
 fed003 = do
  plays' sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
  playsT sqZO        sqCY  >+> plays' sqXI Kauk2 sqXU
@@ -148,4 +149,5 @@ fed003 = do
  --[j.v] zau io hop1 om2.
  -- ta xot1.
 
+mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
 mun1 _ = passes
