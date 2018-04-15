@@ -13,6 +13,7 @@ main :: IO ()
 main = do
  foo "棋譜000:" fed000
  foo "棋譜001:" fed001
+ foo "棋譜002:" fed002
  foo "エラー000:" err000
  foo "エラー001:" err001
  foo "エラー002:" err002
@@ -52,6 +53,7 @@ loadFile' file = do
 
 
 f >+> g = f Upward >> g Downward
+f >-> g = f Downward >> g Upward
 
 err000, err001, err002, err003, err004 :: StateT Fullboard M ()
 err000 = plays sqTAU sqTY Downward -- error: MovingOpponentPiece
@@ -99,3 +101,36 @@ fed001 = do
  passes            >+> plays sqNI sqCI
  -- [SY]為行行而五 終季
 
+plays' a b c = plays a c
+playsT = plays
+
+fed002 :: StateT Fullboard M ()
+fed002 = do
+ plays' sqKE  Tuk2  sqNE >-> plays' sqTAI Kauk2 sqTY
+ plays' sqNI  Kauk2 sqNU >-> playsT sqZO        sqZAU
+ plays' sqNE  Tuk2  sqNI >-> plays' sqNAI Kauk2 sqNY
+ plays' sqNI  Tuk2  sqTU >-> plays' sqKAU Tuk2  sqNAU
+ plays' sqTA  Uai1  sqNI >-> plays' sqXAI Kauk2 sqXY
+ plays' sqTE  Dau2  sqLU >-> plays' sqNAU Tuk2 sqNAI
+ plays' sqXE  Dau2  sqXU >-> plays' sqCAI Kauk2 sqCY
+ plays' sqPE  Tuk2  sqCE >-> plays' sqXIA Uai1  sqXAI
+ plays' sqCI  Kauk2 sqCU >-> plays' sqTIA Uai1  sqTAI
+ plays' sqXA  Uai1  sqCI >-> plays' sqTAU Dau2  sqLY
+ plays' sqMA  Maun1 sqTO >-> plays' sqTY  Kauk2 sqTO
+ playsT sqZAU       sqZO >-> playsT sqZO        sqZY
+ plays' sqLE  Kaun1 sqZE >-> plays' sqZAI Nuak1 sqCAI
+ plays' sqLA  Maun1 sqLO >-> mun1 (plays' sqXAI Uai1 sqZAI)
+ plays' sqKA  Kua2  sqKU >-> plays' sqLAI Kauk2 sqLO
+ plays' sqLI  Kauk2 sqLO >-> plays' sqLY  Dau2  sqTY
+ mun1 (plays' sqZE Gua2 sqZU) >-> plays' sqZIA Io sqCAU
+ playsT sqZY        sqCO >-> playsT sqCO        sqZAU
+ plays' sqZI  Nuak1 sqZO >-> plays' sqTY Dau2   sqZO
+ mun1 (plays' sqZE Gua2 sqZO) >-> plays' sqZO Dau2 sqNI
+ plays' sqTU  Tuk2  sqNI >-> plays' sqTAI Uai1  sqLO
+ plays' sqLU  Dau2  sqTE >-> plays' sqNAI Tuk2  sqCI
+ plays' sqCE  Tuk2  sqCI >-> plays' sqXY  Kauk2 sqXU
+ -- [JV] zau saup1 ua hop1 om2.
+ -- ta xot1.
+
+
+mun1 _ = passes
