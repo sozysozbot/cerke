@@ -1,8 +1,5 @@
 module GameState
 (Fullboard(..)
-,movePieceFromTo_
-,movePieceFromToTaking
-,dropPiece
 ,playFromStart
 ,initialBoard
 --,movePieceFromTo2
@@ -50,17 +47,32 @@ liftBoardOpFoo op = do
 **********
 -}
 
+type Validator = Maybe (Side,Profession) -> Either Error ()
+
 -- plays under the condition
-playsProvided :: (Maybe (Side,Profession) -> Either Error ()) -> 
+playsProvided :: Validator -> 
  Square -> Square -> Side -> StateT Fullboard M ()
 playsProvided validator from to sid = do
  fb <- get
  case movePieceFromToProf from to (board fb) of
-  Left (AlreadyOccupied _) -> movePieceFromToTaking sid from to
+  Left (AlreadyOccupied _) -> movePieceFromToTaking' validator sid from to
   Right (side_prof, newBoard) -> case validator side_prof of
    Right () -> put $ fb{board = newBoard}
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
+
+-- FIXME: validator uncaught here
+movePieceFromToTaking' :: Validator -> Side -> Square -> Square -> StateT Fullboard M ()
+movePieceFromToTaking' validator sid from to = do
+ piece <- liftBoardOp $ removePiece to
+ case getSide piece of
+  Nothing -> lift $ Left TamCapture
+  Just s -> if s == sid then lift $ Left FriendlyFire else do
+   let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
+   actualSide <- movePieceFromTo_ from to
+   if hasPrivilege sid actualSide
+    then modify (\fb -> fb{hand = flippedPiece : hand fb})
+    else lift $ Left MovingOpponentPiece
 
 -- implicitly takes the piece, if blocked
 plays :: Square -> Square -> Side -> StateT Fullboard M ()
@@ -103,11 +115,7 @@ drops' p sq s = do
 
 
 passes :: Side -> StateT Fullboard M ()
-passes _ = pass
-
---movePiece_ :: Vec -> Square -> StateT Fullboard Maybe ()
---movePiece_ vec sq = liftBoardOp $ movePiece' vec sq
-
+passes _ = return ()
 
 
 hasPrivilege :: Side -> Maybe Side -> Bool
@@ -118,18 +126,6 @@ movePieceFromTo_ :: Square -> Square -> StateT Fullboard M (Maybe Side)
 movePieceFromTo_ from to = liftBoardOp $ movePieceFromTo from to
 
 
-movePieceFromToTaking :: Side -> Square -> Square -> StateT Fullboard M ()
-movePieceFromToTaking sid from to = do
- piece <- liftBoardOp $ removePiece to
- case getSide piece of
-  Nothing -> lift $ Left TamCapture
-  Just s -> if s == sid then lift $ Left FriendlyFire else do
-   let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
-   actualSide <- movePieceFromTo_ from to
-   if hasPrivilege sid actualSide
-    then modify (\fb -> fb{hand = flippedPiece : hand fb})
-    else lift $ Left MovingOpponentPiece
-
 dropPiece :: PhantomPiece -> Square -> StateT Fullboard M ()
 dropPiece pp sq = do
  fb <- get
@@ -139,9 +135,6 @@ dropPiece pp sq = do
   (x:xs) -> do
    liftBoardOpFoo $ putPiece x sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
-
-pass :: StateT Fullboard M ()
-pass = return ()
 
 -- the operation that must theoretically succeed but did not happen
 mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
