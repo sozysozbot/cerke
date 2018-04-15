@@ -50,19 +50,18 @@ liftBoardOpFoo op = do
 type Validator = Maybe (Side,Profession) -> Either Error ()
 
 -- plays under the condition
-playsProvided :: Validator -> 
- Square -> Square -> Side -> StateT Fullboard M ()
-playsProvided validator from to sid = do
+validatesPlaying, validatesTaking :: Validator -> 
+ (Square, Square, Side) -> StateT Fullboard M ()
+validator `validatesPlaying` (from, to, sid) = do
  fb <- get
  case movePieceFromToProf from to (board fb) of
-  Left (AlreadyOccupied _) -> movePieceFromToTaking' validator sid from to
+  Left (AlreadyOccupied _) -> validator `validatesTaking` (from, to, sid)
   Right (side_prof, newBoard) -> case validator side_prof of
    Right () -> put $ fb{board = newBoard}
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
 
-movePieceFromToTaking' :: Validator -> Side -> Square -> Square -> StateT Fullboard M ()
-movePieceFromToTaking' validator sid from to = do
+validator `validatesTaking` (from, to, sid) = do
  piece <- liftBoardOp $ removePiece to
  case getSide piece of
   Nothing -> lift $ Left TamCapture
@@ -75,13 +74,13 @@ movePieceFromToTaking' validator sid from to = do
 
 -- implicitly takes the piece, if blocked
 plays :: Square -> Square -> Side -> StateT Fullboard M ()
-plays from to sid = playsProvided f from to sid where
+plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(q, _)) = if sid == q then return () else Left MovingOpponentPiece
 
 
 plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
-plays' from prof to sid = playsProvided f from to sid where
+plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
  f (Just(q, p)) = case(sid == q, prof == p) of
   (False, _) -> Left MovingOpponentPiece -- turn violation is louder than wrong profession
@@ -90,7 +89,7 @@ plays' from prof to sid = playsProvided f from to sid where
 
 -- plays Tam2
 playsT :: Square -> Square -> Side -> StateT Fullboard M ()
-playsT from to sid = playsProvided f from to sid where
+playsT from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, p))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
 
