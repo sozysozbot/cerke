@@ -86,15 +86,15 @@ fed001 = do
  plays'      sqTAU 虎 sqTY  >+> plays'      sqXE 虎 sqXU
  plays'      sqLIA 馬 sqXO  >+> mun1(plays' sqXI 兵 sqXO)
  plays'      sqZAI 船 sqZY  >+> plays'      sqME 弓 sqZE
- mun1(plays' sqXIA 将 sqZAI)>+> playsT      sqZO    sqZAI
+ mun1(plays' sqXIA 将 sqZAI)>+> playsTam    sqZO    sqZAI
  plays'      sqCAI 兵 sqCY  >+> passes 
  plays'      sqXIA 将 sqCAI >+> passes
  plays'      sqCAI 将 sqXY  >+> plays'      sqXU 虎 sqTY
  plays'      sqTAI 兵 sqTY  >+> plays'      sqTE 虎 sqTU
  plays'      sqXY  将 sqCAU >+> plays'      sqTU 虎 sqMAU
- plays'      sqCIA 車 sqMAU >+> playsT      sqZAI   sqXY
+ plays'      sqCIA 車 sqMAU >+> playsTam    sqZAI   sqXY
  plays'      sqCAU 将 sqCAI >+> plays'      sqZI 船 sqZY
- playsT      sqXY     sqZAU >+> plays'      sqKE 巫 sqNE
+ playsTam    sqXY     sqZAU >+> plays'      sqKE 巫 sqNE
  drops        (黒, 虎) sqTAI >+> plays'      sqNI 兵 sqNU
  plays'      sqXAI 兵 sqXY  >+> plays'      sqNE 巫 sqNI
  plays'      sqTY  兵 sqZY  >+> mun1(plays' sqZE 弓 sqZY)
@@ -110,7 +110,7 @@ fed001 = do
 fed002 :: StateT Fullboard M ()
 fed002 = do
  plays' sqKE  Tuk2  sqNE >-> plays' sqTAI Kauk2 sqTY
- plays' sqNI  Kauk2 sqNU >-> playsT sqZO        sqZAU
+ plays' sqNI  Kauk2 sqNU >-> playsTam sqZO        sqZAU
  plays' sqNE  Tuk2  sqNI >-> plays' sqNAI Kauk2 sqNY
  plays' sqNI  Tuk2  sqTU >-> plays' sqKAU Tuk2  sqNAU
  plays' sqTA  Uai1  sqNI >-> plays' sqXAI Kauk2 sqXY
@@ -120,13 +120,13 @@ fed002 = do
  plays' sqCI  Kauk2 sqCU >-> plays' sqTIA Uai1  sqTAI
  plays' sqXA  Uai1  sqCI >-> plays' sqTAU Dau2  sqLY
  plays' sqMA  Maun1 sqTO >-> plays' sqTY  Kauk2 sqTO
- playsT sqZAU       sqZO >-> playsT sqZO        sqZY
+ playsTam sqZAU       sqZO >-> playsTam sqZO        sqZY
  plays' sqLE  Gua2  sqZE >-> plays' sqZAI Nuak1 sqCAI
  plays' sqLA  Maun1 sqLO >-> mun1 (plays' sqXAI Uai1 sqZAI)
  plays' sqKA  Kua2  sqKU >-> plays' sqLAI Kauk2 sqLO
  plays' sqLI  Kauk2 sqLO >-> plays' sqLY  Dau2  sqTY
  mun1 (plays' sqZE Gua2 sqZU) >-> plays' sqZIA Io sqCAU
- playsT sqZY        sqCO >-> playsT sqCO        sqZAU
+ playsTam sqZY        sqCO >-> playsTam sqCO        sqZAU
  plays' sqZI  Nuak1 sqZO >-> plays' sqTY Dau2   sqZO
  mun1 (plays' sqZE Gua2 sqZO) >-> plays' sqZO Dau2 sqNI
  plays' sqTU  Tuk2  sqNI >-> plays' sqTAI Uai1  sqLO
@@ -137,13 +137,13 @@ fed002 = do
 
 fed003 :: StateT Fullboard M ()
 fed003 = do
- plays' sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
- playsT sqZO        sqCY  >+> plays' sqXI Kauk2 sqXU
- plays' sqMAI Kauk2 sqMY  >+> plays' sqNI Kauk2 sqNU
- playsT sqCY        sqCAU >+> plays' sqKE Tuk2  sqNE
- plays' sqCAI Kauk2 sqCY  >+> plays' sqNE Tuk2  sqNI
- plays' sqZAI Nuak1 sqZY  >+> plays' sqZI Nuak1 sqZY
- plays' sqZAU Uai1  sqZY  >+> plays' sqLE Gua2  sqZE
- plays' sqZY  Uai1  sqCAI >+> plays' sqZE Gua2  sqZIA
+ plays'   sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
+ playsTam sqZO        sqCY  >+> plays' sqXI Kauk2 sqXU
+ plays'   sqMAI Kauk2 sqMY  >+> plays' sqNI Kauk2 sqNU
+ playsTam sqCY        sqCAU >+> plays' sqKE Tuk2  sqNE
+ plays'   sqCAI Kauk2 sqCY  >+> plays' sqNE Tuk2  sqNI
+ plays'   sqZAI Nuak1 sqZY  >+> plays' sqZI Nuak1 sqZY
+ plays'   sqZAU Uai1  sqZY  >+> plays' sqLE Gua2  sqZE
+ plays'   sqZY  Uai1  sqCAI >+> plays' sqZE Gua2  sqZIA
  --[j.v] zau io hop1 om2.
  -- ta xot1.

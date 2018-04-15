@@ -10,7 +10,7 @@ module GameState
 ,drops'
 ,mun1
 ,plays'
-,playsT
+,playsTam
 )where
 import Board
 import PrettyPrint(initialBoard)
@@ -87,9 +87,8 @@ plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
   (True, False) -> Left WrongProfessionSpecified{expected = Just p, specified = Just prof}
   (True, True) -> return ()
 
--- plays Tam2
-playsT :: Square -> Square -> Side -> StateT Fullboard M ()
-playsT from to sid = f `validatesPlaying` (from, to, sid) where
+playsTam :: Square -> Square -> Side -> StateT Fullboard M ()
+playsTam from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, p, _))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
 
