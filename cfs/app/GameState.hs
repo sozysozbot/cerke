@@ -75,7 +75,7 @@ drops' p sq s = do
   (Right ((), newBoard), Left _) -> put newBoard
   (Left NoCorrespondingPieceInHand, Left NoCorrespondingPieceInHand) -> lift $ Left NoCorrespondingPieceInHand
   _ -> error "cannot happen hgi8iejrws"
- undefined
+
 
 passes :: Side -> StateT Fullboard M ()
 passes _ = pass
