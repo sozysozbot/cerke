@@ -11,6 +11,7 @@ module Piece2
 ,match
 ,getSide,getProf
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
+,黒, 赤
 ) where
 data Color = Kok1 | Huok2 deriving(Show, Eq, Ord)
 data Side = Upward | Downward deriving(Show, Eq, Ord)
@@ -29,6 +30,10 @@ type ProfOrTam = Either () Profession -- Left () is tam2
 巫 = Tuk2
 将 = Uai1
 王 = Io
+
+黒, 赤 :: Color
+黒 = Huok2
+赤 = Kok1
 
 profToLin :: Profession -> Char
 profToLin p = "船兵弓車虎馬筆巫将王" !! fromEnum p

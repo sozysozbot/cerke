@@ -80,26 +80,26 @@ fed000 = do
 
 fed001 :: StateT Fullboard M ()
 fed001 = do
- plays sqTAU sqTY  >+> plays sqXE sqXU
- plays sqLIA sqXO  >+> passes
- plays sqZAI sqZY  >+> plays sqME sqZE
- passes            >+> plays sqZO sqZAI
- plays sqCAI sqCY  >+> passes 
- plays sqXIA sqCAI >+> passes
- plays sqCAI sqXY  >+> plays sqXU sqTY
- plays sqTAI sqTY  >+> plays sqTE sqTU
- plays sqXY  sqCAU >+> plays sqTU sqMAU
- plays sqCIA sqMAU >+> plays sqZAI sqXY
- plays sqCAU sqCAI >+> plays sqZI sqZY
- plays sqXY sqZAU  >+> plays sqKE sqNE
- drops (Huok2, Dau2) sqTAI >+> plays sqNI sqNU
- plays sqXAI sqXY  >+> plays sqNE sqNI
- plays sqTY  sqZY  >+> passes
- passes            >+> plays sqNA sqXU
- plays sqXO sqMI   >+> plays sqCI sqMI
+ plays'      sqTAU 虎 sqTY  >+> plays'      sqXE 虎 sqXU
+ plays'      sqLIA 馬 sqXO  >+> mun1(plays' sqXI 兵 sqXO)
+ plays'      sqZAI 船 sqZY  >+> plays'      sqME 弓 sqZE
+ mun1(plays' sqXIA 将 sqZAI)>+> playsT      sqZO    sqZAI
+ plays'      sqCAI 兵 sqCY  >+> passes 
+ plays'      sqXIA 将 sqCAI >+> passes
+ plays'      sqCAI 将 sqXY  >+> plays'      sqXU 虎 sqTY
+ plays'      sqTAI 兵 sqTY  >+> plays'      sqTE 虎 sqTU
+ plays'      sqXY  将 sqCAU >+> plays'      sqTU 虎 sqMAU
+ plays'      sqCIA 車 sqMAU >+> playsT      sqZAI   sqXY
+ plays'      sqCAU 将 sqCAI >+> plays'      sqZI 船 sqZY
+ playsT      sqXY     sqZAU >+> plays'      sqKE 巫 sqNE
+ drops        (黒, 虎) sqTAI >+> plays'      sqNI 兵 sqNU
+ plays'      sqXAI 兵 sqXY  >+> plays'      sqNE 巫 sqNI
+ plays'      sqTY  兵 sqZY  >+> mun1(plays' sqZE 弓 sqZY)
+ mun1(plays' sqNIA 車 sqZAI)>+> plays'      sqNA 車 sqXU
+ plays'      sqXO  馬 sqMI  >+> plays'      sqCI 兵 sqMI
  -- [SY]為獣而手三 再行
- plays sqXY sqXU   >+> plays sqXI sqXU
- passes            >+> plays sqNI sqCI
+ plays'      sqXY  兵 sqXU  >+> plays'      sqXI 兵 sqXU
+ drops'            車 sqCI  >+> plays'      sqNI 巫 sqCI
  -- [SY]為行行而五 終季
 
 
