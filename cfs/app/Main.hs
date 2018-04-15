@@ -14,6 +14,7 @@ main = do
  foo "棋譜000:" fed000
  foo "棋譜001:" fed001
  foo "棋譜002:" fed002
+ foo "棋譜003:" fed003
  foo "エラー000:" err000
  foo "エラー001:" err001
  foo "エラー002:" err002
@@ -101,7 +102,10 @@ fed001 = do
  passes            >+> plays sqNI sqCI
  -- [SY]為行行而五 終季
 
+plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
 plays' a b c = plays a c
+
+playsT :: Square -> Square -> Side -> StateT Fullboard M ()
 playsT = plays
 
 fed002 :: StateT Fullboard M ()
@@ -132,5 +136,16 @@ fed002 = do
  -- [JV] zau saup1 ua hop1 om2.
  -- ta xot1.
 
+fed003 = do
+ plays' sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
+ playsT sqZO        sqCY  >+> plays' sqXI Kauk2 sqXU
+ plays' sqMAI Kauk2 sqMY  >+> plays' sqNI Kauk2 sqNU
+ playsT sqCY        sqCAU >+> plays' sqKE Tuk2  sqNE
+ plays' sqCAI Kauk2 sqCY  >+> plays' sqNE Tuk2  sqNI
+ plays' sqZAI Nuak1 sqZY  >+> plays' sqZI Nuak1 sqZY
+ plays' sqZAU Uai1  sqZY  >+> plays' sqLE Gua2  sqZE
+ plays' sqZY  Uai1  sqCAI >+> plays' sqZE Gua2  sqZIA
+ --[j.v] zau io hop1 om2.
+ -- ta xot1.
 
 mun1 _ = passes
