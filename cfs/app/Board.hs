@@ -13,7 +13,7 @@ module Board
 ,M
 ,toEither
 ) where
-import Piece3 (Piece(),Side,Profession,getSide,getProf)
+import Piece3
 import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
@@ -90,7 +90,5 @@ movePieceFromToFoo f from to b = do
 movePieceFromTo :: Square -> Square -> Board1 -> M (Maybe Side, Board1)
 movePieceFromTo = movePieceFromToFoo getSide
 
-movePieceFromToProf :: Square -> Square -> Board1 -> M (Maybe (Side, Profession), Board1)
-movePieceFromToProf = movePieceFromToFoo f where
- f p = do{pr <- getProf p; si <- getSide p; return (si,pr)}
-
+movePieceFromToProf :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
+movePieceFromToProf = movePieceFromToFoo toPhantom

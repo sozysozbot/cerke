@@ -9,7 +9,7 @@ module Piece2
 ,flipSide
 ,PhantomPiece
 ,match
-,getSide,getProf
+,getSide,getProf,toPhantom
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
 ,黒, 赤
 ) where
@@ -41,6 +41,10 @@ profToLin p = "船兵弓車虎馬筆巫将王" !! fromEnum p
 getSide :: Piece -> Maybe Side
 getSide Tam2 = Nothing
 getSide (Piece _ _ s) = Just s
+
+toPhantom :: Piece -> Maybe PhantomPiece
+toPhantom Tam2 = Nothing
+toPhantom (Piece c p s) = Just(c,p,s)
 
 getProf :: Piece -> Maybe Profession
 getProf Tam2 = Nothing

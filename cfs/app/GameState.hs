@@ -47,7 +47,7 @@ liftBoardOpFoo op = do
 **********
 -}
 
-type Validator = Maybe (Side,Profession) -> Either Error ()
+type Validator = Maybe PhantomPiece -> Either Error ()
 
 -- plays under the condition
 validatesPlaying, validatesTaking :: Validator -> 
@@ -76,13 +76,13 @@ validator `validatesTaking` (from, to, sid) = do
 plays :: Square -> Square -> Side -> StateT Fullboard M ()
 plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
- f (Just(q, _)) = if sid == q then return () else Left MovingOpponentPiece
+ f (Just(_, _, q)) = if sid == q then return () else Left MovingOpponentPiece
 
 
 plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
 plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
- f (Just(q, p)) = case(sid == q, prof == p) of
+ f (Just(_, p, q)) = case(sid == q, prof == p) of
   (False, _) -> Left MovingOpponentPiece -- turn violation is louder than wrong profession
   (True, False) -> Left WrongProfessionSpecified{expected = Just p, specified = Just prof}
   (True, True) -> return ()
@@ -91,7 +91,7 @@ plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
 playsT :: Square -> Square -> Side -> StateT Fullboard M ()
 playsT from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
- f (Just(_, p))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
+ f (Just(_, p, _))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
 
 
 
