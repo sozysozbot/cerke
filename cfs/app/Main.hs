@@ -71,12 +71,12 @@ err005 = do -- error: AmbiguousColor
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
- plays sqTAU sqTY >+> plays sqNI sqNU
- passes           >+> plays sqMA sqTO
- plays sqTY sqTO  >+> plays sqTA sqNI
- plays sqLAU sqLO >+> plays sqZA sqZE
- drops (Kok1, Maun1) sqKY >+> passes
- plays sqKY  sqZE >+> plays sqXA sqZE
+ plays'      sqTAU 虎 sqTY  >+> plays' sqNI 兵 sqNU
+ mun1(plays' sqLIA 馬 sqXO) >+> plays' sqMA 馬 sqTO
+ plays'      sqTY  虎 sqTO  >+> plays' sqTA 将 sqNI
+ plays'      sqLAU 弓 sqLO  >+> plays' sqZA 王 sqZE
+ drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
+ plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
 
 fed001 :: StateT Fullboard M ()
 fed001 = do
