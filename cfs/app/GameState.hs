@@ -121,7 +121,12 @@ pass = return ()
 
 
 mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
-mun1 _ = passes
+mun1 action side = do
+ fb <- get
+ case action side `runStateT` fb of
+  Left e -> lift $ Left e
+  Right _ -> passes side -- discard the result and allow
+
 
 plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
 plays' a b c = plays a c
