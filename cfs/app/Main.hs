@@ -7,7 +7,7 @@ import Board
 import GameState
 import PrettyPrint
 import Control.Monad.Trans.State.Lazy
-import Piece hiding(Piece(..))
+import Piece3
 
 main :: IO ()
 main = do

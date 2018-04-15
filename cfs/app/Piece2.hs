@@ -1,5 +1,5 @@
 
-module Piece
+module Piece2
 (Color(..)
 ,Side(..)
 ,Piece(..)

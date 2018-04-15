@@ -12,7 +12,7 @@ module Board
 ,M
 ,toEither
 ) where
-import Piece (Piece(),Side,getSide)
+import Piece3 (Piece(),Side,getSide)
 import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)

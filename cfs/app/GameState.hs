@@ -17,8 +17,7 @@ module GameState
 )where
 import Board
 import PrettyPrint(initialBoard)
-import Piece hiding(Piece(..))
-import Piece (Piece(),getSide)
+import Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 
