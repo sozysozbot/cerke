@@ -15,6 +15,8 @@ main = do
  foo "棋譜001:" fed001
  foo "棋譜002:" fed002
  foo "棋譜003:" fed003
+ foo "棋譜004:" fed004
+ foo "棋譜005:" fed005
  foo "エラー000:" err000
  foo "エラー001:" err001
  foo "エラー002:" err002
@@ -100,12 +102,18 @@ fed001 = do
  plays'      sqTY  兵 sqZY  >+> mun1(plays' sqZE 弓 sqZY)
  mun1(plays' sqNIA 車 sqZAI)>+> plays'      sqNA 車 sqXU
  plays'      sqXO  馬 sqMI  >+> plays'      sqCI 兵 sqMI
- -- [SY]為獣而手三 再行
+ declare Downward Saup1
  plays'      sqXY  兵 sqXU  >+> plays'      sqXI 兵 sqXU
  drops'            車 sqCI  >+> plays'      sqNI 巫 sqCI
- -- [SY]為行行而五 終季
+ declare Downward Mok1Mok1
+ taxot1
 
+data Dat2 = Saup1 | Mok1Mok1 | Dat2AIo
 
+declare :: Side -> Dat2 -> StateT Fullboard M ()
+declare s d = return ()
+
+taxot1 = return ()
 
 fed002 :: StateT Fullboard M ()
 fed002 = do
@@ -132,8 +140,8 @@ fed002 = do
  plays' sqTU  Tuk2  sqNI >-> plays' sqTAI Uai1  sqLO
  plays' sqLU  Dau2  sqTE >-> plays' sqNAI Tuk2  sqCI
  plays' sqCE  Tuk2  sqCI >-> plays' sqXY  Kauk2 sqXU
- -- [JV] zau saup1 ua hop1 om2.
- -- ta xot1.
+ declare Upward Saup1
+ taxot1
 
 fed003 :: StateT Fullboard M ()
 fed003 = do
@@ -145,5 +153,40 @@ fed003 = do
  plays'   sqZAI Nuak1 sqZY  >+> plays' sqZI Nuak1 sqZY
  plays'   sqZAU Uai1  sqZY  >+> plays' sqLE Gua2  sqZE
  plays'   sqZY  Uai1  sqCAI >+> plays' sqZE Gua2  sqZIA
- --[j.v] zau io hop1 om2.
- -- ta xot1.
+ declare Downward Dat2AIo
+ taxot1
+
+fed004 :: StateT Fullboard M ()
+fed004 = do
+ plays' sqTAI Kauk2 sqTY  >+> plays' sqXI Kauk2 sqXU
+ plays' sqXAI Kauk2 sqXY  >+> plays' sqZI Nuak1 sqZU
+ plays' sqZAI Nuak1 sqZY  >+> playsTam sqZO     sqXI
+ plays' sqXAU Dau2  sqZAI >+> plays' sqXA Uai1  sqZI
+ plays' sqMAU Gua2  sqZAU >+> plays' sqLE Gua2  sqZE
+ plays' sqPAU Tuk2  sqPY  >+> plays' sqXE Dau2  sqTU
+ plays' sqNAI Kauk2 sqNY  >+> plays' sqTA Uai1  sqXE
+ plays' sqCAI Kauk2 sqCY  >+> plays' sqXU Kauk2 sqXY
+ plays' sqZAI Dau2  sqXY  >+> plays' sqTU Dau2  sqXY
+ mun1(plays' sqTAU Dau2  sqZAI) >+> plays' sqME Gua2  sqMU
+ plays' sqMAI Kauk2 sqMY  >+> plays' sqXY Dau2  sqPIA
+ plays' sqTAU Dau2  sqNAI >+> plays' sqZU Nuak1 sqZY
+ plays' sqZAU Gua2  sqZY  >+> plays' sqMU Gua2  sqMIA
+ plays' sqCIA Kaun1 sqZAI >+> plays' sqMIA Gua2 sqZIA
+ declare Downward Dat2AIo
+ taxot1
+
+fed005 :: StateT Fullboard M ()
+fed005 = do
+ plays' sqTE 虎 sqTU  >-> plays' sqTAI 兵 sqTY
+ plays' sqZI 船 sqZU  >-> plays' sqTAU 虎 sqXY
+ playsTam sqZO  sqCE  >-> plays' sqXIA 将 sqZAU
+ plays' sqLE 弓 sqZE  >-> plays' sqTY  兵 sqTU
+ plays' sqTI 兵 sqTU  >-> plays' sqZIA 王 sqXIA
+ plays' sqME 弓 sqMU  >-> plays' sqXY  虎 sqMU
+ plays' sqPE 巫 sqME  >-> plays' sqLIA 馬 sqTAI
+ plays' sqMI 兵 sqMU  >-> plays' sqLAU 弓 sqLY
+ plays' sqZE 弓 sqTE  >-> mun1(plays' sqLY  弓 sqZY)
+ plays' sqTU 兵 sqTY  >-> plays' sqZAI 船 sqZU
+ plays' sqTY 兵 sqTAI Downward
+ declare Downward Saup1
+ taxot1

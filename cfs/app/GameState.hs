@@ -61,6 +61,8 @@ validator `validatesPlaying` (from, to, sid) = do
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
 
+
+-- FIXME: Uai protection
 validator `validatesTaking` (from, to, sid) = do
  piece <- liftBoardOp $ removePiece to
  case getSide piece of
