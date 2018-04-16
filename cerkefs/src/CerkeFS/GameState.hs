@@ -193,7 +193,6 @@ declare'' s_ f = do
 declare' :: Side -> [Profession] -> StateT Fullboard M ()
 declare' s_ condition = declare'' s_ (matchHand condition . map snd)
 
--- | FIXME: buggy
 matchHand :: [Profession] -> [Profession] -> Bool
 matchHand condition plist
  | cond' `S.isSubsetOf` plist' = True -- if subset, very good!
