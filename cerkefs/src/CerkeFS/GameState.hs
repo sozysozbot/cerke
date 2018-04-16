@@ -11,8 +11,11 @@ module CerkeFS.GameState
 ,mun1
 ,plays'
 ,playsTam
+,Dat2(..)
+,declare
+,taxot1
 )where
-import CerkeFS.Board
+import CerkeFS.Internal.Board
 import CerkeFS.PrettyPrint(initialBoard)
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
@@ -54,27 +57,34 @@ validatesPlaying, validatesTaking :: Validator ->
  (Square, Square, Side) -> StateT Fullboard M ()
 validator `validatesPlaying` (from, to, sid) = do
  fb <- get
- case movePieceFromToProf from to (board fb) of
+ case movePieceFromToFull from to (board fb) of
   Left (AlreadyOccupied _) -> validator `validatesTaking` (from, to, sid)
-  Right (side_prof, newBoard) -> case validator side_prof of
+  Right (phantom, newBoard) -> case validator phantom of
    Right () -> put $ fb{board = newBoard}
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
 
 
--- FIXME: Uai protection
 validator `validatesTaking` (from, to, sid) = do
  piece <- liftBoardOp $ removePiece to
  case getSide piece of
   Nothing -> lift $ Left TamCapture
   Just s -> if s == sid then lift $ Left FriendlyFire else do
    let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
-   side_prof <- liftBoardOp $ movePieceFromToProf from to
-   case validator side_prof of
+   phantom <- liftBoardOp $ movePieceFromToFull from to
+   case validator phantom of
     Right () -> modify (\fb -> fb{hand = flippedPiece : hand fb})
     Left e   -> lift $ Left e
 
--- implicitly takes the piece, if blocked
+-- | Moves the piece. If the destination is blocked, the piece at the destination is implicitly captured.
+--
+--   * 'MovingOpponentPiece' is raised if the side of the moving piece does not match the side given in the argument.
+--
+--   * 'FriendlyFire' is raised if the destination is blocked by the piece belonging to the same side as the moving piece.
+--
+--   * 'TamCapture' is raised if the destination is occupied by Tam2, which cannot be captured.
+-- 
+-- __/FIXME: Uai protection not implemented/__
 plays :: Square -> Square -> Side -> StateT Fullboard M ()
 plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
@@ -85,7 +95,7 @@ plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
 plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
  f (Just(_, p, q)) = case(sid == q, prof == p) of
-  (False, _) -> Left MovingOpponentPiece -- turn violation is louder than wrong profession
+  (False, _) -> Left MovingOpponentPiece -- side violation is louder than wrong profession
   (True, False) -> Left WrongProfessionSpecified{expected = Just p, specified = Just prof}
   (True, True) -> return ()
 
@@ -97,9 +107,21 @@ playsTam from to sid = f `validatesPlaying` (from, to, sid) where
 
 
 
+-- | Drops the piece to the square. 
+-- 
+--    * 'NoCorrespondingPieceInHand' is raised if no pieces in the hand matches the condition given by the arguments.
+--
+--    * 'AlreadyOccupied' is raised if the square is already occupied by another piece.
 drops :: (Color, Profession) -> Square -> Side -> StateT Fullboard M ()
 drops (c,p) sq s = dropPiece (c,p,s) sq
 
+-- | Similar to 'drops'', but infers the color of the piece to be dropped.
+-- 
+--    * 'NoCorrespondingPieceInHand' is raised if no pieces in the hand matches the condition given by the arguments.
+--
+--    * 'AlreadyOccupied' is raised if the square is already occupied by another piece.
+--
+--    * 'AmbiguousColor' is raised if the color of the piece cannot be uniquely identified.
 drops' :: Profession -> Square -> Side -> StateT Fullboard M ()
 drops' p sq s = do
  fb <- get
@@ -127,7 +149,7 @@ dropPiece pp sq = do
    liftBoardOpFoo $ putPiece x sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
--- the operation that must theoretically succeed but did not happen
+-- | wraps an operation to show that the operation must theoretically succeed but did not happen
 mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
 mun1 action side = do
  fb <- get
@@ -136,4 +158,12 @@ mun1 action side = do
   Right _ -> passes side -- discard the result and allow
 
 
+data Dat2 = Saup1 | Mok1Mok1 | Dat2AIo deriving(Show, Eq, Ord)
+
+-- | __/FIXME: does not check/__
+declare :: Side -> Dat2 -> StateT Fullboard M ()
+declare s d = return ()
+
+taxot1 :: StateT Fullboard M ()
+taxot1 = return ()
 

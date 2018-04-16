@@ -1,0 +1,11 @@
+resolver: lts-11.3
+packages:
+- .
+build:
+  haddock: false
+  haddock-arguments:
+    haddock-args:         
+    - --odir=haddock      
+  open-haddocks: false
+  haddock-internal: false
+  haddock-hyperlink-source: true

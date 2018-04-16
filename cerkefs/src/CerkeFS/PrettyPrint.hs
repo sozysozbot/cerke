@@ -12,8 +12,8 @@ module CerkeFS.PrettyPrint
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
 ) where
-import CerkeFS.Piece2
-import CerkeFS.Board
+import CerkeFS.Internal.Piece2
+import CerkeFS.Internal.Board
 import qualified Data.Map as M
 import Data.Char
 import Control.Monad
@@ -82,6 +82,7 @@ sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA,
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA] = sqList
 
+-- | Converts the ASCII board format used in the <https://sozysozbot.github.io/cerke/ Cerke board image generator> to the 'Board1'.
 loadBoard :: String -> Maybe Board1
 loadBoard str = do
  pieces <- load Alpha str
@@ -118,6 +119,7 @@ load (Gamma side_ profOrTam) (c:xs) = do
 * Drawing the board
 *******************
 -}
+-- | Converts the 'Board1' to the ASCII board format used in the <https://sozysozbot.github.io/cerke/ Cerke board image generator>.
 drawBoard :: Board1 -> String
 drawBoard b = foo [ convert(M.lookup sq b) | sq <- sqList]
  where 
@@ -130,11 +132,7 @@ convert (Just Tam2) = "^$h"
 convert (Just Piece{color=c,prof=p,side=s}) = [sideToAscii s, profToAscii p ,colorToAscii c]
 
 
-{-
-************
-* default
-************
--}
+-- | Initial configuration of cerke board.
 initialBoard :: Board1
 initialBoard = fromJust $ loadBoard
  "_6h_5h_3h_8h_#k_8k_3k_5k_6k\

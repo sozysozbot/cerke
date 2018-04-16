@@ -2,7 +2,7 @@ module Main
 (module Main
 )
 where
-import CerkeFS.Board
+import CerkeFS.Board2
 import CerkeFS.GameState
 import CerkeFS.PrettyPrint
 import Control.Monad.Trans.State.Lazy
@@ -108,12 +108,7 @@ fed001 = do
  declare Downward Mok1Mok1
  taxot1
 
-data Dat2 = Saup1 | Mok1Mok1 | Dat2AIo
 
-declare :: Side -> Dat2 -> StateT Fullboard M ()
-declare s d = return ()
-
-taxot1 = return ()
 
 fed002 :: StateT Fullboard M ()
 fed002 = do

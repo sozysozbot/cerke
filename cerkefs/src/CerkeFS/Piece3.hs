@@ -8,8 +8,10 @@ module CerkeFS.Piece3
 ,flipSide
 ,PhantomPiece
 ,match
-,getSide,getProf,toPhantom
+,getSide
+--,getProf
+,toPhantom
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
 ,黒, 赤
 ) where
-import CerkeFS.Piece2
+import CerkeFS.Internal.Piece2
