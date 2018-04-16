@@ -116,13 +116,7 @@ playsTam from to sid = f `validatesPlaying` (from, to, sid) where
 drops :: (Color, Profession) -> Square -> Side -> StateT Fullboard M ()
 drops (c,p) sq s = dropPiece (c,p,s) sq
 
--- | Similar to 'drops'', but infers the color of the piece to be dropped.
--- 
---    * 'NoCorrespondingPieceInHand' is raised if no pieces in the hand matches the condition given by the arguments.
---
---    * 'AlreadyOccupied' is raised if the square is already occupied by another piece.
---
---    * 'AmbiguousColor' is raised if the color of the piece cannot be uniquely identified.
+-- | Similar to 'drops'', but infers the color of the piece to be dropped. 'AmbiguousColor' is raised if the color of the piece cannot be uniquely identified.
 drops' :: Profession -> Square -> Side -> StateT Fullboard M ()
 drops' p sq s = do
  fb <- get
@@ -132,8 +126,9 @@ drops' p sq s = do
   (Right _, Right _) -> lift $ Left AmbiguousColor
   (Left _, Right ((), newBoard)) -> put newBoard
   (Right ((), newBoard), Left _) -> put newBoard
-  (Left NoCorrespondingPieceInHand, Left NoCorrespondingPieceInHand) -> lift $ Left NoCorrespondingPieceInHand
-  _ -> error "cannot happen hgi8iejrws"
+  (Left NoCorrespondingPieceInHand, Left e) -> lift $ Left e
+  (Left e, Left NoCorrespondingPieceInHand) -> lift $ Left e
+  (Left e1, Left _) -> lift $ Left e1
 
 -- | Skips a turn.
 passes :: Side -> StateT Fullboard M ()

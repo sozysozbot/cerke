@@ -26,6 +26,7 @@ main = do
  foo "エラー006:" err006
  foo "エラー007:" err007
  foo "エラー008:" err008
+ foo "エラー009:" err009
 
 foo :: String -> StateT Fullboard M a2 -> IO ()
 foo str fed = do
@@ -61,7 +62,7 @@ loadFile' file = do
 f >+> g = f Upward >> g Downward
 f >-> g = f Downward >> g Upward
 
-err000, err001, err002, err003, err004, err005, err006, err007, err008 :: StateT Fullboard M ()
+err000, err001, err002, err003, err004, err005, err006, err007, err008, err009 :: StateT Fullboard M ()
 err000 = plays sqTAU sqTY Downward -- error: MovingOpponentPiece
 err001 = plays sqKAU sqLAU Upward -- error: FriendlyFire
 err002 = plays sqNAU sqLAU Upward -- error: EmptySquare sqNAU
@@ -75,6 +76,10 @@ err005 = do -- error: AmbiguousColor
 err006 = mun1 (plays sqTAU sqTY) Downward -- mun1 does not conceal error. error: MovingOpponentPiece
 err007 = plays' sqTAU 兵 sqTY Upward -- error: WrongProfessionSpecified {expected = Just Dau2, specified = Just Kauk2}
 err008 = declare Downward Saup1 -- error: FalseDeclaration
+err009 = do -- error: AlreadyOccupied sqKE
+ plays sqTAI sqTY >+> plays sqTI sqTU
+ plays sqTY  sqTU >+> plays sqNI sqNO
+ drops' Kauk2 sqKE Upward
 
 fed000 :: StateT Fullboard M ()
 fed000 = do
