@@ -3,11 +3,11 @@ module CerkeFS.Internal.Board
 ,Row(..)
 ,Square(..)
 ,Board1
--- ,Vec(..)
+--,Vec(..)
 ,putPiece
 ,removePiece
 --,movePiece
-,movePieceFromTo
+--,movePieceFromTo
 ,movePieceFromToFull
 ,Error(..)
 ,M
@@ -60,35 +60,34 @@ data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCaptu
 isOccupiedFor :: Square -> Board1 -> Bool
 isOccupiedFor = M.member
 
--- put a piece on a square. fails if already occupied.
+-- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> M Board1
 putPiece p sq b = if sq `isOccupiedFor` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
 
--- remove a piece. fails if empty.
+-- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> M (Piece, Board1)
 removePiece sq b = toEither (EmptySquare sq) $ do
  p <- sq `M.lookup` b
  return (p, M.delete sq b)
 
--- move a piece on a square according to the vector. fails if:
---  the piece goes out of the board
---  the original square is empty
---  the resulting square is already occupied
+-- | Moves a piece on a square according to the vector. Raises: 
+--
+--   * 'OutOfBoard' if the piece goes out of the board
+--   * 'EmptySquare' if the original square is empty
+--   * 'AlreadyOccupied' if the resulting square is already occupied
 movePiece :: Vec -> Square -> Board1 -> M Board1
 movePiece vec sq b = do
  (p, new_b) <- removePiece sq b
  new_sq <- toEither OutOfBoard $ add vec sq
  putPiece p new_sq new_b
 
-movePieceFromToFoo :: (Piece -> a)
-                            -> Square -> Square -> Board1 -> Either Error (a, Board1)
-movePieceFromToFoo f from to b = do
+
+-- | Moves a piece from a square to a square. Raises: 
+--
+--   * 'EmptySquare' if the original square is empty
+--   * 'AlreadyOccupied' if the resulting square is already occupied
+movePieceFromToFull :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
+movePieceFromToFull from to b = do
  (p, new_b) <- removePiece from b
  newerBoard <- putPiece p to new_b
- return (f p, newerBoard)
-
-movePieceFromTo :: Square -> Square -> Board1 -> M (Maybe Side, Board1)
-movePieceFromTo = movePieceFromToFoo getSide
-
-movePieceFromToFull :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
-movePieceFromToFull = movePieceFromToFoo toPhantom
+ return (toPhantom p, newerBoard)
