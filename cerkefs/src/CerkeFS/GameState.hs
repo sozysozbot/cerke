@@ -160,7 +160,7 @@ mun1 action side = do
 
 data Dat2 = Saup1 | Mok1Mok1 | Dat2AIo deriving(Show, Eq, Ord)
 
--- | FIXME: does not check
+-- | __/FIXME: does not check/__
 declare :: Side -> Dat2 -> StateT Fullboard M ()
 declare s d = return ()
 
