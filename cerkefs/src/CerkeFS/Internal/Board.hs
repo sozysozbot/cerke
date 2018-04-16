@@ -46,9 +46,17 @@ add' a c
 toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
-data Error = AlreadyOccupied Square | EmptySquare Square | OutOfBoard | TamCapture 
- | NoCorrespondingPieceInHand | MovingOpponentPiece | FriendlyFire | AmbiguousColor 
+data Error 
+ = AlreadyOccupied Square
+ | EmptySquare Square 
+ | OutOfBoard 
+ | TamCapture 
+ | NoCorrespondingPieceInHand 
+ | MovingOpponentPiece 
+ | FriendlyFire 
+ | AmbiguousColor 
  | WrongProfessionSpecified {expected :: Maybe Profession, specified :: Maybe Profession}
+ | FalseDeclaration
  deriving(Show, Eq, Ord)
 
 {-

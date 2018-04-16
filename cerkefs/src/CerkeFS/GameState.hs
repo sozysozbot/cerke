@@ -20,6 +20,7 @@ import CerkeFS.PrettyPrint(initialBoard)
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
+import qualified Data.Set as S
 
 data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
@@ -90,7 +91,7 @@ plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, _, q)) = if sid == q then return () else Left MovingOpponentPiece
 
-
+-- | Similar to 'plays', but also checks if the moving piece has the profession specified by the argument.
 plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
 plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
@@ -134,7 +135,7 @@ drops' p sq s = do
   (Left NoCorrespondingPieceInHand, Left NoCorrespondingPieceInHand) -> lift $ Left NoCorrespondingPieceInHand
   _ -> error "cannot happen hgi8iejrws"
 
-
+-- | Skips a turn.
 passes :: Side -> StateT Fullboard M ()
 passes _ = return ()
 
@@ -149,7 +150,7 @@ dropPiece pp sq = do
    liftBoardOpFoo $ putPiece x sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
--- | wraps an operation to show that the operation must theoretically succeed but did not happen
+-- | Wraps an operation to show that the operation must theoretically succeed but did not happen. Fails if the wrapped operation is illegal.
 mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
 mun1 action side = do
  fb <- get
@@ -158,11 +159,37 @@ mun1 action side = do
   Right _ -> passes side -- discard the result and allow
 
 
-data Dat2 = Saup1 | Mok1Mok1 | Dat2AIo deriving(Show, Eq, Ord)
+data Dat2
+ = Mun1MakMok1Hue -- ^ 無抗行処; la als
+ | Kua2Kauk2Mun1Aum1 -- ^ 筆兵無傾; la ny anknish
+ | Huep2Hia1 -- ^ 地心; la meunerfergal
+ | Mok1Mok1 -- ^ 行行; la nienulerless
+ | Dat2AIo -- ^ 王; la nermetixaler
+ | Saup1 -- ^ 獣; la pysess
+ | HuetKaikADat2 -- ^ 闇戦之集; la phertarsa'd elmss
+-- ~ | Cuop2Mun1Mok1Hue -- ^ 声無行処; la ytartanerfergal
+-- ~ | BapPok -- ^ 同色; la dejixece
+ deriving(Show, Eq, Ord)
 
--- | __/FIXME: does not check/__
+-- | Declares a Dat2. Fails with 'FalseDeclaration' if the condition required for the declaration is not met.
 declare :: Side -> Dat2 -> StateT Fullboard M ()
-declare s d = return ()
+declare s Mun1MakMok1Hue = declare' s [Nuak1, Kauk2, Gua2, Kaun1, Dau2, Maun1, Kua2, Tuk2, Uai1, Io]
+declare s Kua2Kauk2Mun1Aum1 = declare' s [兵, 弓, 将, 筆, 巫]
+declare s Huep2Hia1 = declare' s [将, 筆, 巫]
+declare s Mok1Mok1 = declare' s [船, 車, 馬]
+declare s Dat2AIo = declare' s [王]
+declare s Saup1 = declare' s [虎, 馬]
+declare s HuetKaikADat2 = declare' s [兵,兵,兵,兵,兵]
+
+
+declare' :: Side -> [Profession] -> StateT Fullboard M ()
+declare' s_ arr = do
+ Fullboard{hand = h} <- get
+ let cplist = [ (c,p) | Just(c,p,s) <- map toPhantom h, s == s_]
+ if S.fromList arr `S.isSubsetOf` S.fromList (map snd cplist)
+  then return ()
+  else lift $ Left FalseDeclaration
+
 
 taxot1 :: StateT Fullboard M ()
 taxot1 = return ()
