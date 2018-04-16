@@ -20,7 +20,7 @@ import CerkeFS.PrettyPrint(initialBoard)
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
-import qualified Data.Set as S
+import qualified Data.MultiSet as S
 
 data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
