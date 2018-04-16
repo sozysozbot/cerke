@@ -3,7 +3,7 @@ module CerkeFS.Internal.Board
 ,Row(..)
 ,Square(..)
 ,Board1
---,Vec(..)
+,Vec(..)
 ,putPiece
 ,removePiece
 --,movePiece
@@ -11,6 +11,7 @@ module CerkeFS.Internal.Board
 ,movePieceFromToFull
 ,Error(..)
 ,M
+,add
 --,toEither
 ) where
 import CerkeFS.Piece3
@@ -47,17 +48,18 @@ toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
 
 data Error 
- = AlreadyOccupied Square
- | EmptySquare Square 
- | OutOfBoard 
- | TamCapture 
- | NoCorrespondingPieceInHand 
- | MovingOpponentPiece 
- | FriendlyFire 
- | AmbiguousColor 
- | WrongProfessionSpecified {expected :: Maybe Profession, specified :: Maybe Profession}
- | FalseDeclaration
- deriving(Show, Eq, Ord)
+ = AlreadyOccupied Square -- ^ The square you're moving to is already occupied. 
+ | EmptySquare Square -- ^ The square you're moving from is actually empty
+
+-- ~ | OutOfBoard 
+ | TamCapture -- ^ The square you're moving to is already occupied by Tam2.
+ | NoCorrespondingPieceInHand -- ^ You tried to drop a piece that is not in the hand.
+ | MovingOpponentPiece -- ^ You tried to move the opponent's piece.
+ | FriendlyFire -- ^ You tried to capture your own piece.
+ | AmbiguousColor -- ^ Color of the dropped piece cannot be unambiguously inferred.
+ | WrongProfessionSpecified {expected :: Maybe Profession, specified :: Maybe Profession} -- ^ The actual profession differs from the expectation.
+ | FalseDeclaration -- ^ Declares a Dat2 whose condition is not satisfied.
+  deriving(Show, Eq, Ord) 
 
 {-
 ********************************************
@@ -83,12 +85,13 @@ removePiece sq b = toEither (EmptySquare sq) $ do
 --   * 'OutOfBoard' if the piece goes out of the board
 --   * 'EmptySquare' if the original square is empty
 --   * 'AlreadyOccupied' if the resulting square is already occupied
+{-
 movePiece :: Vec -> Square -> Board1 -> M Board1
 movePiece vec sq b = do
  (p, new_b) <- removePiece sq b
  new_sq <- toEither OutOfBoard $ add vec sq
  putPiece p new_sq new_b
-
+-}
 
 -- | Moves a piece from a square to a square. Raises: 
 --
