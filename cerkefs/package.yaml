@@ -1,6 +1,6 @@
-name:                cfs
+name:                cerkefs
 version:             0.4.0.0
-github:              "githubuser/cfs"
+github:              "sozysozbot/cerke"
 license:             BSD3
 author:              "sozysozbot"
 maintainer:          "sozysozbot@gmail.com"
@@ -28,7 +28,7 @@ library:
   source-dirs: src
 
 executables:
-  cfs-exe:
+  cerkefs-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -36,10 +36,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - cfs
+    - cerkefs
 
 tests:
-  cfs-test:
+  cerkefs-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -47,4 +47,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - cfs
+    - cerkefs
