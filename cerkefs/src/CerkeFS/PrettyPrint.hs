@@ -12,7 +12,7 @@ module CerkeFS.PrettyPrint
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
 ) where
-import CerkeFS.Piece2
+import CerkeFS.Internal.Piece2
 import CerkeFS.Board
 import qualified Data.Map as M
 import Data.Char

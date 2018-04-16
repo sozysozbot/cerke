@@ -54,9 +54,9 @@ validatesPlaying, validatesTaking :: Validator ->
  (Square, Square, Side) -> StateT Fullboard M ()
 validator `validatesPlaying` (from, to, sid) = do
  fb <- get
- case movePieceFromToProf from to (board fb) of
+ case movePieceFromToFull from to (board fb) of
   Left (AlreadyOccupied _) -> validator `validatesTaking` (from, to, sid)
-  Right (side_prof, newBoard) -> case validator side_prof of
+  Right (phantom, newBoard) -> case validator phantom of
    Right () -> put $ fb{board = newBoard}
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
@@ -69,8 +69,8 @@ validator `validatesTaking` (from, to, sid) = do
   Nothing -> lift $ Left TamCapture
   Just s -> if s == sid then lift $ Left FriendlyFire else do
    let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
-   side_prof <- liftBoardOp $ movePieceFromToProf from to
-   case validator side_prof of
+   phantom <- liftBoardOp $ movePieceFromToFull from to
+   case validator phantom of
     Right () -> modify (\fb -> fb{hand = flippedPiece : hand fb})
     Left e   -> lift $ Left e
 

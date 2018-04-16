@@ -3,15 +3,15 @@ module CerkeFS.Board
 ,Row(..)
 ,Square(..)
 ,Board1
-,Vec(..)
+-- ,Vec(..)
 ,putPiece
 ,removePiece
-,movePiece
+--,movePiece
 ,movePieceFromTo
-,movePieceFromToProf
+,movePieceFromToFull
 ,Error(..)
 ,M
-,toEither
+--,toEither
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
@@ -90,5 +90,5 @@ movePieceFromToFoo f from to b = do
 movePieceFromTo :: Square -> Square -> Board1 -> M (Maybe Side, Board1)
 movePieceFromTo = movePieceFromToFoo getSide
 
-movePieceFromToProf :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
-movePieceFromToProf = movePieceFromToFoo toPhantom
+movePieceFromToFull :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
+movePieceFromToFull = movePieceFromToFoo toPhantom
