@@ -1,4 +1,4 @@
-module Board
+module CerkeFS.Board
 (Col(..)
 ,Row(..)
 ,Square(..)
@@ -13,7 +13,7 @@ module Board
 ,M
 ,toEither
 ) where
-import Piece3
+import CerkeFS.Piece3
 import qualified Data.Map as M
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)

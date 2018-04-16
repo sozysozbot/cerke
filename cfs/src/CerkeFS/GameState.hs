@@ -1,4 +1,4 @@
-module GameState
+module CerkeFS.GameState
 (Fullboard(..)
 ,playFromStart
 ,initialBoard
@@ -12,9 +12,9 @@ module GameState
 ,plays'
 ,playsTam
 )where
-import Board
-import PrettyPrint(initialBoard)
-import Piece3
+import CerkeFS.Board
+import CerkeFS.PrettyPrint(initialBoard)
+import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 

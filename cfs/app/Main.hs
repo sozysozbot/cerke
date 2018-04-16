@@ -2,12 +2,12 @@ module Main
 (module Main
 )
 where
-
-import Board
-import GameState
-import PrettyPrint
+import CerkeFS.Board
+import CerkeFS.GameState
+import CerkeFS.PrettyPrint
 import Control.Monad.Trans.State.Lazy
-import Piece3
+import CerkeFS.Piece3
+
 
 main :: IO ()
 main = do

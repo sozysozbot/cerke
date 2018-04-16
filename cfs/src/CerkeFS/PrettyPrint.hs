@@ -1,4 +1,4 @@
-module PrettyPrint
+module CerkeFS.PrettyPrint
 (loadBoard
 ,drawBoard
 ,initialBoard
@@ -12,8 +12,8 @@ module PrettyPrint
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
 ) where
-import Piece2
-import Board
+import CerkeFS.Piece2
+import CerkeFS.Board
 import qualified Data.Map as M
 import Data.Char
 import Control.Monad

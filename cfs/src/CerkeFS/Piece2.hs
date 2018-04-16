@@ -1,5 +1,5 @@
 
-module Piece2
+module CerkeFS.Piece2
 (Color(..)
 ,Side(..)
 ,Piece(..)
