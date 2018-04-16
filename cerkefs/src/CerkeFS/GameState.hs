@@ -167,7 +167,7 @@ data Dat2
  | Dat2AIo -- ^ 王; la nermetixaler
  | Saup1 -- ^ 獣; la pysess
  | HuetKaikADat2 -- ^ 闇戦之集; la phertarsa'd elmss
--- ~ | Cuop2Mun1Mok1Hue -- ^ 声無行処; la ytartanerfergal
+ | Cuop2Mun1Mok1Hue -- ^ 声無行処; la ytartanerfergal
 -- ~ | BapPok -- ^ 同色; la dejixece
  deriving(Show, Eq, Ord)
 
@@ -180,15 +180,34 @@ declare s Mok1Mok1 = declare' s [船, 車, 馬]
 declare s Dat2AIo = declare' s [王]
 declare s Saup1 = declare' s [虎, 馬]
 declare s HuetKaikADat2 = declare' s [兵,兵,兵,兵,兵]
+declare s Cuop2Mun1Mok1Hue = declare'' s ((>=10) . length)
 
+type Validator2 = [(Color, Profession)] -> Bool
 
-declare' :: Side -> [Profession] -> StateT Fullboard M ()
-declare' s_ arr = do
+declare'' :: Side -> Validator2 -> StateT Fullboard (Either Error) ()
+declare'' s_ f = do
  Fullboard{hand = h} <- get
  let cplist = [ (c,p) | Just(c,p,s) <- map toPhantom h, s == s_]
- if S.fromList arr `S.isSubsetOf` S.fromList (map snd cplist)
-  then return ()
-  else lift $ Left FalseDeclaration
+ if f cplist then return () else lift $ Left FalseDeclaration
+
+declare' :: Side -> [Profession] -> StateT Fullboard M ()
+declare' s_ condition = declare'' s_ (matchHand condition . map snd)
+
+-- | FIXME: buggy
+matchHand :: [Profession] -> [Profession] -> Bool
+matchHand condition plist
+ | cond' `S.isSubsetOf` plist' = True -- if subset, very good!
+ | Io `notElem` plist = False -- if no wildcard, then nothing to worry
+ | otherwise = let int = S.intersection cond' plist' in 
+  (length condition - S.size int) <= (S.occur Io plist' - S.occur Io int)
+  where
+   cond'  = S.fromList condition
+   plist' = S.fromList plist
+
+{-
+length condition - S.size int :: how many pieces must be accounted for by Io?
+S.occur Io plist' - S.occur Io int :: how many Io do we have at our disposal?
+-}
 
 
 taxot1 :: StateT Fullboard M ()
