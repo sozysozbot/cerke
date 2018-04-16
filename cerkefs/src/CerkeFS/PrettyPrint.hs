@@ -13,7 +13,7 @@ module CerkeFS.PrettyPrint
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
 ) where
 import CerkeFS.Internal.Piece2
-import CerkeFS.Board
+import CerkeFS.Internal.Board
 import qualified Data.Map as M
 import Data.Char
 import Control.Monad

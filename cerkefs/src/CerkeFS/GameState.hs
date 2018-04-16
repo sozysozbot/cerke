@@ -12,7 +12,7 @@ module CerkeFS.GameState
 ,plays'
 ,playsTam
 )where
-import CerkeFS.Board
+import CerkeFS.Internal.Board
 import CerkeFS.PrettyPrint(initialBoard)
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class

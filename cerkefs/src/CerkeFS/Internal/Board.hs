@@ -1,4 +1,4 @@
-module CerkeFS.Board
+module CerkeFS.Internal.Board
 (Col(..)
 ,Row(..)
 ,Square(..)

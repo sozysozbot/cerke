@@ -2,7 +2,7 @@ module Main
 (module Main
 )
 where
-import CerkeFS.Board
+import CerkeFS.Board2
 import CerkeFS.GameState
 import CerkeFS.PrettyPrint
 import Control.Monad.Trans.State.Lazy
