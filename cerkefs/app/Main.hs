@@ -12,16 +12,6 @@ main = do
  foo "棋譜003:" fed003
  foo "棋譜004:" fed004
  foo "棋譜005:" fed005
- foo "エラー000:" err000
- foo "エラー001:" err001
- foo "エラー002:" err002
- foo "エラー003:" err003
- foo "エラー004:" err004
- foo "エラー005:" err005
- foo "エラー006:" err006
- foo "エラー007:" err007
- foo "エラー008:" err008
- foo "エラー009:" err009
 
 foo :: String -> StateT Fullboard M a2 -> IO ()
 foo str fed = do
@@ -53,28 +43,6 @@ loadFile' file = do
  let Just b = loadBoard str
  putStrLn $ drawBoard b
 
-(>+>), (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
-f >+> g = f Upward >> g Downward
-f >-> g = f Downward >> g Upward
-
-err000, err001, err002, err003, err004, err005, err006, err007, err008, err009 :: StateT Fullboard M ()
-err000 = plays sqTAU sqTY Downward -- error: MovingOpponentPiece
-err001 = plays sqKAU sqLAU Upward -- error: FriendlyFire
-err002 = plays sqNAU sqLAU Upward -- error: EmptySquare sqNAU
-err003 = drops (Kok1, Maun1) sqKY Upward -- error: NoCorrespondingPieceInHand
-err004 = plays sqZO sqCE >+> plays sqXA sqCE -- error: TamCapture
-err005 = do -- error: AmbiguousColor
- plays sqTAI sqTY >+> plays sqTI sqTU
- plays sqTY  sqTU >+> plays sqNI sqNO
- plays sqNAI sqNO >+> plays sqZA sqNE
- drops' Kauk2 sqNAU Upward
-err006 = mun1 (plays sqTAU sqTY) Downward -- mun1 does not conceal error. error: MovingOpponentPiece
-err007 = plays' sqTAU 兵 sqTY Upward -- error: WrongProfessionSpecified {expected = Just Dau2, specified = Just Kauk2}
-err008 = declare Downward Saup1 -- error: FalseDeclaration
-err009 = do -- error: AlreadyOccupied sqKE
- plays sqTAI sqTY >+> plays sqTI sqTU
- plays sqTY  sqTU >+> plays sqNI sqNO
- drops' Kauk2 sqKE Upward
 
 fed000 :: StateT Fullboard M ()
 fed000 = do

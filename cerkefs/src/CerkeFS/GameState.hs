@@ -15,6 +15,7 @@ module CerkeFS.GameState
 ,declare
 ,taxot1
 ,Operation
+,(>+>),(>->)
 )where
 import CerkeFS.Internal.Board
 import CerkeFS.PrettyPrint(initialBoard)
@@ -27,9 +28,13 @@ data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
  board :: Board1,
  hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
-}
+} deriving(Show, Eq, Ord)
 
 type Operation = StateT Fullboard M
+
+(>+>), (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+f >+> g = f Upward >> g Downward
+f >-> g = f Downward >> g Upward
 
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
 playFromStart p = execStateT p Fullboard{board = initialBoard, hand = []}
