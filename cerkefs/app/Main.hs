@@ -44,7 +44,7 @@ loadFile' file = do
  putStrLn $ drawBoard b
 
 
-fed000 :: StateT Fullboard M ()
+fed000 :: Operation ()
 fed000 = do
  plays'      sqTAU 虎 sqTY  >+> plays' sqNI 兵 sqNU
  mun1(plays' sqLIA 馬 sqXO) >+> plays' sqMA 馬 sqTO
@@ -53,7 +53,7 @@ fed000 = do
  drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
  plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
 
-fed001 :: StateT Fullboard M ()
+fed001 :: Operation ()
 fed001 = do
  plays'      sqTAU 虎 sqTY  >+> plays'      sqXE 虎 sqXU
  plays'      sqLIA 馬 sqXO  >+> mun1(plays' sqXI 兵 sqXO)
@@ -80,7 +80,7 @@ fed001 = do
 
 
 
-fed002 :: StateT Fullboard M ()
+fed002 :: Operation ()
 fed002 = do
  plays' sqKE  Tuk2  sqNE >-> plays' sqTAI Kauk2 sqTY
  plays' sqNI  Kauk2 sqNU >-> playsTam sqZO        sqZAU
@@ -108,7 +108,7 @@ fed002 = do
  declare Upward Saup1
  taxot1
 
-fed003 :: StateT Fullboard M ()
+fed003 :: Operation ()
 fed003 = do
  plays'   sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
  playsTam sqZO        sqCY  >+> plays' sqXI Kauk2 sqXU
@@ -121,7 +121,7 @@ fed003 = do
  declare Downward Dat2AIo
  taxot1
 
-fed004 :: StateT Fullboard M ()
+fed004 :: Operation ()
 fed004 = do
  plays' sqTAI Kauk2 sqTY  >+> plays' sqXI Kauk2 sqXU
  plays' sqXAI Kauk2 sqXY  >+> plays' sqZI Nuak1 sqZU
@@ -140,7 +140,7 @@ fed004 = do
  declare Downward Dat2AIo
  taxot1
 
-fed005 :: StateT Fullboard M ()
+fed005 :: Operation ()
 fed005 = do
  plays' sqTE 虎 sqTU  >-> plays' sqTAI 兵 sqTY
  plays' sqZI 船 sqZU  >-> plays' sqTAU 虎 sqXY
