@@ -14,6 +14,7 @@ module CerkeFS.GameState
 ,Dat2(..)
 ,declare
 ,taxot1
+,Operation
 )where
 import CerkeFS.Internal.Board
 import CerkeFS.PrettyPrint(initialBoard)
@@ -28,6 +29,7 @@ data Fullboard = Fullboard{
  hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
 }
 
+type Operation = StateT Fullboard M
 
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
 playFromStart p = execStateT p Fullboard{board = initialBoard, hand = []}
@@ -54,8 +56,7 @@ liftBoardOpFoo op = do
 type Validator = Maybe PhantomPiece -> Either Error ()
 
 -- plays under the condition
-validatesPlaying, validatesTaking :: Validator -> 
- (Square, Square, Side) -> StateT Fullboard M ()
+validatesPlaying, validatesTaking :: Validator -> (Square, Square, Side) -> Operation ()
 validator `validatesPlaying` (from, to, sid) = do
  fb <- get
  case movePieceFromToFull from to (board fb) of
@@ -86,13 +87,13 @@ validator `validatesTaking` (from, to, sid) = do
 --   * 'TamCapture' is raised if the destination is occupied by Tam2, which cannot be captured.
 -- 
 -- __/FIXME: Uai protection not implemented/__
-plays :: Square -> Square -> Side -> StateT Fullboard M ()
+plays :: Square -> Square -> Side -> Operation ()
 plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, _, q)) = if sid == q then return () else Left MovingOpponentPiece
 
 -- | Similar to 'plays', but also checks if the moving piece has the profession specified by the argument.
-plays' :: Square -> Profession -> Square -> Side -> StateT Fullboard M ()
+plays' :: Square -> Profession -> Square -> Side -> Operation ()
 plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
  f (Just(_, p, q)) = case(sid == q, prof == p) of
@@ -100,7 +101,7 @@ plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
   (True, False) -> Left WrongProfessionSpecified{expected = Just p, specified = Just prof}
   (True, True) -> return ()
 
-playsTam :: Square -> Square -> Side -> StateT Fullboard M ()
+playsTam :: Square -> Square -> Side -> Operation ()
 playsTam from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, p, _))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
@@ -113,11 +114,11 @@ playsTam from to sid = f `validatesPlaying` (from, to, sid) where
 --    * 'NoCorrespondingPieceInHand' is raised if no pieces in the hand matches the condition given by the arguments.
 --
 --    * 'AlreadyOccupied' is raised if the square is already occupied by another piece.
-drops :: (Color, Profession) -> Square -> Side -> StateT Fullboard M ()
+drops :: (Color, Profession) -> Square -> Side -> Operation ()
 drops (c,p) sq s = dropPiece (c,p,s) sq
 
 -- | Similar to 'drops'', but infers the color of the piece to be dropped. 'AmbiguousColor' is raised if the color of the piece cannot be uniquely identified.
-drops' :: Profession -> Square -> Side -> StateT Fullboard M ()
+drops' :: Profession -> Square -> Side -> Operation ()
 drops' p sq s = do
  fb <- get
  let kok  = dropPiece (Kok1, p, s) sq `runStateT` fb
@@ -131,11 +132,11 @@ drops' p sq s = do
   (Left e1, Left _) -> lift $ Left e1
 
 -- | Skips a turn.
-passes :: Side -> StateT Fullboard M ()
+passes :: Side -> Operation ()
 passes _ = return ()
 
 
-dropPiece :: PhantomPiece -> Square -> StateT Fullboard M ()
+dropPiece :: PhantomPiece -> Square -> Operation ()
 dropPiece pp sq = do
  fb <- get
  let pieces = hand fb
@@ -146,7 +147,7 @@ dropPiece pp sq = do
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
 -- | Wraps an operation to show that the operation must theoretically succeed but did not happen. Fails if the wrapped operation is illegal.
-mun1 :: (Side -> StateT Fullboard M ()) -> Side -> StateT Fullboard M ()
+mun1 :: (Side -> StateT Fullboard M ()) -> Side -> Operation ()
 mun1 action side = do
  fb <- get
  case action side `runStateT` fb of
@@ -167,7 +168,7 @@ data Dat2
  deriving(Show, Eq, Ord)
 
 -- | Declares a Dat2. Fails with 'FalseDeclaration' if the condition required for the declaration is not met.
-declare :: Side -> Dat2 -> StateT Fullboard M ()
+declare :: Side -> Dat2 -> Operation ()
 declare s Mun1MakMok1Hue = declare' s [Nuak1, Kauk2, Gua2, Kaun1, Dau2, Maun1, Kua2, Tuk2, Uai1, Io]
 declare s Kua2Kauk2Mun1Aum1 = declare' s [兵, 弓, 将, 筆, 巫]
 declare s Huep2Hia1 = declare' s [将, 筆, 巫]
@@ -179,13 +180,13 @@ declare s Cuop2Mun1Mok1Hue = declare'' s ((>=10) . length)
 
 type Validator2 = [(Color, Profession)] -> Bool
 
-declare'' :: Side -> Validator2 -> StateT Fullboard (Either Error) ()
+declare'' :: Side -> Validator2 -> Operation ()
 declare'' s_ f = do
  Fullboard{hand = h} <- get
  let cplist = [ (c,p) | Just(c,p,s) <- map toPhantom h, s == s_]
  if f cplist then return () else lift $ Left FalseDeclaration
 
-declare' :: Side -> [Profession] -> StateT Fullboard M ()
+declare' :: Side -> [Profession] -> Operation ()
 declare' s_ condition = declare'' s_ (matchHand condition . map snd)
 
 matchHand :: [Profession] -> [Profession] -> Bool
@@ -204,6 +205,6 @@ S.occur Io plist' - S.occur Io int :: how many Io do we have at our disposal?
 -}
 
 
-taxot1 :: StateT Fullboard M ()
+taxot1 :: Operation ()
 taxot1 = return ()
 
