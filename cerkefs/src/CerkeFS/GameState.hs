@@ -18,7 +18,7 @@ module CerkeFS.GameState
 ,(>+>),(>->)
 )where
 import CerkeFS.Internal.Board
-import CerkeFS.PrettyPrint(initialBoard)
+import CerkeFS.InitialBoard(initialBoard)
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
