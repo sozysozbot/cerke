@@ -8,7 +8,6 @@ import CerkeFS.Board2
 import qualified Data.Map as M
 import Data.Char
 import Control.Monad
-import Data.Maybe
 
 asciiToProf :: Char -> Maybe ProfOrTam -- Left () is tam2
 asciiToProf '!' = Just $ Right Nuak1

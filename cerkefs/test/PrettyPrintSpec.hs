@@ -18,9 +18,9 @@ initBoardString =
 
 spec :: Spec
 spec = do
-  describe "loadBoard" $ do
+  describe "loadBoard" $ 
    it "initial board" $
     loadBoard initBoardString `shouldBe` Just initialBoard
-  describe "drawBoard" $ do
+  describe "drawBoard" $ 
    it "initial board" $
     drawBoard initialBoard `shouldBe` initBoardString
