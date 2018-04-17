@@ -195,14 +195,15 @@ declare' :: Side -> [Profession] -> Operation ()
 declare' s_ condition = declare'' s_ (matchHand condition . map snd)
 
 matchHand :: [Profession] -> [Profession] -> Bool
-matchHand condition plist
- | cond' `S.isSubsetOf` plist' = True -- if subset, very good!
- | Io `notElem` plist = False -- if no wildcard, then nothing to worry
- | otherwise = let int = S.intersection cond' plist' in 
-  (length condition - S.size int) <= (S.occur Io plist' - S.occur Io int)
+matchHand condition plist = (length condition - S.size int) <= (S.occur Io plist' - S.occur Io int)
   where
    cond'  = S.fromList condition
    plist' = S.fromList plist
+   int = S.intersection cond' plist'
+{- 
+ | cond' `S.isSubsetOf` plist' = True -- if subset, very good!
+ | Io `notElem` plist = False -- if no wildcard, then nothing to worry
+ | otherwise -} 
 
 {-
 length condition - S.size int :: how many pieces must be accounted for by Io?
