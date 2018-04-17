@@ -12,10 +12,24 @@ module CerkeFS.Internal.Board
 ,Error(..)
 ,M
 ,add
+,getNeighborsAndSelf
+,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
+ sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 
+ sqKI,  sqLI,  sqNI,  sqTI,  sqZI,  sqXI,  sqCI,  sqMI,  sqPI, 
+ sqKU,  sqLU,  sqNU,  sqTU,  sqZU,  sqXU,  sqCU,  sqMU,  sqPU, 
+ sqKO,  sqLO,  sqNO,  sqTO,  sqZO,  sqXO,  sqCO,  sqMO,  sqPO, 
+ sqKY,  sqLY,  sqNY,  sqTY,  sqZY,  sqXY,  sqCY,  sqMY,  sqPY, 
+ sqKAI, sqLAI, sqNAI, sqTAI, sqZAI, sqXAI, sqCAI, sqMAI, sqPAI,
+ sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
+ sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
+,sqList
+,isTam2HueAUai1
 --,toEither
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
+import Control.Monad(guard)
+import Data.Maybe(isJust,mapMaybe)
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
 data Row = RA | RE | RI | RU | RO | RY | RAI | RAU | RIA deriving(Show,Eq, Ord,Enum)
@@ -59,6 +73,7 @@ data Error
  | AmbiguousColor -- ^ Color of the dropped piece cannot be unambiguously inferred.
  | WrongProfessionSpecified {expected :: Maybe Profession, specified :: Maybe Profession} -- ^ The actual profession differs from the expectation.
  | FalseDeclaration -- ^ Declares a Dat2 whose condition is not satisfied.
+ | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
   deriving(Show, Eq, Ord) 
 
 {-
@@ -66,6 +81,21 @@ data Error
 * Primitive operations on the board 
 ********************************************
 -}
+tam2Hue :: [Square]
+tam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
+
+getNeighborsAndSelf :: Square -> [Square]
+getNeighborsAndSelf sq = mapMaybe (`add` sq) $ [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
+
+isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
+isTam2HueAUai1 sid board sq = isJust $ do
+ piece <- sq `M.lookup` board
+ (_,Uai1,s) <- toPhantom piece
+ guard(s == sid)
+ if sq `elem` tam2Hue
+  then return ()
+  else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
+   if Nothing {- Tam2 -} `elem` map toPhantom ps then return () else Nothing
 
 isOccupiedFor :: Square -> Board1 -> Bool
 isOccupiedFor = M.member
@@ -102,3 +132,28 @@ movePieceFromToFull from to b = do
  (p, new_b) <- removePiece from b
  newerBoard <- putPiece p to new_b
  return (toPhantom p, newerBoard)
+
+
+sqList :: [Square]
+sqList = [Square r c | r <-[RA ..RIA],c <-[CK .. CP]]
+
+sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
+ sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 
+ sqKI,  sqLI,  sqNI,  sqTI,  sqZI,  sqXI,  sqCI,  sqMI,  sqPI, 
+ sqKU,  sqLU,  sqNU,  sqTU,  sqZU,  sqXU,  sqCU,  sqMU,  sqPU, 
+ sqKO,  sqLO,  sqNO,  sqTO,  sqZO,  sqXO,  sqCO,  sqMO,  sqPO, 
+ sqKY,  sqLY,  sqNY,  sqTY,  sqZY,  sqXY,  sqCY,  sqMY,  sqPY, 
+ sqKAI, sqLAI, sqNAI, sqTAI, sqZAI, sqXAI, sqCAI, sqMAI, sqPAI,
+ sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
+ sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA :: Square
+[
+ sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
+ sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 
+ sqKI,  sqLI,  sqNI,  sqTI,  sqZI,  sqXI,  sqCI,  sqMI,  sqPI, 
+ sqKU,  sqLU,  sqNU,  sqTU,  sqZU,  sqXU,  sqCU,  sqMU,  sqPU, 
+ sqKO,  sqLO,  sqNO,  sqTO,  sqZO,  sqXO,  sqCO,  sqMO,  sqPO, 
+ sqKY,  sqLY,  sqNY,  sqTY,  sqZY,  sqXY,  sqCY,  sqMY,  sqPY, 
+ sqKAI, sqLAI, sqNAI, sqTAI, sqZAI, sqXAI, sqCAI, sqMAI, sqPAI,
+ sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
+ sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA] = sqList
+
