@@ -39,20 +39,52 @@ getSide :: Piece -> Maybe Side
 getSide Tam2 = Nothing
 getSide (Piece _ _ s) = Just s
 
-船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王 :: Profession
+-- | An alias for 'Nuak1'.
+船 :: Profession 
 船 = Nuak1
-兵 = Kauk2
-弓 = Gua2
-車 = Kaun1
-虎 = Dau2
-馬 = Maun1
-筆 = Kua2
-巫 = Tuk2
-将 = Uai1
-王 = Io
 
-黒, 赤 :: Color
+-- | An alias for 'Kauk2'.
+兵 :: Profession
+兵 = Kauk2 
+
+-- | An alias for 'Gua2'. 
+弓 :: Profession
+弓 = Gua2
+
+-- | An alias for 'Kaun1'.
+車 :: Profession
+車 = Kaun1
+
+-- | An alias for 'Dau2'. 
+虎 :: Profession
+虎 = Dau2  
+
+-- | An alias for 'Maun1'.
+馬 :: Profession
+馬 = Maun1
+
+-- | An alias for 'Kua2'. 
+筆 :: Profession
+筆 = Kua2 
+
+-- | An alias for 'Tuk2'. 
+巫 :: Profession
+巫 = Tuk2 
+
+-- | An alias for 'Uai1'. 
+将 :: Profession 
+将 = Uai1 
+
+-- | An alias for 'Io'.   
+王 :: Profession 
+王 = Io   
+
+-- | An alias for 'Huok2'.
+黒 :: Color
 黒 = Huok2
+
+-- | An alias for 'Kok1'.
+赤 :: Color
 赤 = Kok1
 
 profToLin :: Profession -> Char
