@@ -2,12 +2,7 @@ module Main
 (module Main
 )
 where
-import CerkeFS.Board2
-import CerkeFS.GameState
-import CerkeFS.PrettyPrint
-import Control.Monad.Trans.State.Lazy
-import CerkeFS.Piece3
-
+import CerkeFS
 
 main :: IO ()
 main = do
@@ -17,16 +12,6 @@ main = do
  foo "棋譜003:" fed003
  foo "棋譜004:" fed004
  foo "棋譜005:" fed005
- foo "エラー000:" err000
- foo "エラー001:" err001
- foo "エラー002:" err002
- foo "エラー003:" err003
- foo "エラー004:" err004
- foo "エラー005:" err005
- foo "エラー006:" err006
- foo "エラー007:" err007
- foo "エラー008:" err008
- foo "エラー009:" err009
 
 foo :: String -> StateT Fullboard M a2 -> IO ()
 foo str fed = do
@@ -58,30 +43,8 @@ loadFile' file = do
  let Just b = loadBoard str
  putStrLn $ drawBoard b
 
-(>+>), (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
-f >+> g = f Upward >> g Downward
-f >-> g = f Downward >> g Upward
 
-err000, err001, err002, err003, err004, err005, err006, err007, err008, err009 :: StateT Fullboard M ()
-err000 = plays sqTAU sqTY Downward -- error: MovingOpponentPiece
-err001 = plays sqKAU sqLAU Upward -- error: FriendlyFire
-err002 = plays sqNAU sqLAU Upward -- error: EmptySquare sqNAU
-err003 = drops (Kok1, Maun1) sqKY Upward -- error: NoCorrespondingPieceInHand
-err004 = plays sqZO sqCE >+> plays sqXA sqCE -- error: TamCapture
-err005 = do -- error: AmbiguousColor
- plays sqTAI sqTY >+> plays sqTI sqTU
- plays sqTY  sqTU >+> plays sqNI sqNO
- plays sqNAI sqNO >+> plays sqZA sqNE
- drops' Kauk2 sqNAU Upward
-err006 = mun1 (plays sqTAU sqTY) Downward -- mun1 does not conceal error. error: MovingOpponentPiece
-err007 = plays' sqTAU 兵 sqTY Upward -- error: WrongProfessionSpecified {expected = Just Dau2, specified = Just Kauk2}
-err008 = declare Downward Saup1 -- error: FalseDeclaration
-err009 = do -- error: AlreadyOccupied sqKE
- plays sqTAI sqTY >+> plays sqTI sqTU
- plays sqTY  sqTU >+> plays sqNI sqNO
- drops' Kauk2 sqKE Upward
-
-fed000 :: StateT Fullboard M ()
+fed000 :: Operation ()
 fed000 = do
  plays'      sqTAU 虎 sqTY  >+> plays' sqNI 兵 sqNU
  mun1(plays' sqLIA 馬 sqXO) >+> plays' sqMA 馬 sqTO
@@ -90,7 +53,7 @@ fed000 = do
  drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
  plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
 
-fed001 :: StateT Fullboard M ()
+fed001 :: Operation ()
 fed001 = do
  plays'      sqTAU 虎 sqTY  >+> plays'      sqXE 虎 sqXU
  plays'      sqLIA 馬 sqXO  >+> mun1(plays' sqXI 兵 sqXO)
@@ -117,7 +80,7 @@ fed001 = do
 
 
 
-fed002 :: StateT Fullboard M ()
+fed002 :: Operation ()
 fed002 = do
  plays' sqKE  Tuk2  sqNE >-> plays' sqTAI Kauk2 sqTY
  plays' sqNI  Kauk2 sqNU >-> playsTam sqZO        sqZAU
@@ -145,7 +108,7 @@ fed002 = do
  declare Upward Saup1
  taxot1
 
-fed003 :: StateT Fullboard M ()
+fed003 :: Operation ()
 fed003 = do
  plays'   sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
  playsTam sqZO        sqCY  >+> plays' sqXI Kauk2 sqXU
@@ -158,7 +121,7 @@ fed003 = do
  declare Downward Dat2AIo
  taxot1
 
-fed004 :: StateT Fullboard M ()
+fed004 :: Operation ()
 fed004 = do
  plays' sqTAI Kauk2 sqTY  >+> plays' sqXI Kauk2 sqXU
  plays' sqXAI Kauk2 sqXY  >+> plays' sqZI Nuak1 sqZU
@@ -177,7 +140,7 @@ fed004 = do
  declare Downward Dat2AIo
  taxot1
 
-fed005 :: StateT Fullboard M ()
+fed005 :: Operation ()
 fed005 = do
  plays' sqTE 虎 sqTU  >-> plays' sqTAI 兵 sqTY
  plays' sqZI 船 sqZU  >-> plays' sqTAU 虎 sqXY
