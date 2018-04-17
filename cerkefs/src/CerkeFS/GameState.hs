@@ -77,11 +77,21 @@ validator `validatesTaking` (from, to, sid) = do
  case getSide piece of
   Nothing -> lift $ Left TamCapture
   Just s -> if s == sid then lift $ Left FriendlyFire else do
+   validateUai1Protection to s
    let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
    phantom <- liftBoardOp $ movePieceFromToFull from to
    case validator phantom of
     Right () -> modify (\fb -> fb{hand = flippedPiece : hand fb})
     Left e   -> lift $ Left e
+
+-- whether the s side can use Uai1 protection
+validateUai1Protection :: Square -> Side -> Operation ()
+validateUai1Protection to s = do
+ fb <- get
+ let sqs = getNeighborsAndSelf to  -- Vec 0 0 does not cause any problem, since the piece at 'to' is already removed 
+ if any (isTam2HueAUai1 s (board fb)) sqs
+  then lift $ Left Tam2HueAUai1Violation
+  else return ()
 
 -- | Moves the piece. If the destination is blocked, the piece at the destination is implicitly captured.
 --
