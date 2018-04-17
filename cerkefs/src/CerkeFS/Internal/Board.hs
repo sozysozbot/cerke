@@ -97,9 +97,6 @@ isTam2HueAUai1 sid board sq = isJust $ do
   else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
 
-phantomTam :: Maybe PhantomPiece
-phantomTam = Nothing
-
 isOccupiedFor :: Square -> Board1 -> Bool
 isOccupiedFor = M.member
 

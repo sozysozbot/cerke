@@ -12,6 +12,7 @@ module CerkeFS.Piece3
 ,toPhantom
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
 ,黒, 赤
+,phantomTam
 ) where
 import CerkeFS.Internal.Piece2
 
@@ -28,8 +29,11 @@ flipSide' Downward = Upward
 
 -- | Converts 'Piece' into 'PhantomPiece'.
 toPhantom :: Piece -> Maybe PhantomPiece
-toPhantom Tam2 = Nothing
+toPhantom Tam2 = phantomTam
 toPhantom (Piece c p s) = Just(c,p,s)
+
+phantomTam :: Maybe PhantomPiece
+phantomTam = Nothing
 
 match :: PhantomPiece -> Piece -> Bool
 match (_,_,_) Tam2 = False
