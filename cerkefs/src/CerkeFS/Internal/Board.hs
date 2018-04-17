@@ -28,7 +28,7 @@ module CerkeFS.Internal.Board
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
-import Control.Monad(guard)
+import Control.Monad(guard, unless)
 import Data.Maybe(isJust,mapMaybe)
 
 data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
@@ -85,7 +85,7 @@ tam2Hue :: [Square]
 tam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
 getNeighborsAndSelf :: Square -> [Square]
-getNeighborsAndSelf sq = mapMaybe (`add` sq) $ [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
+getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
 
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
@@ -95,7 +95,7 @@ isTam2HueAUai1 sid board sq = isJust $ do
  if sq `elem` tam2Hue
   then return ()
   else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
-   if Nothing {- Tam2 -} `elem` map toPhantom ps then return () else Nothing
+   unless (phantomTam `elem` map toPhantom ps) Nothing
 
 isOccupiedFor :: Square -> Board1 -> Bool
 isOccupiedFor = M.member
