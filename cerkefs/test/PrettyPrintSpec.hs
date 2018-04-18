@@ -2,6 +2,7 @@ module PrettyPrintSpec (spec) where
 
 import Test.Hspec
 import CerkeFS.PrettyPrint
+import CerkeFS.InitialBoard
 import CerkeFS
 
 initBoardString :: String

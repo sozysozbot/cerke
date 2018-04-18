@@ -1,7 +1,5 @@
 module CerkeFS.GameState
 (Fullboard(..)
-,playFromStart
-,initialBoard
 --,movePieceFromTo2
 --,pass
 ,plays
@@ -18,7 +16,6 @@ module CerkeFS.GameState
 ,(>+>),(>->)
 )where
 import CerkeFS.Internal.Board
-import CerkeFS.PrettyPrint(initialBoard)
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
@@ -35,9 +32,6 @@ type Operation = StateT Fullboard M
 (>+>), (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
 f >+> g = f Upward >> g Downward
 f >-> g = f Downward >> g Upward
-
-playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
-playFromStart p = execStateT p Fullboard{board = initialBoard, hand = []}
 
 liftBoardOp :: Monad m => (Board1 -> m (b, Board1)) -> StateT Fullboard m b
 liftBoardOp op = do
