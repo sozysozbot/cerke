@@ -11,6 +11,7 @@ import Control.Monad.Trans.State.Lazy
 import CerkeFS.GameState
 
 import Control.Exception.Base(assert)
+import Data.Maybe
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 vPlays2 :: Square -> Square -> Side -> Operation ()
@@ -48,9 +49,9 @@ verifyMove sid prof from to = do
   (False, Nuak1) -> fly sid diff from to b (0,1)
   (True , Nuak1) -> 
    simpleJudge diff [(-1,0),(1,0)]
-    || twoStep sid diff from to b (-1,0) || twoStep sid diff from to b (1,0)
+    || twoStep sid diff from b (-1,0) || twoStep sid diff from b (1,0)
     || fly sid diff from to b (0,1) || fly sid diff from to b (0,-1)
-  (True , Kauk2) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)] || twoStep sid diff from to b (0,1)
+  (True , Kauk2) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)] || twoStep sid diff from b (0,1)
   (False, Gua2 ) -> rook sid diff from to b
   (True , Gua2 ) -> simpleJudge diff [(1,1),(1,-1),(-1,1),(-1,-1)] || rook sid diff from to b
   (False, Kua2)  -> simpleJudge diff [(1,0),(-1,0)] || fly sid diff from to b (0,1) || fly sid diff from to b (0,-1)
@@ -73,8 +74,13 @@ bishop sid diff from to b
 --fly, twoStep :: Square -> Square -> Board1 -> (Int,Int) -> Bool
 fly sid diff from to b (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) && True -- FIXME
  where Vec x1 y1 = diff
-twoStep sid diff from to b (x,y) = (x * 2 == x1) && (y * 2 == y1) && True -- FIXME
- where Vec x1 y1 = diff
+ 
+twoStep :: Side -> Vec -> Square -> Board1 -> (Int, Int) -> Bool
+twoStep sid diff from b (x,y) = (x * 2 == x1) && (y * 2 == y1) 
+ && not(passant `isOccupied` b)
+ where 
+  Vec x1 y1 = diff
+  passant = fromJust $ rotate sid (Vec x y) `add` from -- cannot fail, since 'to' is guaranteed to be valid
 
 simpleJudge :: Vec -> [(Int, Int)] -> Bool
 simpleJudge diff arr = diff `elem` map (uncurry Vec) arr
