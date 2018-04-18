@@ -10,7 +10,6 @@ module CerkeFS.Internal.Board
 --,movePieceFromTo
 ,movePieceFromToFull
 ,Error(..)
-,M
 ,add
 ,getNeighborsAndSelf
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
@@ -133,7 +132,7 @@ movePieceFromToFull from to b = do
  newerBoard <- putPiece p to new_b
  return (toPhantom p, newerBoard)
 
-
+-- | The list of squares, arranged in the following order: @['sqKA', 'sqLA', 'sqNA' ... 'sqCIA', 'sqMIA', 'sqPIA']@.
 sqList :: [Square]
 sqList = [Square r c | r <-[RA ..RIA],c <-[CK .. CP]]
 

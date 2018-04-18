@@ -3,11 +3,9 @@ module CerkeFS.Piece3
 ,Side(..)
 ,Piece() -- hide the constructor
 ,Profession(..)
-,profToLin
-,ProfOrTam
+--,profToLin
 ,flipSide
 ,PhantomPiece
-,match
 ,getSide
 ,toPhantom
 ,船, 兵, 弓, 車, 虎, 馬, 筆, 巫, 将, 王
@@ -32,13 +30,11 @@ toPhantom :: Piece -> Maybe PhantomPiece
 toPhantom Tam2 = phantomTam
 toPhantom (Piece c p s) = Just(c,p,s)
 
+-- | An alias for 'Nothing', that is, @'toPhantom' Tam2@.
 phantomTam :: Maybe PhantomPiece
 phantomTam = Nothing
 
-match :: PhantomPiece -> Piece -> Bool
-match (_,_,_) Tam2 = False
-match (c,p,s) Piece{color=co, prof=pr, side=si} = (c==co) && (p==pr) && (s==si)
-
+-- | Gets the side that the piece belongs to.
 getSide :: Piece -> Maybe Side
 getSide Tam2 = Nothing
 getSide (Piece _ _ s) = Just s
@@ -90,7 +86,7 @@ getSide (Piece _ _ s) = Just s
 -- | An alias for 'Kok1'.
 赤 :: Color
 赤 = Kok1
-
+{-
 profToLin :: Profession -> Char
 profToLin p = "船兵弓車虎馬筆巫将王" !! fromEnum p
-
+-}

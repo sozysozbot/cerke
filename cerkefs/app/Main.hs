@@ -13,14 +13,16 @@ main = do
  foo "棋譜004:" fed004
  foo "棋譜005:" fed005
 
-foo :: String -> StateT Fullboard M a2 -> IO ()
+foo :: String -> Operation a2 -> IO ()
 foo str fed = do
  putStrLn str
  case playFromStart fed of
   Left e -> putStrLn $ "error: " ++ show e
   Right Fullboard{board = final, hand = pieces} -> do 
-   putStrLn $ drawBoard final
-   print pieces
+   putStr $ drawBoard final
+   putStrLn "~~~"
+   putStrLn $ concatMap convertPieceToStr pieces
+   putStrLn ""
 
 
 
