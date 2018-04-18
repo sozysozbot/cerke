@@ -49,21 +49,22 @@ spec = do
         plays sqTIA sqZAI >+> plays sqKE sqNE
         plays sqZO  sqZAU >+> plays sqZI sqZY
   describe "correct behaviors" $ do
-    it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000
+    it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000'
     it "fedirrgavir 001" $ res001 `shouldBeGeneratedBy` fed001
     it "fedirrgavir 002" $ res002 `shouldBeGeneratedBy` fed002
     it "fedirrgavir 003" $ res003 `shouldBeGeneratedBy` fed003
     it "fedirrgavir 004" $ res004 `shouldBeGeneratedBy` fed004
     it "fedirrgavir 005" $ res005 `shouldBeGeneratedBy` fed005
 
-fed000 :: Operation ()
-fed000 = do
- plays'      sqTAU 虎 sqTY  >+> plays' sqNI 兵 sqNU
- mun1(plays' sqLIA 馬 sqXO) >+> plays' sqMA 馬 sqTO
- plays'      sqTY  虎 sqTO  >+> plays' sqTA 将 sqNI
- plays'      sqLAU 弓 sqLO  >+> plays' sqZA 王 sqZE
- drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
- plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
+fed000' :: Operation ()
+fed000' = do
+ vPlays3'      sqTAU 虎 sqNAI sqTY  >+> vPlays2' sqNI 兵 sqNU
+ mun1(vPlays3' sqLIA 馬 sqTAI sqXO) >+> vPlays3' sqMA 馬 sqXI sqTO
+ vPlays2'      sqTY  虎 sqTO  >+> vPlays3' sqTA 将 sqTE sqNI
+ vPlays3'      sqLAU 弓 sqLAI sqLO  >+> vPlays2' sqZA 王 sqZE
+ drops'            馬 sqKY  >+> mun1(vPlays2' sqNU 兵 sqNO)
+ vPlays3'      sqKY  馬 sqNU sqZE  >+> vPlays2' sqXA 将 sqZE
+
 
 
 fed001 :: Operation ()
