@@ -13,8 +13,6 @@ import CerkeFS.GameState
 import Control.Exception.Base(assert)
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
---
--- __/FIXME: Verification not implemented/__
 vPlays2 :: Square -> Square -> Side -> Operation ()
 vPlays2 from to sid = do
  phantom <- plays from to sid
@@ -24,29 +22,38 @@ vPlays2 from to sid = do
    assert(s == sid) $ return ()
    verifyMove s p from to
 
+isTam2Hue' :: Square -> Operation Bool
 isTam2Hue' sq = do
  Fullboard{board = b}<- get
  return $ isTam2Hue b sq
 
--- __/FIXME: Verification not implemented/__
+verifyMove :: Side -> Profession -> Square -> Square -> Operation ()
 verifyMove sid prof from to = do
  let diff = rotate sid $ to `minus` from
  isth <- isTam2Hue' from
- case (isth, prof) of
-  (False, Kauk2) -> 
-   if diff == Vec{dx=0, dy=1}
-    then return ()
-    else lift $ Left ProfessionPrivilegeExceeded
-  _ -> return ()
+ guard' prof from $ case (isth, prof) of
+  (False, Kauk2) -> diff `elem` map (uncurry Vec) [(0,1)]
+  (False, Dau2 ) -> diff `elem` map (uncurry Vec) [(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Maun1) -> diff `elem` map (uncurry Vec) [(2,2),(2,-2),(-2,2),(-2,-2)]
+  (True , Maun1) -> diff `elem` map (uncurry Vec) [(2,2),(2,0),(2,-2),(0,2),(0,-2),(-2,2),(-2,0),(-2,-2)]
+  (False, Tuk2 ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0)]
+  (False, Io   ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (True , Io   ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (True , Uai1 ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Uai1 ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  _ -> True -- FIXME
 
+guard' :: Profession -> Square -> Bool -> Operation ()
+guard' prof from False = lift $ Left (ProfessionPrivilegeExceeded prof from)
+guard' _ _ _ = return ()
+
+rotate :: Side -> Vec -> Vec
 rotate Downward vec = vec
 rotate Upward Vec{dx=x, dy=y} = Vec{dx= -x, dy= -y}
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 --
 -- | The first arguments denotes the origin, the second denotes the square to step on, and the third denotes the destination.
---
--- __/FIXME: Verification not implemented/__
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
 vPlays3 from thru to sid = do
  verifyNonEmpty thru
@@ -67,8 +74,6 @@ verifyNonEmpty thru = do
 
 
 -- | Similar to 'plays'', but checks whether the move is allowed by the profession.
---
--- __/FIXME: Verification not implemented/__
 vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
 vPlays2' from prof to sid = do
  Just(_,p,s) <- plays' from prof to sid
@@ -78,8 +83,6 @@ vPlays2' from prof to sid = do
 -- | Similar to 'plays'', but checks whether the move is allowed by the profession.
 --
 -- | The first arguments denotes the origin, the third denotes the square to step on, and the fourth denotes the destination.
---
--- __/FIXME: Verification not implemented/__
 vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 vPlays3' from prof thru to sid = do
  verifyNonEmpty thru

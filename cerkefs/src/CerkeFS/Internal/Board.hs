@@ -82,7 +82,7 @@ data Error
  | FalseDeclaration -- ^ Declares a Dat2 whose condition is not satisfied.
  | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
  | SteppingEmptySquare Square -- ^ Tried to step on an empty square
- | ProfessionPrivilegeExceeded -- ^ Trying a movement that the profession does not allow
+ | ProfessionPrivilegeExceeded Profession Square -- ^ Trying a movement that the profession does not allow
   deriving(Show, Eq, Ord) 
 
 {-
