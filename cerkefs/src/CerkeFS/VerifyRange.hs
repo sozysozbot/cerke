@@ -12,6 +12,7 @@ import CerkeFS.GameState
 
 import Control.Exception.Base(assert)
 import Data.Maybe
+import Control.Monad(unless)
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 vPlays2 :: Square -> Square -> Side -> Operation ()
@@ -72,21 +73,20 @@ rook args = any (fly args) moveInPlus
 bishop :: Args -> Bool
 bishop args = any (fly args) moveInX
 
-fly :: Args -> (Int, Int) -> Bool
-fly (sid, diff, from, b) (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) 
- && not(any (`isOccupied` b) list)
+flyFoo :: (Board1 -> [Square] -> Bool) -> Args -> (Int, Int) -> Bool
+flyFoo f (sid, diff, from, b) (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) 
+ && f b list
  where 
   Vec x1 y1 = diff
   vecs = takeWhile (/=(x1,y1)) [(k*x, k*y) | k <- [1..]] -- spaces in between
-  list = mapMaybe (`add` from) $ map (rotate sid . uncurry Vec) vecs
+  list = mapMaybe ((`add` from) . rotate sid . uncurry Vec) vecs
+
+fly :: Args -> (Int, Int) -> Bool
+fly = flyFoo f where f b list = not(any (`isOccupied` b) list)
 
 flyJumping0or1 :: Args -> (Int, Int) -> Bool
-flyJumping0or1 (sid, diff, from, b) (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) 
- && (length (filter (`isOccupied` b) list) <= 1)
- where 
-  Vec x1 y1 = diff
-  vecs = takeWhile (/=(x1,y1)) [(k*x, k*y) | k <- [1..]] -- spaces in between
-  list = mapMaybe (`add` from) $ map (rotate sid . uncurry Vec) vecs
+flyJumping0or1 = flyFoo f where f b list = length (filter (`isOccupied` b) list) <= 1
+
 
 twoStep :: Args -> (Int, Int) -> Bool
 twoStep (sid, diff, from, b) (x,y) = (x * 2 == x1) && (y * 2 == y1) 
@@ -123,9 +123,8 @@ vPlays3 from thru to sid = do
 verifyNonEmpty :: Square -> Operation ()
 verifyNonEmpty thru = do
  Fullboard{board = b} <- get
- if not(thru `isOccupied` b)
-  then lift $ Left (SteppingEmptySquare thru)
-  else return ()
+ unless(thru `isOccupied` b) $
+  lift $ Left (SteppingEmptySquare thru)
 
 
 -- | Similar to 'plays'', but checks whether the move is allowed by the profession.

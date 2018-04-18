@@ -23,6 +23,6 @@ playFromStart p = execStateT p Fullboard{board = initialBoard, hand = []}
 toDebugOutput :: Operation a2 -> String
 toDebugOutput fed = case playFromStart fed of
   Left e -> "error: " ++ show e
-  Right Fullboard{board = final, hand = pieces} -> do 
+  Right Fullboard{board = final, hand = pieces} -> 
    drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
 
