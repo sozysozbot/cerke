@@ -28,6 +28,7 @@ isTam2Hue' sq = do
  Fullboard{board = b}<- get
  return $ isTam2Hue b sq
 
+moveInX, moveInPlus, moveTo8 :: [(Int,Int)]
 moveInX = [(1,1),(1,-1),(-1,1),(-1,-1)]
 moveInPlus = [(0,1),(1,0),(0,-1),(-1,0)]
 moveTo8 = moveInX ++ moveInPlus

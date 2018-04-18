@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.2.0
+@version 0.5.3.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -277,9 +277,16 @@ Tam2HueAUai1Violation :: Error
 -- | Tried to step on an empty square
 SteppingEmptySquare :: Square -> Error
 
+-- | Trying a movement that the profession does not allow
+ProfessionPrivilegeExceeded :: Profession -> Square -> Error
+
 -- | Add a vector to the square to get a new square. <a>Nothing</a> if it
 --   goes out of the board.
 add :: Vec -> Square -> Maybe Square
+
+-- | Takes the difference of two squares as a vec. <tt>p <a>minus</a>
+--   q</tt> is p minus q.
+minus :: Square -> Square -> Vec
 getNeighborsAndSelf :: Square -> [Square]
 sqKA :: Square
 sqLA :: Square
@@ -374,9 +381,15 @@ isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
+
+-- | Checks whether a given square is in Tam2Hue.
+isTam2Hue :: Board1 -> Square -> Bool
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Error
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Error
 instance GHC.Show.Show CerkeFS.Internal.Board.Error
+instance GHC.Classes.Ord CerkeFS.Internal.Board.Vec
+instance GHC.Classes.Eq CerkeFS.Internal.Board.Vec
+instance GHC.Show.Show CerkeFS.Internal.Board.Vec
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Square
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Square
 instance GHC.Enum.Enum CerkeFS.Internal.Board.Row
@@ -427,6 +440,9 @@ Tam2HueAUai1Violation :: Error
 
 -- | Tried to step on an empty square
 SteppingEmptySquare :: Square -> Error
+
+-- | Trying a movement that the profession does not allow
+ProfessionPrivilegeExceeded :: Profession -> Square -> Error
 sqKA :: Square
 sqLA :: Square
 sqNA :: Square
@@ -567,7 +583,7 @@ Cuop2Mun1Mok1Hue :: Dat2
 --   <li><a>TamCapture</a> is raised if the destination is occupied by
 --   Tam2, which cannot be captured.</li>
 --   </ul>
-plays :: Square -> Square -> Side -> Operation ()
+plays :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
 
 -- | Drops the piece to the square.
 --   
@@ -589,14 +605,14 @@ drops' :: Profession -> Square -> Side -> Operation ()
 
 -- | Wraps an operation to show that the operation must theoretically
 --   succeed but did not happen. Fails if the wrapped operation is illegal.
-mun1 :: (Side -> Operation ()) -> Side -> Operation ()
+mun1 :: (Side -> Operation a) -> Side -> Operation ()
 
 -- | Similar to <a>plays</a>, but also checks if the moving piece has the
 --   profession specified by the argument.
-plays' :: Square -> Profession -> Square -> Side -> Operation ()
+plays' :: Square -> Profession -> Square -> Side -> Operation (Maybe PhantomPiece)
 
 -- | Similar to <a>plays</a>, but also checks if the moving piece is Tam2.
-playsTam :: Square -> Square -> Side -> Operation ()
+playsTam :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
 
 -- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
 --   required for the declaration is not met.
@@ -636,8 +652,6 @@ module CerkeFS.VerifyRange
 
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
 --   profession.
---   
---   <b><i>FIXME: Verification not implemented</i></b>
 vPlays2 :: Square -> Square -> Side -> Operation ()
 
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
@@ -645,8 +659,6 @@ vPlays2 :: Square -> Square -> Side -> Operation ()
 --   
 --   | The first arguments denotes the origin, the second denotes the
 --   square to step on, and the third denotes the destination.
---   
---   <b><i>FIXME: Verification not implemented</i></b>
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
 
 -- | Similar to <a>plays'</a>, but checks whether the move is allowed by
@@ -654,14 +666,10 @@ vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
 --   
 --   | The first arguments denotes the origin, the third denotes the square
 --   to step on, and the fourth denotes the destination.
---   
---   <b><i>FIXME: Verification not implemented</i></b>
 vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 
 -- | Similar to <a>plays'</a>, but checks whether the move is allowed by
 --   the profession.
---   
---   <b><i>FIXME: Verification not implemented</i></b>
 vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
 
 module CerkeFS
