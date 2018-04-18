@@ -13,7 +13,7 @@ main = do
  foo "棋譜004:" fed004
  foo "棋譜005:" fed005
 
-foo :: String -> StateT Fullboard M a2 -> IO ()
+foo :: String -> Operation a2 -> IO ()
 foo str fed = do
  putStrLn str
  case playFromStart fed of

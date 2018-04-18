@@ -1,6 +1,5 @@
 module CerkeFS.Board2
-(M
-,Board1
+(Board1
 ,Error(..)
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
  sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 

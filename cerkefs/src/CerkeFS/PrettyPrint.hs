@@ -40,6 +40,8 @@ sideToAscii :: Side -> Char
 sideToAscii Upward   = '^'
 sideToAscii Downward = '_'
 
+type ProfOrTam = Either () Profession -- Left () is tam2
+
 {-
 *******************
 * Loading the board

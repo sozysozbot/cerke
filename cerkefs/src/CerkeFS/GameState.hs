@@ -27,11 +27,19 @@ data Fullboard = Fullboard{
  hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
 } deriving(Show, Eq, Ord)
 
-type Operation = StateT Fullboard M
+type Operation = StateT Fullboard (Either Error)
 
-(>+>), (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+-- | 'Upward' plays, followed by 'Downward'
+(>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+
+-- | 'Downward' plays, followed by 'Upward'
+(>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
 f >+> g = f Upward >> g Downward
 f >-> g = f Downward >> g Upward
+
+
+match :: PhantomPiece -> Piece -> Bool
+match (c,p,s) piece = Just (c,p,s) == toPhantom piece
 
 liftBoardOp :: Monad m => (Board1 -> m (b, Board1)) -> StateT Fullboard m b
 liftBoardOp op = do
@@ -156,7 +164,7 @@ dropPiece pp sq = do
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
 -- | Wraps an operation to show that the operation must theoretically succeed but did not happen. Fails if the wrapped operation is illegal.
-mun1 :: (Side -> StateT Fullboard M ()) -> Side -> Operation ()
+mun1 :: (Side -> Operation ()) -> Side -> Operation ()
 mun1 action side = do
  fb <- get
  case action side `runStateT` fb of
