@@ -28,55 +28,67 @@ isTam2Hue' sq = do
  Fullboard{board = b}<- get
  return $ isTam2Hue b sq
 
+moveInX = [(1,1),(1,-1),(-1,1),(-1,-1)]
+moveInPlus = [(0,1),(1,0),(0,-1),(-1,0)]
+moveTo8 = moveInX ++ moveInPlus
+
 verifyMove :: Side -> Profession -> Square -> Square -> Operation ()
 verifyMove sid prof from to = do
  let diff = rotate sid $ to `minus` from
  isth <- isTam2Hue' from
  Fullboard{board = b} <- get
+ let args = (sid, diff, from, b)
  guard' prof from $ case (isth, prof) of
   (False, Kauk2) -> simpleJudge diff [(0,1)]
-  (False, Dau2 ) -> simpleJudge diff [(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Dau2 ) -> simpleJudge diff moveInX
   (False, Maun1) -> simpleJudge diff [(2,2),(2,-2),(-2,2),(-2,-2)]
   (True , Maun1) -> simpleJudge diff [(2,2),(2,0),(2,-2),(0,2),(0,-2),(-2,2),(-2,0),(-2,-2)]
-  (False, Tuk2 ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)]
-  (False, Io   ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  (True , Io   ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  (True , Uai1 ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Tuk2 ) -> simpleJudge diff moveInPlus
+  (False, Io   ) -> simpleJudge diff moveTo8
+  (True , Io   ) -> simpleJudge diff moveTo8
+  (True , Uai1 ) -> simpleJudge diff moveTo8
   (False, Uai1 ) -> simpleJudge diff [(0,1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  (True , Kaun1) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)] || bishop sid diff from to b 
-  (False, Kaun1) -> bishop sid diff from to b 
-  (True , Dau2 ) -> bishop sid diff from to b
-  (False, Nuak1) -> fly sid diff from to b (0,1)
+  (True , Kaun1) -> simpleJudge diff moveInPlus || bishop args 
+  (False, Kaun1) -> bishop args 
+  (True , Dau2 ) -> bishop args
+  (False, Nuak1) -> fly args (0,1)
   (True , Nuak1) -> 
    simpleJudge diff [(-1,0),(1,0)]
-    || twoStep sid diff from b (-1,0) || twoStep sid diff from b (1,0)
-    || fly sid diff from to b (0,1) || fly sid diff from to b (0,-1)
-  (True , Kauk2) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)] || twoStep sid diff from b (0,1)
-  (False, Gua2 ) -> rook sid diff from to b
-  (True , Gua2 ) -> simpleJudge diff [(1,1),(1,-1),(-1,1),(-1,-1)] || rook sid diff from to b
-  (False, Kua2)  -> simpleJudge diff [(1,0),(-1,0)] || fly sid diff from to b (0,1) || fly sid diff from to b (0,-1)
-  (True , Kua2)  -> rook sid diff from to b
-  (True , Tuk2)  -> True -- FIXME
+    || any (twoStep args) [(-1,0),(1,0)]
+    || any (fly args) [(0,1),(0,-1)]
+  (True , Kauk2) -> simpleJudge diff moveInPlus || twoStep args (0,1)
+  (False, Gua2 ) -> rook args
+  (True , Gua2 ) -> simpleJudge diff moveInX || rook args
+  (False, Kua2)  -> simpleJudge diff [(1,0),(-1,0)] || any (fly args) [(0,1),(0,-1)]
+  (True , Kua2)  -> rook args
+  (True , Tuk2)  -> any (flyJumping0or1 args) moveTo8
 
---rook, bishop :: Square -> Square -> Board1 -> Bool
-rook sid diff from to b
- =  fly sid diff from to b (0,1) 
- || fly sid diff from to b (0,-1)
- || fly sid diff from to b (1,0)
- || fly sid diff from to b (-1,0)
+type Args = (Side, Vec, Square, Board1)
 
-bishop sid diff from to b
- = fly sid diff from to b (1,1)
- || fly sid diff from to b (-1,1)
- || fly sid diff from to b (1,-1)
- || fly sid diff from to b (-1,-1)
+rook :: Args -> Bool
+rook args = any (fly args) moveInPlus
 
---fly, twoStep :: Square -> Square -> Board1 -> (Int,Int) -> Bool
-fly sid diff from to b (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) && True -- FIXME
- where Vec x1 y1 = diff
- 
-twoStep :: Side -> Vec -> Square -> Board1 -> (Int, Int) -> Bool
-twoStep sid diff from b (x,y) = (x * 2 == x1) && (y * 2 == y1) 
+bishop :: Args -> Bool
+bishop args = any (fly args) moveInX
+
+fly :: Args -> (Int, Int) -> Bool
+fly (sid, diff, from, b) (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) 
+ && not(any (`isOccupied` b) list)
+ where 
+  Vec x1 y1 = diff
+  vecs = takeWhile (/=(x1,y1)) [(k*x, k*y) | k <- [1..]] -- spaces in between
+  list = mapMaybe (`add` from) $ map (rotate sid . uncurry Vec) vecs
+
+flyJumping0or1 :: Args -> (Int, Int) -> Bool
+flyJumping0or1 (sid, diff, from, b) (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) 
+ && (length (filter (`isOccupied` b) list) <= 1)
+ where 
+  Vec x1 y1 = diff
+  vecs = takeWhile (/=(x1,y1)) [(k*x, k*y) | k <- [1..]] -- spaces in between
+  list = mapMaybe (`add` from) $ map (rotate sid . uncurry Vec) vecs
+
+twoStep :: Args -> (Int, Int) -> Bool
+twoStep (sid, diff, from, b) (x,y) = (x * 2 == x1) && (y * 2 == y1) 
  && not(passant `isOccupied` b)
  where 
   Vec x1 y1 = diff
