@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.2.0: Check whether the piece is stepping on an empty square. Found an actual error in the fedirrgavir, which I fixed by forging moves.
 * ver 0.5.1.0: In order to prepare for the validator, moved the test from main to test and added a dummy verifier.
 * ver 0.5.0.4: Add and fix documentations
 * ver 0.5.0.3: More documentation, add haddock in git, hand denoted more concisely

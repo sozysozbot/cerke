@@ -27,6 +27,7 @@ vPlays3 from thru to sid = do
  -- FIXME
  plays from to sid
 
+verifyNonEmpty :: Square -> Operation ()
 verifyNonEmpty thru = do
  Fullboard{board = b} <- get
  if not(thru `isOccupied` b)

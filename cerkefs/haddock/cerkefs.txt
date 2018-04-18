@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.1.0
+@version 0.5.2.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -231,7 +231,8 @@ removePiece :: Square -> Board1 -> M (Piece, Board1)
 --   occupied</li>
 --   </ul>
 --   
---   Moves a piece from a square to a square. Raises:
+--   Moves a piece from a square to a square, returning the phantom version
+--   of the piece that was moved. Raises:
 --   
 --   <ul>
 --   <li><a>EmptySquare</a> if the original square is empty</li>
@@ -272,6 +273,9 @@ FalseDeclaration :: Error
 
 -- | Tried to take a piece protected by Tam2HueAUai1
 Tam2HueAUai1Violation :: Error
+
+-- | Tried to step on an empty square
+SteppingEmptySquare :: Square -> Error
 
 -- | Add a vector to the square to get a new square. <a>Nothing</a> if it
 --   goes out of the board.
@@ -367,6 +371,9 @@ sqList :: [Square]
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that
 --   belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
+
+-- | Returns whether the square is occupied
+isOccupied :: Square -> Board1 -> Bool
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Error
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Error
 instance GHC.Show.Show CerkeFS.Internal.Board.Error
@@ -417,6 +424,9 @@ FalseDeclaration :: Error
 
 -- | Tried to take a piece protected by Tam2HueAUai1
 Tam2HueAUai1Violation :: Error
+
+-- | Tried to step on an empty square
+SteppingEmptySquare :: Square -> Error
 sqKA :: Square
 sqLA :: Square
 sqNA :: Square
@@ -503,6 +513,9 @@ sqPIA :: Square
 --   <tt>[<a>sqKA</a>, <a>sqLA</a>, <a>sqNA</a> ... <a>sqCIA</a>,
 --   <a>sqMIA</a>, <a>sqPIA</a>]</tt>.
 sqList :: [Square]
+
+-- | Returns whether the square is occupied
+isOccupied :: Square -> Board1 -> Bool
 
 module CerkeFS.InitialBoard
 
