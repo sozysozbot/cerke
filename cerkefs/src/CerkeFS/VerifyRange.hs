@@ -10,11 +10,22 @@ import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 import CerkeFS.GameState
 
+import Control.Exception.Base(assert)
+
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 --
 -- __/FIXME: Verification not implemented/__
 vPlays2 :: Square -> Square -> Side -> Operation ()
-vPlays2 from to sid = plays from to sid
+vPlays2 from to sid = do
+ phantom <- plays from to sid
+ case phantom of
+  Nothing -> error "Tam2 not handled"
+  Just(_,p,s) -> do
+   assert(s == sid) $ return ()
+   verifyMove p from to
+
+-- __/FIXME: Verification not implemented/__
+verifyMove prof from to = return ()
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 --
@@ -24,8 +35,13 @@ vPlays2 from to sid = plays from to sid
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
 vPlays3 from thru to sid = do
  verifyNonEmpty thru
- -- FIXME
- plays from to sid
+ phantom <- plays from to sid
+ case phantom of
+  Nothing -> error "Tam2 not handled"
+  Just(_,p,s) -> do
+   assert(s == sid) $ return ()
+   verifyMove p from thru
+   verifyMove p thru to
 
 verifyNonEmpty :: Square -> Operation ()
 verifyNonEmpty thru = do
@@ -39,7 +55,10 @@ verifyNonEmpty thru = do
 --
 -- __/FIXME: Verification not implemented/__
 vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
-vPlays2' from prof to sid = plays' from prof to sid
+vPlays2' from prof to sid = do
+ Just(_,p,s) <- plays' from prof to sid
+ assert(p == prof && s == sid) $ return () -- well, we already checked
+ verifyMove p from to
 
 -- | Similar to 'plays'', but checks whether the move is allowed by the profession.
 --
@@ -49,5 +68,7 @@ vPlays2' from prof to sid = plays' from prof to sid
 vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 vPlays3' from prof thru to sid = do
  verifyNonEmpty thru
- -- FIXME
- plays' from prof to sid
+ Just(_,p,s) <- plays' from prof to sid
+ assert(p == prof && s == sid) $ return () -- well, we already checked
+ verifyMove p from thru
+ verifyMove p thru to

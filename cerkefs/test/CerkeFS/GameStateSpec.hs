@@ -70,6 +70,7 @@ fed000 = do
  plays'      sqLAU 弓 sqLO  >+> plays' sqZA 王 sqZE
  drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
  plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
+ return ()
 
 fed000' :: Operation ()
 fed000' = do
@@ -79,6 +80,7 @@ fed000' = do
  vPlays3'      sqLAU 弓 sqLAI sqLO  >+> vPlays2' sqZA 王 sqZE
  drops'            馬 sqKY  >+> mun1(vPlays2' sqNU 兵 sqNO)
  vPlays3'      sqKY  馬 sqNU sqZE  >+> vPlays2' sqXA 将 sqZE
+ return ()
 
 
 
