@@ -32,16 +32,19 @@ verifyMove sid prof from to = do
  let diff = rotate sid $ to `minus` from
  isth <- isTam2Hue' from
  guard' prof from $ case (isth, prof) of
-  (False, Kauk2) -> diff `elem` map (uncurry Vec) [(0,1)]
-  (False, Dau2 ) -> diff `elem` map (uncurry Vec) [(1,1),(1,-1),(-1,1),(-1,-1)]
-  (False, Maun1) -> diff `elem` map (uncurry Vec) [(2,2),(2,-2),(-2,2),(-2,-2)]
-  (True , Maun1) -> diff `elem` map (uncurry Vec) [(2,2),(2,0),(2,-2),(0,2),(0,-2),(-2,2),(-2,0),(-2,-2)]
-  (False, Tuk2 ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0)]
-  (False, Io   ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  (True , Io   ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  (True , Uai1 ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  (False, Uai1 ) -> diff `elem` map (uncurry Vec) [(0,1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Kauk2) -> simpleJudge diff [(0,1)]
+  (False, Dau2 ) -> simpleJudge diff [(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Maun1) -> simpleJudge diff [(2,2),(2,-2),(-2,2),(-2,-2)]
+  (True , Maun1) -> simpleJudge diff [(2,2),(2,0),(2,-2),(0,2),(0,-2),(-2,2),(-2,0),(-2,-2)]
+  (False, Tuk2 ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)]
+  (False, Io   ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (True , Io   ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (True , Uai1 ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+  (False, Uai1 ) -> simpleJudge diff [(0,1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
   _ -> True -- FIXME
+
+simpleJudge :: Vec -> [(Int, Int)] -> Bool
+simpleJudge diff arr = diff `elem` map (uncurry Vec) arr
 
 guard' :: Profession -> Square -> Bool -> Operation ()
 guard' prof from False = lift $ Left (ProfessionPrivilegeExceeded prof from)
