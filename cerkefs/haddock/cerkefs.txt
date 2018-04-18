@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.0.4
+@version 0.5.1.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -619,5 +619,38 @@ drawBoard :: Board1 -> String
 --   board image generator</a>.
 convertPieceToStr :: Piece -> String
 
+module CerkeFS.VerifyRange
+
+-- | Similar to <a>plays</a>, but checks whether the move is allowed by the
+--   profession.
+--   
+--   <b><i>FIXME: Verification not implemented</i></b>
+vPlays2 :: Square -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays</a>, but checks whether the move is allowed by the
+--   profession.
+--   
+--   | The first arguments denotes the origin, the second denotes the
+--   square to step on, and the third denotes the destination.
+--   
+--   <b><i>FIXME: Verification not implemented</i></b>
+vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays'</a>, but checks whether the move is allowed by
+--   the profession.
+--   
+--   | The first arguments denotes the origin, the third denotes the square
+--   to step on, and the fourth denotes the destination.
+--   
+--   <b><i>FIXME: Verification not implemented</i></b>
+vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays'</a>, but checks whether the move is allowed by
+--   the profession.
+--   
+--   <b><i>FIXME: Verification not implemented</i></b>
+vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
+
 module CerkeFS
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
+toDebugOutput :: Operation a2 -> String
