@@ -50,6 +50,12 @@ spec = do
         plays sqZO  sqZAU >+> plays sqZI sqZY
     it "privilege exceeded by Kauk2" $
       Left (ProfessionPrivilegeExceeded Kauk2 sqTI) `shouldBeGivenBy` vPlays2 sqTI sqNE Downward
+    it "privilege exceeded by Kauk2" $
+      Left (ProfessionPrivilegeExceeded Kauk2 sqTI) `shouldBeGivenBy` vPlays2 sqTI sqTO Downward
+    it "privilege exceeded by Kauk2" $
+      Left (ProfessionPrivilegeExceeded Kauk2 sqKAI) `shouldBeGivenBy` vPlays2 sqKAI sqZAU Upward
+    it "privilege exceeded by Kauk2, but MovingOpponentPiece takes precedence" $
+      Left MovingOpponentPiece `shouldBeGivenBy` vPlays2 sqKAI sqZAU Downward
   describe "correct behaviors" $ do
     it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000
     it "fedirrgavir 001" $ res001 `shouldBeGeneratedBy` fed001
