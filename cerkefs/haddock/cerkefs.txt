@@ -5,33 +5,64 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.0.2
+@version 0.5.0.3
 
 module CerkeFS.Internal.Piece2
 data Color
+
+-- | Red, 赤
 Kok1 :: Color
+
+-- | Black, 黒
 Huok2 :: Color
 data Side
+
+-- | Pieces that points upward. Denoted by <tt>^</tt> in the ASCII
+--   notation.
 Upward :: Side
+
+-- | Pieces that points downward. Denoted by <tt>_</tt> in the ASCII
+--   notation.
 Downward :: Side
 data Piece
+
+-- | Minds, 皇, tam
 Tam2 :: Piece
 Piece :: Color -> Profession -> Side -> Piece
 [color] :: Piece -> Color
 [prof] :: Piece -> Profession
 [side] :: Piece -> Side
 data Profession
+
+-- | Vessel, 船, felkana
 Nuak1 :: Profession
+
+-- | Pawn, 兵, elmer
 Kauk2 :: Profession
+
+-- | Rook, 弓, gustuer
 Gua2 :: Profession
+
+-- | Bishop, 車, vadyrd
 Kaun1 :: Profession
+
+-- | Tiger, 虎, stistyst
 Dau2 :: Profession
+
+-- | Horse, 馬, dodor
 Maun1 :: Profession
+
+-- | Clerk, 筆, kua
 Kua2 :: Profession
+
+-- | Shaman, 巫, terlsk
 Tuk2 :: Profession
+
+-- | General, 将, varxle
 Uai1 :: Profession
+
+-- | King, 王, ales
 Io :: Profession
-type ProfOrTam = Either () Profession
 instance GHC.Classes.Ord CerkeFS.Internal.Piece2.Piece
 instance GHC.Classes.Eq CerkeFS.Internal.Piece2.Piece
 instance GHC.Show.Show CerkeFS.Internal.Piece2.Piece
@@ -48,31 +79,60 @@ instance GHC.Show.Show CerkeFS.Internal.Piece2.Color
 
 module CerkeFS.Piece3
 data Color
+
+-- | Red, 赤
 Kok1 :: Color
+
+-- | Black, 黒
 Huok2 :: Color
 data Side
+
+-- | Pieces that points upward. Denoted by <tt>^</tt> in the ASCII
+--   notation.
 Upward :: Side
+
+-- | Pieces that points downward. Denoted by <tt>_</tt> in the ASCII
+--   notation.
 Downward :: Side
 data Piece
 data Profession
+
+-- | Vessel, 船, felkana
 Nuak1 :: Profession
+
+-- | Pawn, 兵, elmer
 Kauk2 :: Profession
+
+-- | Rook, 弓, gustuer
 Gua2 :: Profession
+
+-- | Bishop, 車, vadyrd
 Kaun1 :: Profession
+
+-- | Tiger, 虎, stistyst
 Dau2 :: Profession
+
+-- | Horse, 馬, dodor
 Maun1 :: Profession
+
+-- | Clerk, 筆, kua
 Kua2 :: Profession
+
+-- | Shaman, 巫, terlsk
 Tuk2 :: Profession
+
+-- | General, 将, varxle
 Uai1 :: Profession
+
+-- | King, 王, ales
 Io :: Profession
-profToLin :: Profession -> Char
-type ProfOrTam = Either () Profession
 
 -- | Flip the side that the piece belongs to, or <a>Nothing</a> if
 --   <a>Tam2</a>.
 flipSide :: Piece -> Maybe Piece
 type PhantomPiece = (Color, Profession, Side)
-match :: PhantomPiece -> Piece -> Bool
+
+-- | Gets the side that the piece belongs to.
 getSide :: Piece -> Maybe Side
 
 -- | Converts <a>Piece</a> into <a>PhantomPiece</a>.
@@ -113,6 +173,8 @@ toPhantom :: Piece -> Maybe PhantomPiece
 
 -- | An alias for <a>Kok1</a>.
 赤 :: Color
+
+-- | An alias for <a>Nothing</a>, that is, <tt><a>toPhantom</a> Tam2</tt>.
 phantomTam :: Maybe PhantomPiece
 
 module CerkeFS.Internal.Board
@@ -204,7 +266,6 @@ FalseDeclaration :: Error
 
 -- | Tried to take a piece protected by Tam2HueAUai1
 Tam2HueAUai1Violation :: Error
-type M = Either Error
 add :: Vec -> Square -> Maybe Square
 getNeighborsAndSelf :: Square -> [Square]
 sqKA :: Square
@@ -288,6 +349,10 @@ sqXIA :: Square
 sqCIA :: Square
 sqMIA :: Square
 sqPIA :: Square
+
+-- | The list of squares, arranged in the following order:
+--   <tt>[<a>sqKA</a>, <a>sqLA</a>, <a>sqNA</a> ... <a>sqCIA</a>,
+--   <a>sqMIA</a>, <a>sqPIA</a>]</tt>.
 sqList :: [Square]
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Error
@@ -306,7 +371,6 @@ instance GHC.Show.Show CerkeFS.Internal.Board.Col
 instance GHC.Show.Show CerkeFS.Internal.Board.Square
 
 module CerkeFS.Board2
-type M = Either Error
 type Board1 = Map Square Piece
 data Error
 
@@ -422,11 +486,15 @@ sqXIA :: Square
 sqCIA :: Square
 sqMIA :: Square
 sqPIA :: Square
+
+-- | The list of squares, arranged in the following order:
+--   <tt>[<a>sqKA</a>, <a>sqLA</a>, <a>sqNA</a> ... <a>sqCIA</a>,
+--   <a>sqMIA</a>, <a>sqPIA</a>]</tt>.
 sqList :: [Square]
 
 module CerkeFS.InitialBoard
 
--- | Initial configuration of cerke board.
+-- | Initial configuration of the cerke board.
 initialBoard :: Board1
 
 module CerkeFS.GameState
@@ -470,7 +538,7 @@ drops' :: Profession -> Square -> Side -> Operation ()
 
 -- | Wraps an operation to show that the operation must theoretically
 --   succeed but did not happen. Fails if the wrapped operation is illegal.
-mun1 :: (Side -> StateT Fullboard M ()) -> Side -> Operation ()
+mun1 :: (Side -> Operation ()) -> Side -> Operation ()
 
 -- | Similar to <a>plays</a>, but also checks if the moving piece has the
 --   profession specified by the argument.
@@ -506,8 +574,12 @@ Cuop2Mun1Mok1Hue :: Dat2
 --   required for the declaration is not met.
 declare :: Side -> Dat2 -> Operation ()
 taxot1 :: Operation ()
-type Operation = StateT Fullboard M
+type Operation = StateT Fullboard (Either Error)
+
+-- | <a>Upward</a> plays, followed by <a>Downward</a>
 (>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+
+-- | <a>Downward</a> plays, followed by <a>Upward</a>
 (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
 instance GHC.Classes.Ord CerkeFS.GameState.Dat2
 instance GHC.Classes.Eq CerkeFS.GameState.Dat2
@@ -525,6 +597,10 @@ loadBoard :: String -> Maybe Board1
 -- | Converts the <a>Board1</a> to the ASCII board format used in the
 --   <a>Cerke board image generator</a>.
 drawBoard :: Board1 -> String
+
+-- | Converts the <a>Piece</a> to the ASCII format used in the <a>Cerke
+--   board image generator</a>.
+convertPieceToStr :: Piece -> String
 
 module CerkeFS
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
