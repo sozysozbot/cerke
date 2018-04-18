@@ -4,6 +4,7 @@ module CerkeFS
 ,module CerkeFS.PrettyPrint
 ,module Control.Monad.Trans.State.Lazy
 ,module CerkeFS.Piece3
+,module CerkeFS.InitialBoard
 ,playFromStart
 ) where
 import CerkeFS.Board2
