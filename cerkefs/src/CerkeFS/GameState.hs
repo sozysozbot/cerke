@@ -18,6 +18,7 @@ import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 import qualified Data.MultiSet as S
+import Control.Monad(when)
 
 data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
@@ -94,9 +95,8 @@ validateUai1Protection :: Square -> Side -> Operation ()
 validateUai1Protection to s = do
  fb <- get
  let sqs = getNeighborsAndSelf to  -- Vec 0 0 does not cause any problem, since the piece at 'to' is already removed 
- if any (isTam2HueAUai1 s (board fb)) sqs
-  then lift $ Left Tam2HueAUai1Violation
-  else return ()
+ when (any (isTam2HueAUai1 s (board fb)) sqs) $
+  lift $ Left Tam2HueAUai1Violation
 
 -- | Moves the piece. If the destination is blocked, the piece at the destination is implicitly captured.
 --
