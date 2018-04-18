@@ -56,14 +56,16 @@ spec = do
       Left (ProfessionPrivilegeExceeded Kauk2 sqKAI) `shouldBeGivenBy` vPlays2 sqKAI sqZAU Upward
     it "privilege exceeded by Kauk2, but MovingOpponentPiece takes precedence" $
       Left MovingOpponentPiece `shouldBeGivenBy` vPlays2 sqKAI sqZAU Downward
+    it "fedirrgavir 000 with validator" $ 
+      Left(ProfessionPrivilegeExceeded Dau2 sqTY) `shouldBeGivenBy` fed000'
   describe "correct behaviors" $ do
-    it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000
+    it "fedirrgavir 000 (incorrect fedirrgavir, but passes the check because it uses plays' not vPlays3')" $ 
+     res000 `shouldBeGeneratedBy` fed000
     it "fedirrgavir 001" $ res001 `shouldBeGeneratedBy` fed001
     it "fedirrgavir 002" $ res002 `shouldBeGeneratedBy` fed002
     it "fedirrgavir 003" $ res003 `shouldBeGeneratedBy` fed003
     it "fedirrgavir 004" $ res004 `shouldBeGeneratedBy` fed004
     it "fedirrgavir 005" $ res005 `shouldBeGeneratedBy` fed005
-    it "fedirrgavir 000 with validator" $ res000 `shouldBeGeneratedBy` fed000'
     it "fedirrgavir 001 with validator" $ res001 `shouldBeGeneratedBy` fed001'
     it "fedirrgavir 002 with validator" $ res002 `shouldBeGeneratedBy` fed002'
     it "fedirrgavir 003 with validator" $ res003 `shouldBeGeneratedBy` fed003'

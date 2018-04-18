@@ -31,6 +31,7 @@ verifyMove :: Side -> Profession -> Square -> Square -> Operation ()
 verifyMove sid prof from to = do
  let diff = rotate sid $ to `minus` from
  isth <- isTam2Hue' from
+ Fullboard{board = b} <- get
  guard' prof from $ case (isth, prof) of
   (False, Kauk2) -> simpleJudge diff [(0,1)]
   (False, Dau2 ) -> simpleJudge diff [(1,1),(1,-1),(-1,1),(-1,-1)]
@@ -41,7 +42,39 @@ verifyMove sid prof from to = do
   (True , Io   ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
   (True , Uai1 ) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
   (False, Uai1 ) -> simpleJudge diff [(0,1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-  _ -> True -- FIXME
+  (True , Kaun1) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)] || bishop sid diff from to b 
+  (False, Kaun1) -> bishop sid diff from to b 
+  (True , Dau2 ) -> bishop sid diff from to b
+  (False, Nuak1) -> fly sid diff from to b (0,1)
+  (True , Nuak1) -> 
+   simpleJudge diff [(-1,0),(1,0)]
+    || twoStep sid diff from to b (-1,0) || twoStep sid diff from to b (1,0)
+    || fly sid diff from to b (0,1) || fly sid diff from to b (0,-1)
+  (True , Kauk2) -> simpleJudge diff [(0,1),(1,0),(0,-1),(-1,0)] || twoStep sid diff from to b (0,1)
+  (False, Gua2 ) -> rook sid diff from to b
+  (True , Gua2 ) -> simpleJudge diff [(1,1),(1,-1),(-1,1),(-1,-1)] || rook sid diff from to b
+  (False, Kua2)  -> simpleJudge diff [(1,0),(-1,0)] || fly sid diff from to b (0,1) || fly sid diff from to b (0,-1)
+  (True , Kua2)  -> rook sid diff from to b
+  (True , Tuk2)  -> True -- FIXME
+
+--rook, bishop :: Square -> Square -> Board1 -> Bool
+rook sid diff from to b
+ =  fly sid diff from to b (0,1) 
+ || fly sid diff from to b (0,-1)
+ || fly sid diff from to b (1,0)
+ || fly sid diff from to b (-1,0)
+
+bishop sid diff from to b
+ = fly sid diff from to b (1,1)
+ || fly sid diff from to b (-1,1)
+ || fly sid diff from to b (1,-1)
+ || fly sid diff from to b (-1,-1)
+
+--fly, twoStep :: Square -> Square -> Board1 -> (Int,Int) -> Bool
+fly sid diff from to b (x,y) = (x * y1 - y * x1 == 0) && (x*x1 + y*y1 > 0) && True -- FIXME
+ where Vec x1 y1 = diff
+twoStep sid diff from to b (x,y) = (x * 2 == x1) && (y * 2 == y1) && True -- FIXME
+ where Vec x1 y1 = diff
 
 simpleJudge :: Vec -> [(Int, Int)] -> Bool
 simpleJudge diff arr = diff `elem` map (uncurry Vec) arr
