@@ -14,7 +14,11 @@ data Side
  deriving(Show, Eq, Ord)
 data Piece 
  = Tam2 -- ^ Minds, 皇, tam
- | Piece {color :: Color, prof :: Profession, side :: Side} deriving(Show, Eq, Ord)
+ | Piece {
+  color :: Color, -- ^ The color of the piece
+  prof :: Profession, -- ^ The profession of the piece
+  side :: Side -- ^ The side that the piece belongs to
+ } deriving(Show, Eq, Ord)
 data Profession
  = Nuak1 -- ^ Vessel, 船, felkana  
  | Kauk2 -- ^ Pawn, 兵, elmer

@@ -30,12 +30,12 @@ import qualified Data.Map as M
 import Control.Monad(guard, unless)
 import Data.Maybe(isJust,mapMaybe)
 
-data Col = CK | CL | CN | CT | CZ | CX | CC | CM | CP deriving(Show, Eq, Ord, Enum)
-data Row = RA | RE | RI | RU | RO | RY | RAI | RAU | RIA deriving(Show,Eq, Ord,Enum)
+data Col = ColumnK | ColumnL | ColumnN | ColumnT | ColumnZ | ColumnX | ColumnC | ColumnM | ColumnP deriving(Show, Eq, Ord, Enum)
+data Row = RowA | RowE | RowI | RowU | RowO | RowY | RowAI | RowAU | RowIA deriving(Show,Eq, Ord,Enum)
 data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
 
 instance Show Square where
- show Square{col=c,row=r} = "sq" ++ tail(show c) ++ tail(show r)
+ show Square{col=c,row=r} = "sq" ++ length "Column" `drop` show c ++ length "Row" `drop` show r
 
 type Board1 = M.Map Square Piece
 
@@ -43,6 +43,7 @@ type M = Either Error
 
 data Vec = Vec{dx :: Int, dy :: Int}
 
+-- | Add a vector to the square to get a new square. 'Nothing' if it goes out of the board.
 add :: Vec -> Square -> Maybe Square
 add (Vec x y) Square{col=c,row=r} = do
  new_c <- add' x c
@@ -86,6 +87,7 @@ tam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 getNeighborsAndSelf :: Square -> [Square]
 getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
 
+-- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
  piece <- sq `M.lookup` board
@@ -96,12 +98,9 @@ isTam2HueAUai1 sid board sq = isJust $ do
   else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
 
-isOccupiedFor :: Square -> Board1 -> Bool
-isOccupiedFor = M.member
-
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> M Board1
-putPiece p sq b = if sq `isOccupiedFor` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
+putPiece p sq b = if sq `M.member` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
 
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> M (Piece, Board1)
@@ -134,7 +133,7 @@ movePieceFromToFull from to b = do
 
 -- | The list of squares, arranged in the following order: @['sqKA', 'sqLA', 'sqNA' ... 'sqCIA', 'sqMIA', 'sqPIA']@.
 sqList :: [Square]
-sqList = [Square r c | r <-[RA ..RIA],c <-[CK .. CP]]
+sqList = [Square r c | r <-[RowA ..RowIA],c <-[ColumnK .. ColumnP]]
 
 sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
  sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 

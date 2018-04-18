@@ -22,6 +22,7 @@ foo str fed = do
    putStr $ drawBoard final
    putStrLn "~~~"
    putStrLn $ concatMap convertPieceToStr pieces
+   -- print (final, pieces)
    putStrLn ""
 
 

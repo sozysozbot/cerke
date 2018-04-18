@@ -1,7 +1,7 @@
 module CerkeFS.GameState
 (Fullboard(..)
---,movePieceFromTo2
---,pass
+,Operation
+,Dat2(..)
 ,plays
 ,drops
 ,passes
@@ -9,10 +9,8 @@ module CerkeFS.GameState
 ,mun1
 ,plays'
 ,playsTam
-,Dat2(..)
 ,declare
 ,taxot1
-,Operation
 ,(>+>),(>->)
 )where
 import CerkeFS.Internal.Board
@@ -27,6 +25,7 @@ data Fullboard = Fullboard{
  hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
 } deriving(Show, Eq, Ord)
 
+-- | An alias for the monad that represents an operation.
 type Operation = StateT Fullboard (Either Error)
 
 -- | 'Upward' plays, followed by 'Downward'
@@ -102,8 +101,6 @@ validateUai1Protection to s = do
 --   * 'FriendlyFire' is raised if the destination is blocked by the piece belonging to the same side as the moving piece.
 --
 --   * 'TamCapture' is raised if the destination is occupied by Tam2, which cannot be captured.
--- 
--- __/FIXME: Uai protection not implemented/__
 plays :: Square -> Square -> Side -> Operation ()
 plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
@@ -118,6 +115,7 @@ plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
   (True, False) -> Left WrongProfessionSpecified{expected = Just p, specified = Just prof}
   (True, True) -> return ()
 
+-- | Similar to 'plays', but also checks if the moving piece is Tam2.
 playsTam :: Square -> Square -> Side -> Operation ()
 playsTam from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
@@ -181,6 +179,7 @@ data Dat2
  | Saup1 -- ^ 獣; la pysess
  | HuetKaikADat2 -- ^ 闇戦之集; la phertarsa'd elmss
  | Cuop2Mun1Mok1Hue -- ^ 声無行処; la ytartanerfergal
+
 -- ~ | BapPok -- ^ 同色; la dejixece
  deriving(Show, Eq, Ord)
 
@@ -222,7 +221,7 @@ length condition - S.size int :: how many pieces must be accounted for by Io?
 S.occur Io plist' - S.occur Io int :: how many Io do we have at our disposal?
 -}
 
-
+-- | Supposed to be a declaration that the game has ended, but currently is just a dummy operation with no consequences.
 taxot1 :: Operation ()
 taxot1 = return ()
 
