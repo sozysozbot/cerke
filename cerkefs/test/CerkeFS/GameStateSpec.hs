@@ -48,14 +48,24 @@ spec = do
         plays sqZAI sqZY  >+> plays sqZA sqCE
         plays sqTIA sqZAI >+> plays sqKE sqNE
         plays sqZO  sqZAU >+> plays sqZI sqZY
+    it "privilege exceeded by Kauk2" $
+      Left (ProfessionPrivilegeExceeded Kauk2 sqTI) `shouldBeGivenBy` vPlays2 sqTI sqNE Downward
+    it "privilege exceeded by Kauk2" $
+      Left (ProfessionPrivilegeExceeded Kauk2 sqTI) `shouldBeGivenBy` vPlays2 sqTI sqTO Downward
+    it "privilege exceeded by Kauk2" $
+      Left (ProfessionPrivilegeExceeded Kauk2 sqKAI) `shouldBeGivenBy` vPlays2 sqKAI sqZAU Upward
+    it "privilege exceeded by Kauk2, but MovingOpponentPiece takes precedence" $
+      Left MovingOpponentPiece `shouldBeGivenBy` vPlays2 sqKAI sqZAU Downward
+    it "fedirrgavir 000 with validator" $ 
+      Left(ProfessionPrivilegeExceeded Dau2 sqTY) `shouldBeGivenBy` fed000'
   describe "correct behaviors" $ do
-    it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000
+    it "fedirrgavir 000 (incorrect fedirrgavir, but passes the check because it uses plays' not vPlays3')" $ 
+     res000 `shouldBeGeneratedBy` fed000
     it "fedirrgavir 001" $ res001 `shouldBeGeneratedBy` fed001
     it "fedirrgavir 002" $ res002 `shouldBeGeneratedBy` fed002
     it "fedirrgavir 003" $ res003 `shouldBeGeneratedBy` fed003
     it "fedirrgavir 004" $ res004 `shouldBeGeneratedBy` fed004
     it "fedirrgavir 005" $ res005 `shouldBeGeneratedBy` fed005
-    it "fedirrgavir 000 with validator" $ res000 `shouldBeGeneratedBy` fed000'
     it "fedirrgavir 001 with validator" $ res001 `shouldBeGeneratedBy` fed001'
     it "fedirrgavir 002 with validator" $ res002 `shouldBeGeneratedBy` fed002'
     it "fedirrgavir 003 with validator" $ res003 `shouldBeGeneratedBy` fed003'
@@ -70,6 +80,7 @@ fed000 = do
  plays'      sqLAU 弓 sqLO  >+> plays' sqZA 王 sqZE
  drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
  plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
+ return ()
 
 fed000' :: Operation ()
 fed000' = do
@@ -79,6 +90,7 @@ fed000' = do
  vPlays3'      sqLAU 弓 sqLAI sqLO  >+> vPlays2' sqZA 王 sqZE
  drops'            馬 sqKY  >+> mun1(vPlays2' sqNU 兵 sqNO)
  vPlays3'      sqKY  馬 sqNU sqZE  >+> vPlays2' sqXA 将 sqZE
+ return ()
 
 
 

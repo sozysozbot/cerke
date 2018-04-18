@@ -62,13 +62,15 @@ liftBoardOpFoo op = do
 type Validator = Maybe PhantomPiece -> Either Error ()
 
 -- plays under the condition
-validatesPlaying, validatesTaking :: Validator -> (Square, Square, Side) -> Operation ()
+validatesPlaying, validatesTaking :: Validator -> (Square, Square, Side) -> Operation (Maybe PhantomPiece)
 validator `validatesPlaying` (from, to, sid) = do
  fb <- get
  case movePieceFromToFull from to (board fb) of
   Left (AlreadyOccupied _) -> validator `validatesTaking` (from, to, sid)
   Right (phantom, newBoard) -> case validator phantom of
-   Right () -> put $ fb{board = newBoard}
+   Right () -> do
+    put $ fb{board = newBoard}
+    return phantom
    Left e -> lift $ Left e
   Left e -> lift $ Left e 
 
@@ -82,7 +84,9 @@ validator `validatesTaking` (from, to, sid) = do
    let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
    phantom <- liftBoardOp $ movePieceFromToFull from to
    case validator phantom of
-    Right () -> modify (\fb -> fb{hand = flippedPiece : hand fb})
+    Right () -> do
+     modify (\fb -> fb{hand = flippedPiece : hand fb})
+     return phantom
     Left e   -> lift $ Left e
 
 -- whether the s side can use Uai1 protection
@@ -101,13 +105,13 @@ validateUai1Protection to s = do
 --   * 'FriendlyFire' is raised if the destination is blocked by the piece belonging to the same side as the moving piece.
 --
 --   * 'TamCapture' is raised if the destination is occupied by Tam2, which cannot be captured.
-plays :: Square -> Square -> Side -> Operation ()
+plays :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
 plays from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, _, q)) = if sid == q then return () else Left MovingOpponentPiece
 
 -- | Similar to 'plays', but also checks if the moving piece has the profession specified by the argument.
-plays' :: Square -> Profession -> Square -> Side -> Operation ()
+plays' :: Square -> Profession -> Square -> Side -> Operation (Maybe PhantomPiece)
 plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = Left WrongProfessionSpecified{expected = Nothing, specified = Just prof}
  f (Just(_, p, q)) = case(sid == q, prof == p) of
@@ -116,7 +120,7 @@ plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
   (True, True) -> return ()
 
 -- | Similar to 'plays', but also checks if the moving piece is Tam2.
-playsTam :: Square -> Square -> Side -> Operation ()
+playsTam :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
 playsTam from to sid = f `validatesPlaying` (from, to, sid) where
  f Nothing = return ()
  f (Just(_, p, _))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
@@ -162,7 +166,7 @@ dropPiece pp sq = do
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
 -- | Wraps an operation to show that the operation must theoretically succeed but did not happen. Fails if the wrapped operation is illegal.
-mun1 :: (Side -> Operation ()) -> Side -> Operation ()
+mun1 :: (Side -> Operation a) -> Side -> Operation ()
 mun1 action side = do
  fb <- get
  case action side `runStateT` fb of

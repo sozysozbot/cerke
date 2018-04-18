@@ -10,7 +10,7 @@ module CerkeFS.Internal.Board
 --,movePieceFromTo
 ,movePieceFromToFull
 ,Error(..)
-,add
+,add,minus
 ,getNeighborsAndSelf
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
  sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 
@@ -24,6 +24,7 @@ module CerkeFS.Internal.Board
 ,sqList
 ,isTam2HueAUai1
 ,isOccupied
+,isTam2Hue
 --,toEither
 ) where
 import CerkeFS.Piece3
@@ -42,7 +43,7 @@ type Board1 = M.Map Square Piece
 
 type M = Either Error
 
-data Vec = Vec{dx :: Int, dy :: Int}
+data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
 
 -- | Add a vector to the square to get a new square. 'Nothing' if it goes out of the board.
 add :: Vec -> Square -> Maybe Square
@@ -50,6 +51,11 @@ add (Vec x y) Square{col=c,row=r} = do
  new_c <- add' x c
  new_r <- add' y r
  return Square{col=new_c, row=new_r}
+
+-- | Takes the difference of two squares as a vec. @p `minus` q@ is p minus q.
+minus :: Square -> Square -> Vec
+minus Square{col=c1,row=r1} Square{col=c2,row=r2}
+ = Vec{dx = fromEnum c1 - fromEnum c2, dy = fromEnum r1 - fromEnum r2}
 
 add' :: (Enum a) => Int -> a -> Maybe a
 add' a c
@@ -76,6 +82,7 @@ data Error
  | FalseDeclaration -- ^ Declares a Dat2 whose condition is not satisfied.
  | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
  | SteppingEmptySquare Square -- ^ Tried to step on an empty square
+ | ProfessionPrivilegeExceeded Profession Square -- ^ Trying a movement that the profession does not allow
   deriving(Show, Eq, Ord) 
 
 {-
@@ -83,8 +90,9 @@ data Error
 * Primitive operations on the board 
 ********************************************
 -}
-tam2Hue :: [Square]
-tam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
+-- | The list of squares that are inherently tam2Hue
+inherentTam2Hue :: [Square]
+inherentTam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
 getNeighborsAndSelf :: Square -> [Square]
 getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
@@ -94,8 +102,12 @@ isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
  piece <- sq `M.lookup` board
  (_,Uai1,s) <- toPhantom piece
- guard(s == sid)
- if sq `elem` tam2Hue
+ guard(s == sid && isTam2Hue board sq)
+
+-- | Checks whether a given square is in Tam2Hue.
+isTam2Hue :: Board1 -> Square -> Bool
+isTam2Hue board sq = isJust $ do
+ if sq `elem` inherentTam2Hue
   then return ()
   else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
