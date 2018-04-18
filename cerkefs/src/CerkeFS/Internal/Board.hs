@@ -10,7 +10,7 @@ module CerkeFS.Internal.Board
 --,movePieceFromTo
 ,movePieceFromToFull
 ,Error(..)
-,add
+,add,minus
 ,getNeighborsAndSelf
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
  sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 
@@ -43,7 +43,7 @@ type Board1 = M.Map Square Piece
 
 type M = Either Error
 
-data Vec = Vec{dx :: Int, dy :: Int}
+data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
 
 -- | Add a vector to the square to get a new square. 'Nothing' if it goes out of the board.
 add :: Vec -> Square -> Maybe Square
@@ -51,6 +51,11 @@ add (Vec x y) Square{col=c,row=r} = do
  new_c <- add' x c
  new_r <- add' y r
  return Square{col=new_c, row=new_r}
+
+-- | Takes the difference of two squares as a vec. @p `minus` q@ is p minus q.
+minus :: Square -> Square -> Vec
+minus Square{col=c1,row=r1} Square{col=c2,row=r2}
+ = Vec{dx = fromEnum c1 - fromEnum c2, dy = fromEnum r1 - fromEnum r2}
 
 add' :: (Enum a) => Int -> a -> Maybe a
 add' a c
@@ -77,6 +82,7 @@ data Error
  | FalseDeclaration -- ^ Declares a Dat2 whose condition is not satisfied.
  | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
  | SteppingEmptySquare Square -- ^ Tried to step on an empty square
+ | ProfessionPrivilegeExceeded -- ^ Trying a movement that the profession does not allow
   deriving(Show, Eq, Ord) 
 
 {-

@@ -48,6 +48,8 @@ spec = do
         plays sqZAI sqZY  >+> plays sqZA sqCE
         plays sqTIA sqZAI >+> plays sqKE sqNE
         plays sqZO  sqZAU >+> plays sqZI sqZY
+    it "privilege exceeded by Kauk2" $
+      Left ProfessionPrivilegeExceeded `shouldBeGivenBy` vPlays2 sqTI sqNE Downward
   describe "correct behaviors" $ do
     it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000
     it "fedirrgavir 001" $ res001 `shouldBeGeneratedBy` fed001
