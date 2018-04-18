@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.3.1
+@version 0.5.3.2
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -136,7 +136,7 @@ Io :: Profession
 -- | Flip the side that the piece belongs to, or <a>Nothing</a> if
 --   <a>Tam2</a>.
 flipSide :: Piece -> Maybe Piece
-type PhantomPiece = (Color, Profession, Side)
+type PhantomPiece = (Color, Profession, Side)  Not a physical piece; only serves to be a template
 
 -- | Gets the side that the piece belongs to.
 getSide :: Piece -> Maybe Side
@@ -216,11 +216,11 @@ Vec :: Int -> Int -> Vec
 
 -- | Puts a piece on a square. Fails with <a>AlreadyOccupied</a> if already
 --   occupied.
-putPiece :: Piece -> Square -> Board1 -> M Board1
+putPiece :: Piece -> Square -> Board1 -> Either Error Board1
 
 -- | Removes a piece. Fails with <a>EmptySquare</a> if the specified square
 --   is empty.
-removePiece :: Square -> Board1 -> M (Piece, Board1)
+removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
 
 -- | Moves a piece on a square according to the vector. Raises:
 --   
@@ -239,7 +239,7 @@ removePiece :: Square -> Board1 -> M (Piece, Board1)
 --   <li><a>AlreadyOccupied</a> if the resulting square is already
 --   occupied</li>
 --   </ul>
-movePieceFromToFull :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
+movePieceFromToFull :: Square -> Square -> Board1 -> Either Error (Maybe PhantomPiece, Board1)
 data Error
 
 -- | The square you're moving to is already occupied.
@@ -663,14 +663,14 @@ vPlays2 :: Square -> Square -> Side -> Operation ()
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
 --   profession.
 --   
---   | The first arguments denotes the origin, the second denotes the
---   square to step on, and the third denotes the destination.
+--   The first arguments denotes the origin, the second denotes the square
+--   to step on, and the third denotes the destination.
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
 
 -- | Similar to <a>plays'</a>, but checks whether the move is allowed by
 --   the profession.
 --   
---   | The first arguments denotes the origin, the third denotes the square
+--   The first arguments denotes the origin, the third denotes the square
 --   to step on, and the fourth denotes the destination.
 vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 
@@ -679,5 +679,15 @@ vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
 
 module CerkeFS
+
+-- | Applies the given operation to <a>initialBoard</a>.
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
+
+-- | Similar to <a>playFromStart</a>, but outputs in the concise ASCII
+--   format.
+--   
+--   <pre>
+--   &gt;&gt;&gt; toDebugOutput $ do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
+--   "_6h_5h_3h_8h_#k_8k_3k_5k_6k\n - _2k_7k_4k - _4h - _2h_7h\n_1h_1k_1h_1k_!k_1k_1h_1k_1h\n -  -  -  -  -  -  -  -  - \n -  -  -  - ^$h -  -  -  - \n -  -  - ^1k -  -  -  -  - \n^1h^1k^1h - ^!h^1k^1h^1k^1h\n^7h^2h - ^4h - ^4k - ^2k^7k\n^6k^5k^3k^8k^#h^8h^3h^5h^6h\n~~~\n\n"
+--   </pre>
 toDebugOutput :: Operation a2 -> String

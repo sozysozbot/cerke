@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.3.2: Add more documentations
 * ver 0.5.3.1: Refactor the code
 * ver 0.5.3.0: Check the privilege for all the professions
 * ver 0.5.2.0: Check whether the piece is stepping on an empty square. Found an actual error in the fedirrgavir, which I fixed by forging moves.
