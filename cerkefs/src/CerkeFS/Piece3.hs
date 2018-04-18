@@ -14,7 +14,7 @@ module CerkeFS.Piece3
 ) where
 import CerkeFS.Internal.Piece2
 
-type PhantomPiece = (Color, Profession, Side) -- Not a physical piece; only serves to be a template
+type PhantomPiece = (Color, Profession, Side) -- ^ Not a physical piece; only serves to be a template
 
 -- | Flip the side that the piece belongs to, or 'Nothing' if 'Tam2'.
 flipSide :: Piece -> Maybe Piece

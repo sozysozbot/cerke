@@ -41,7 +41,6 @@ instance Show Square where
 
 type Board1 = M.Map Square Piece
 
-type M = Either Error
 
 data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
 
@@ -117,11 +116,11 @@ isOccupied :: Square -> Board1 -> Bool
 isOccupied = M.member
 
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
-putPiece :: Piece -> Square -> Board1 -> M Board1
+putPiece :: Piece -> Square -> Board1 -> Either Error Board1
 putPiece p sq b = if sq `isOccupied` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
 
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
-removePiece :: Square -> Board1 -> M (Piece, Board1)
+removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
 removePiece sq b = toEither (EmptySquare sq) $ do
  p <- sq `M.lookup` b
  return (p, M.delete sq b)
@@ -143,7 +142,7 @@ movePiece vec sq b = do
 --
 --   * 'EmptySquare' if the original square is empty
 --   * 'AlreadyOccupied' if the resulting square is already occupied
-movePieceFromToFull :: Square -> Square -> Board1 -> M (Maybe PhantomPiece, Board1)
+movePieceFromToFull :: Square -> Square -> Board1 -> Either Error (Maybe PhantomPiece, Board1)
 movePieceFromToFull from to b = do
  (p, new_b) <- removePiece from b
  newerBoard <- putPiece p to new_b

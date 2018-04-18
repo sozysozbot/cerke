@@ -27,7 +27,7 @@ vPlays2 from to sid = do
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 --
--- | The first arguments denotes the origin, the second denotes the square to step on, and the third denotes the destination.
+-- The first arguments denotes the origin, the second denotes the square to step on, and the third denotes the destination.
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
 vPlays3 from thru to sid = do
  verifyNonEmpty thru
@@ -55,7 +55,7 @@ vPlays2' from prof to sid = do
 
 -- | Similar to 'plays'', but checks whether the move is allowed by the profession.
 --
--- | The first arguments denotes the origin, the third denotes the square to step on, and the fourth denotes the destination.
+-- The first arguments denotes the origin, the third denotes the square to step on, and the fourth denotes the destination.
 vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 vPlays3' from prof thru to sid = do
  verifyNonEmpty thru
