@@ -23,6 +23,7 @@ module CerkeFS.Internal.Board
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
 ,sqList
 ,isTam2HueAUai1
+,isOccupied
 --,toEither
 ) where
 import CerkeFS.Piece3
@@ -74,6 +75,7 @@ data Error
  | WrongProfessionSpecified {expected :: Maybe Profession, specified :: Maybe Profession} -- ^ The actual profession differs from the expectation.
  | FalseDeclaration -- ^ Declares a Dat2 whose condition is not satisfied.
  | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
+ | SteppingEmptySquare Square -- ^ Tried to step on an empty square
   deriving(Show, Eq, Ord) 
 
 {-
@@ -98,9 +100,13 @@ isTam2HueAUai1 sid board sq = isJust $ do
   else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
 
+-- | Returns whether the square is occupied
+isOccupied :: Square -> Board1 -> Bool
+isOccupied = M.member
+
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> M Board1
-putPiece p sq b = if sq `M.member` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
+putPiece p sq b = if sq `isOccupied` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
 
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> M (Piece, Board1)
@@ -121,7 +127,7 @@ movePiece vec sq b = do
  putPiece p new_sq new_b
 -}
 
--- | Moves a piece from a square to a square. Raises: 
+-- | Moves a piece from a square to a square, returning the phantom version of the piece that was moved. Raises: 
 --
 --   * 'EmptySquare' if the original square is empty
 --   * 'AlreadyOccupied' if the resulting square is already occupied

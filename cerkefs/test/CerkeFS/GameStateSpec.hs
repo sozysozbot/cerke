@@ -222,6 +222,7 @@ fed004 = do
  plays' sqZAI Nuak1 sqZY  >+> playsTam sqZO     sqXI
  plays' sqXAU Dau2  sqZAI >+> plays' sqXA Uai1  sqZI
  plays' sqMAU Gua2  sqZAU >+> plays' sqLE Gua2  sqZE
+ plays' sqXIA Uai1  sqXAU >+> plays' sqZA Io    sqNE
  plays' sqPAU Tuk2  sqPY  >+> plays' sqXE Dau2  sqTU
  plays' sqNAI Kauk2 sqNY  >+> plays' sqTA Uai1  sqXE
  plays' sqCAI Kauk2 sqCY  >+> plays' sqXU Kauk2 sqXY
@@ -241,6 +242,7 @@ fed004' = do
  vPlays2' sqZAI Nuak1 sqZY  >+> playsTam sqZO     sqXI
  vPlays2' sqXAU Dau2  sqZAI >+> vPlays3' sqXA Uai1 sqXE sqZI
  vPlays2' sqMAU Gua2  sqZAU >+> vPlays3' sqLE Gua2 sqTE sqZE
+ vPlays2' sqXIA Uai1  sqXAU >+> vPlays3' sqZA Io sqTE sqNE
  vPlays3' sqPAU Tuk2  sqPAI sqPY  >+> vPlays3' sqXE Dau2 sqZI sqTU
  vPlays2' sqNAI Kauk2 sqNY  >+> vPlays3' sqTA Uai1  sqZE sqXE
  vPlays2' sqCAI Kauk2 sqCY  >+> vPlays2' sqXU Kauk2 sqXY
@@ -335,15 +337,15 @@ res003 =
  \~~~\n\
  \_#h^!k_!h\n"
 res004 = 
- "_6h_5h_3h - _#k - _3k_5k_6k\n\
- \_7k -  - _4k_2k_8h -  - _7h\n\
+ "_6h_5h_3h -  -  - _3k_5k_6k\n\
+ \_7k - _#k_4k_2k_8h -  - _7h\n\
  \_1h_1k_1h_1k_8k^$h_1h_1k_1h\n\
  \ -  -  -  -  -  -  -  -  - \n\
  \ -  -  -  -  -  -  -  -  - \n\
  \ -  - ^1h^1k^2k - ^1h^1k^7k\n\
  \^1h^1k^4h - ^3h -  -  - ^1h\n\
- \^7h^2h -  -  -  -  -  -  - \n\
- \^6k^5k^3k^8k_2h^8h -  - _4h\n\
+ \^7h^2h -  -  - ^8h -  -  - \n\
+ \^6k^5k^3k^8k_2h -  -  - _4h\n\
  \~~~\n\
  \_#h_5h^!k_!h_6h_4k^1k_1k\n"
 res005 = 

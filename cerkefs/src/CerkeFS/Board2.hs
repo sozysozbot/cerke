@@ -11,5 +11,6 @@ module CerkeFS.Board2
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA
 ,sqList
+,isOccupied
 ) where
 import CerkeFS.Internal.Board

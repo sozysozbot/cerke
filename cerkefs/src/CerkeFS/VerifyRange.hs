@@ -8,7 +8,6 @@ import CerkeFS.Internal.Board
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
-import qualified Data.MultiSet as S
 import CerkeFS.GameState
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
@@ -23,7 +22,17 @@ vPlays2 from to sid = plays from to sid
 --
 -- __/FIXME: Verification not implemented/__
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
-vPlays3 from thru to sid = plays from to sid
+vPlays3 from thru to sid = do
+ verifyNonEmpty thru
+ -- FIXME
+ plays from to sid
+
+verifyNonEmpty thru = do
+ Fullboard{board = b} <- get
+ if not(thru `isOccupied` b)
+  then lift $ Left (SteppingEmptySquare thru)
+  else return ()
+
 
 -- | Similar to 'plays'', but checks whether the move is allowed by the profession.
 --
@@ -37,4 +46,7 @@ vPlays2' from prof to sid = plays' from prof to sid
 --
 -- __/FIXME: Verification not implemented/__
 vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
-vPlays3' from prof thru to sid = plays' from prof to sid
+vPlays3' from prof thru to sid = do
+ verifyNonEmpty thru
+ -- FIXME
+ plays' from prof to sid
