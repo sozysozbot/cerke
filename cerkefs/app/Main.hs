@@ -19,8 +19,10 @@ foo str fed = do
  case playFromStart fed of
   Left e -> putStrLn $ "error: " ++ show e
   Right Fullboard{board = final, hand = pieces} -> do 
-   putStrLn $ drawBoard final
-   print pieces
+   putStr $ drawBoard final
+   putStrLn "~~~"
+   putStrLn $ concatMap convertPieceToStr pieces
+   putStrLn ""
 
 
 
