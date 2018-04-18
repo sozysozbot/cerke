@@ -1,4 +1,4 @@
-module PrettyPrintSpec (spec) where
+module CerkeFS.PrettyPrintSpec (spec) where
 
 import Test.Hspec
 import CerkeFS.PrettyPrint
