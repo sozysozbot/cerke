@@ -49,12 +49,27 @@ spec = do
         plays sqTIA sqZAI >+> plays sqKE sqNE
         plays sqZO  sqZAU >+> plays sqZI sqZY
   describe "correct behaviors" $ do
-    it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000'
+    it "fedirrgavir 000" $ res000 `shouldBeGeneratedBy` fed000
     it "fedirrgavir 001" $ res001 `shouldBeGeneratedBy` fed001
     it "fedirrgavir 002" $ res002 `shouldBeGeneratedBy` fed002
     it "fedirrgavir 003" $ res003 `shouldBeGeneratedBy` fed003
     it "fedirrgavir 004" $ res004 `shouldBeGeneratedBy` fed004
     it "fedirrgavir 005" $ res005 `shouldBeGeneratedBy` fed005
+    it "fedirrgavir 000 with validator" $ res000 `shouldBeGeneratedBy` fed000'
+    it "fedirrgavir 001 with validator" $ res001 `shouldBeGeneratedBy` fed001'
+    it "fedirrgavir 002 with validator" $ res002 `shouldBeGeneratedBy` fed002'
+    it "fedirrgavir 003 with validator" $ res003 `shouldBeGeneratedBy` fed003'
+    it "fedirrgavir 004 with validator" $ res004 `shouldBeGeneratedBy` fed004'
+    it "fedirrgavir 005 with validator" $ res005 `shouldBeGeneratedBy` fed005'
+
+fed000 :: Operation ()
+fed000 = do
+ plays'      sqTAU 虎 sqTY  >+> plays' sqNI 兵 sqNU
+ mun1(plays' sqLIA 馬 sqXO) >+> plays' sqMA 馬 sqTO
+ plays'      sqTY  虎 sqTO  >+> plays' sqTA 将 sqNI
+ plays'      sqLAU 弓 sqLO  >+> plays' sqZA 王 sqZE
+ drops'            馬 sqKY  >+> mun1(plays' sqNU 兵 sqNO)
+ plays'      sqKY  馬 sqZE  >+> plays' sqXA 将 sqZE
 
 fed000' :: Operation ()
 fed000' = do
@@ -92,6 +107,30 @@ fed001 = do
  declare Downward Mok1Mok1
  taxot1
 
+fed001' :: Operation ()
+fed001' = do
+ vPlays3'      sqTAU 虎 sqNAI sqTY  >+> vPlays3'      sqXE 虎 sqCI sqXU
+ vPlays3'      sqLIA 馬 sqTAI sqXO  >+> mun1(vPlays3' sqXI 兵 sqXU sqXO)
+ vPlays2'      sqZAI 船 sqZY  >+> vPlays2'      sqME 弓 sqZE
+ mun1(vPlays3' sqXIA 将 sqXAU sqZAI)>+> playsTam    sqZO    sqZAI
+ vPlays2'      sqCAI 兵 sqCY  >+> mun1(vPlays3' sqXI 兵 sqXU sqXO) 
+ vPlays3'      sqXIA 将 sqXAU sqCAI >+> mun1(vPlays3' sqXI 兵 sqXU sqXO) 
+ vPlays2'      sqCAI 将 sqXY  >+> vPlays2'      sqXU 虎 sqTY
+ vPlays2'      sqTAI 兵 sqTY  >+> vPlays3'      sqTE 虎 sqZI sqTU
+ vPlays3'      sqXY  将 sqXAI sqCAU >+> vPlays2'      sqTU 虎 sqMAU
+ vPlays2'      sqCIA 車 sqMAU >+> playsTam    sqZAI   sqXY
+ vPlays2'      sqCAU 将 sqCAI >+> vPlays2'      sqZI 船 sqZY
+ playsTam      sqXY     sqZAU >+> vPlays3'      sqKE 巫 sqLE sqNE
+ drops        (黒, 虎) sqTAI >+> vPlays2'      sqNI 兵 sqNU
+ vPlays2'      sqXAI 兵 sqXY  >+> vPlays2'      sqNE 巫 sqNI
+ vPlays2'      sqTY  兵 sqZY  >+> mun1(vPlays2' sqZE 弓 sqZY)
+ mun1(vPlays2' sqNIA 車 sqZAI)>+> vPlays2'      sqNA 車 sqXU
+ vPlays2'      sqXO  馬 sqMI  >+> vPlays2'      sqCI 兵 sqMI
+ declare Downward Saup1
+ vPlays2'      sqXY  兵 sqXU  >+> vPlays2'      sqXI 兵 sqXU
+ drops'            車 sqCI  >+> vPlays2'      sqNI 巫 sqCI
+ declare Downward Mok1Mok1
+ taxot1
 
 fed002 :: Operation ()
 fed002 = do
@@ -121,6 +160,35 @@ fed002 = do
  declare Upward Saup1
  taxot1
 
+fed002' :: Operation ()
+fed002' = do
+ vPlays3' sqKE  Tuk2 sqLE sqNE >-> vPlays2' sqTAI Kauk2 sqTY
+ vPlays2' sqNI  Kauk2 sqNU >-> playsTam sqZO        sqZAU
+ vPlays2' sqNE  Tuk2  sqNI >-> vPlays2' sqNAI Kauk2 sqNY
+ vPlays2' sqNI  Tuk2  sqTU >-> vPlays3' sqKAU Tuk2  sqLAU sqNAU
+ vPlays3' sqTA  Uai1  sqTE sqNI >-> vPlays2' sqXAI Kauk2 sqXY
+ vPlays3' sqTE  Dau2  sqNI sqLU >-> vPlays2' sqNAU Tuk2 sqNAI
+ vPlays3' sqXE  Dau2  sqCI sqXU >-> vPlays2' sqCAI Kauk2 sqCY
+ vPlays3' sqPE  Tuk2  sqME sqCE >-> vPlays3' sqXIA Uai1 sqXAU sqXAI
+ vPlays2' sqCI  Kauk2 sqCU >-> vPlays3' sqTIA Uai1 sqTAU sqTAI
+ vPlays3' sqXA  Uai1  sqCE sqCI >-> vPlays3' sqTAU Dau2 sqNAI sqLY
+ vPlays3' sqMA  Maun1 sqXI sqTO >-> vPlays2' sqTY  Kauk2 sqTO
+ playsTam  sqZAU       sqZO >-> playsTam sqZO        sqZY
+ vPlays2' sqLE  Gua2  sqZE >-> vPlays3' sqZAI Nuak1 sqXAI sqCAI
+ vPlays3' sqLA  Maun1 sqTI sqLO >-> mun1 (vPlays2' sqXAI Uai1 sqZAI)
+ vPlays3' sqKA  Kua2  sqKI sqKU >-> vPlays3' sqLAI Kauk2 sqLY sqLO
+ vPlays3' sqLI  Kauk2 sqLU sqLO >-> vPlays3' sqLY  Dau2  sqNAI sqTY
+ mun1 (vPlays3' sqZE Gua2 sqZI sqZU) >-> vPlays3' sqZIA Io sqXAU sqCAU
+ playsTam  sqZY        sqCO >-> playsTam sqCO        sqZAU
+ vPlays2' sqZI  Nuak1 sqZO >-> vPlays2' sqTY Dau2   sqZO
+ mun1 (vPlays2' sqZE Gua2 sqZO) >-> vPlays3' sqZO Dau2 sqTU sqNI
+ vPlays2' sqTU  Tuk2  sqNI >-> vPlays3' sqTAI Uai1 sqNY sqLO
+ vPlays3' sqLU  Dau2  sqNI sqTE >-> vPlays2' sqNAI Tuk2  sqCI
+ vPlays2' sqCE  Tuk2  sqCI >-> vPlays2' sqXY  Kauk2 sqXU
+ declare Upward Saup1 
+ taxot1 
+
+
 fed003 :: Operation ()
 fed003 = do
  plays'   sqXIA Uai1  sqZAU >+> plays' sqTI Kauk2 sqTU
@@ -133,6 +201,19 @@ fed003 = do
  plays'   sqZY  Uai1  sqCAI >+> plays' sqZE Gua2  sqZIA
  declare Downward Dat2AIo
  taxot1
+
+fed003' :: Operation ()
+fed003' = do
+ vPlays2'   sqXIA Uai1  sqZAU >+> vPlays2' sqTI Kauk2 sqTU
+ playsTam   sqZO        sqCY  >+> vPlays2' sqXI Kauk2 sqXU
+ vPlays2'   sqMAI Kauk2 sqMY  >+> vPlays2' sqNI Kauk2 sqNU
+ playsTam   sqCY        sqCAU >+> vPlays3' sqKE Tuk2  sqLE sqNE
+ vPlays2'   sqCAI Kauk2 sqCY  >+> vPlays2' sqNE Tuk2  sqNI
+ vPlays2'   sqZAI Nuak1 sqZY  >+> vPlays2' sqZI Nuak1 sqZY
+ vPlays3'   sqZAU Uai1  sqTAI sqZY  >+> vPlays3' sqLE Gua2 sqTE sqZE
+ vPlays3'   sqZY  Uai1  sqXAI sqCAI >+> vPlays2' sqZE Gua2  sqZIA
+ declare Downward Dat2AIo 
+ taxot1 
 
 fed004 :: Operation ()
 fed004 = do
@@ -153,6 +234,25 @@ fed004 = do
  declare Downward Dat2AIo
  taxot1
 
+fed004' :: Operation ()
+fed004' = do
+ vPlays2' sqTAI Kauk2 sqTY  >+> vPlays2' sqXI Kauk2 sqXU
+ vPlays2' sqXAI Kauk2 sqXY  >+> vPlays2' sqZI Nuak1 sqZU
+ vPlays2' sqZAI Nuak1 sqZY  >+> playsTam sqZO     sqXI
+ vPlays2' sqXAU Dau2  sqZAI >+> vPlays3' sqXA Uai1 sqXE sqZI
+ vPlays2' sqMAU Gua2  sqZAU >+> vPlays3' sqLE Gua2 sqTE sqZE
+ vPlays3' sqPAU Tuk2  sqPAI sqPY  >+> vPlays3' sqXE Dau2 sqZI sqTU
+ vPlays2' sqNAI Kauk2 sqNY  >+> vPlays3' sqTA Uai1  sqZE sqXE
+ vPlays2' sqCAI Kauk2 sqCY  >+> vPlays2' sqXU Kauk2 sqXY
+ vPlays2' sqZAI Dau2  sqXY  >+> vPlays2' sqTU Dau2  sqXY
+ mun1(vPlays2' sqTAU Dau2  sqZAI) >+> vPlays3' sqME Gua2 sqMI sqMU
+ vPlays2' sqMAI Kauk2 sqMY  >+> vPlays2' sqXY Dau2  sqPIA
+ vPlays2' sqTAU Dau2  sqNAI >+> vPlays2' sqZU Nuak1 sqZY
+ vPlays2' sqZAU Gua2  sqZY  >+> vPlays3' sqMU Gua2  sqMY sqMIA
+ vPlays3' sqCIA Kaun1 sqXAU sqZAI >+> vPlays2' sqMIA Gua2 sqZIA
+ declare Downward Dat2AIo 
+ taxot1 
+
 fed005 :: Operation ()
 fed005 = do
  plays' sqTE 虎 sqTU  >-> plays' sqTAI 兵 sqTY
@@ -168,6 +268,22 @@ fed005 = do
  plays' sqTY 兵 sqTAI Downward
  declare Downward Saup1
  taxot1
+
+fed005' :: Operation ()
+fed005' = do
+ vPlays3' sqTE 虎 sqNI sqTU  >-> vPlays2' sqTAI 兵 sqTY
+ vPlays2' sqZI 船 sqZU  >-> vPlays3' sqTAU 虎 sqZAI sqXY
+ playsTam sqZO  sqCE  >-> vPlays2' sqXIA 将 sqZAU
+ vPlays2' sqLE 弓 sqZE  >-> vPlays2' sqTY  兵 sqTU
+ vPlays2' sqTI 兵 sqTU  >-> vPlays2' sqZIA 王 sqXIA
+ vPlays3' sqME 弓 sqMI sqMU  >-> vPlays2' sqXY  虎 sqMU
+ vPlays2' sqPE 巫 sqME  >-> vPlays2' sqLIA 馬 sqTAI
+ vPlays2' sqMI 兵 sqMU  >-> vPlays3' sqLAU 弓 sqLAI sqLY
+ vPlays2' sqZE 弓 sqTE  >-> mun1(vPlays2' sqLY  弓 sqZY)
+ vPlays2' sqTU 兵 sqTY  >-> vPlays2' sqZAI 船 sqZU
+ vPlays2' sqTY 兵 sqTAI Downward
+ declare Downward Saup1 
+ taxot1 
 
 res000, res001, res002, res003, res004, res005 :: String
 res000 = "_6h_5h_3h -  -  - _3k - _6k\n_7k_2k - _4k_8k_4h - _2h_7h\n_1h_1k_8h_1k_!k_1k_1h_1k_1h\n -  - _1h -  -  -  -  -  - \n - ^2h - ^4h^$h -  -  -  - \n -  -  -  -  -  -  -  -  - \n^1h^1k^1h^1k^!h^1k^1h^1k^1h\n^7h -  -  -  - ^4k - ^2k^7k\n^6k^5k^3k^8k^#h^8h^3h^5h^6h\n~~~\n_5k^#k\n"
