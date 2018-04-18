@@ -24,6 +24,7 @@ module CerkeFS.Internal.Board
 ,sqList
 ,isTam2HueAUai1
 ,isOccupied
+,isTam2Hue
 --,toEither
 ) where
 import CerkeFS.Piece3
@@ -83,8 +84,9 @@ data Error
 * Primitive operations on the board 
 ********************************************
 -}
-tam2Hue :: [Square]
-tam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
+-- | The list of squares that are inherently tam2Hue
+inherentTam2Hue :: [Square]
+inherentTam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
 getNeighborsAndSelf :: Square -> [Square]
 getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
@@ -94,8 +96,12 @@ isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
  piece <- sq `M.lookup` board
  (_,Uai1,s) <- toPhantom piece
- guard(s == sid)
- if sq `elem` tam2Hue
+ guard(s == sid && isTam2Hue board sq)
+
+-- | Checks whether a given square is in Tam2Hue.
+isTam2Hue :: Board1 -> Square -> Bool
+isTam2Hue board sq = isJust $ do
+ if sq `elem` inherentTam2Hue
   then return ()
   else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
