@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.0.4: Add and fix documentations
 * ver 0.5.0.3: More documentation, add haddock in git, hand denoted more concisely
 * ver 0.5.0.2: Refactor the dependencies
 * ver 0.5.0.1: initialBoard is to be defined explicitly; the relationship between this and the ASCII representation is to be confirmed by spec

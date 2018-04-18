@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.0.3
+@version 0.5.0.4
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -29,8 +29,14 @@ data Piece
 -- | Minds, 皇, tam
 Tam2 :: Piece
 Piece :: Color -> Profession -> Side -> Piece
+
+-- | The color of the piece
 [color] :: Piece -> Color
+
+-- | The profession of the piece
 [prof] :: Piece -> Profession
+
+-- | The side that the piece belongs to
 [side] :: Piece -> Side
 data Profession
 
@@ -179,25 +185,25 @@ phantomTam :: Maybe PhantomPiece
 
 module CerkeFS.Internal.Board
 data Col
-CK :: Col
-CL :: Col
-CN :: Col
-CT :: Col
-CZ :: Col
-CX :: Col
-CC :: Col
-CM :: Col
-CP :: Col
+ColumnK :: Col
+ColumnL :: Col
+ColumnN :: Col
+ColumnT :: Col
+ColumnZ :: Col
+ColumnX :: Col
+ColumnC :: Col
+ColumnM :: Col
+ColumnP :: Col
 data Row
-RA :: Row
-RE :: Row
-RI :: Row
-RU :: Row
-RO :: Row
-RY :: Row
-RAI :: Row
-RAU :: Row
-RIA :: Row
+RowA :: Row
+RowE :: Row
+RowI :: Row
+RowU :: Row
+RowO :: Row
+RowY :: Row
+RowAI :: Row
+RowAU :: Row
+RowIA :: Row
 data Square
 Square :: Row -> Col -> Square
 [row] :: Square -> Row
@@ -266,6 +272,9 @@ FalseDeclaration :: Error
 
 -- | Tried to take a piece protected by Tam2HueAUai1
 Tam2HueAUai1Violation :: Error
+
+-- | Add a vector to the square to get a new square. <a>Nothing</a> if it
+--   goes out of the board.
 add :: Vec -> Square -> Maybe Square
 getNeighborsAndSelf :: Square -> [Square]
 sqKA :: Square
@@ -354,6 +363,9 @@ sqPIA :: Square
 --   <tt>[<a>sqKA</a>, <a>sqLA</a>, <a>sqNA</a> ... <a>sqCIA</a>,
 --   <a>sqMIA</a>, <a>sqPIA</a>]</tt>.
 sqList :: [Square]
+
+-- | Checks whether the piece on a given square is a Tam2HueAUai1 that
+--   belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Error
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Error
@@ -503,6 +515,34 @@ Fullboard :: Board1 -> [Piece] -> Fullboard
 [board] :: Fullboard -> Board1
 [hand] :: Fullboard -> [Piece]
 
+-- | An alias for the monad that represents an operation.
+type Operation = StateT Fullboard (Either Error)
+data Dat2
+
+-- | 無抗行処; la als
+Mun1MakMok1Hue :: Dat2
+
+-- | 筆兵無傾; la ny anknish
+Kua2Kauk2Mun1Aum1 :: Dat2
+
+-- | 地心; la meunerfergal
+Huep2Hia1 :: Dat2
+
+-- | 行行; la nienulerless
+Mok1Mok1 :: Dat2
+
+-- | 王; la nermetixaler
+Dat2AIo :: Dat2
+
+-- | 獣; la pysess
+Saup1 :: Dat2
+
+-- | 闇戦之集; la phertarsa'd elmss
+HuetKaikADat2 :: Dat2
+
+-- | 声無行処; la ytartanerfergal
+Cuop2Mun1Mok1Hue :: Dat2
+
 -- | Moves the piece. If the destination is blocked, the piece at the
 --   destination is implicitly captured.
 --   
@@ -514,8 +554,6 @@ Fullboard :: Board1 -> [Piece] -> Fullboard
 --   <li><a>TamCapture</a> is raised if the destination is occupied by
 --   Tam2, which cannot be captured.</li>
 --   </ul>
---   
---   <b><i>FIXME: Uai protection not implemented</i></b>
 plays :: Square -> Square -> Side -> Operation ()
 
 -- | Drops the piece to the square.
@@ -543,38 +581,17 @@ mun1 :: (Side -> Operation ()) -> Side -> Operation ()
 -- | Similar to <a>plays</a>, but also checks if the moving piece has the
 --   profession specified by the argument.
 plays' :: Square -> Profession -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays</a>, but also checks if the moving piece is Tam2.
 playsTam :: Square -> Square -> Side -> Operation ()
-data Dat2
-
--- | 無抗行処; la als
-Mun1MakMok1Hue :: Dat2
-
--- | 筆兵無傾; la ny anknish
-Kua2Kauk2Mun1Aum1 :: Dat2
-
--- | 地心; la meunerfergal
-Huep2Hia1 :: Dat2
-
--- | 行行; la nienulerless
-Mok1Mok1 :: Dat2
-
--- | 王; la nermetixaler
-Dat2AIo :: Dat2
-
--- | 獣; la pysess
-Saup1 :: Dat2
-
--- | 闇戦之集; la phertarsa'd elmss
-HuetKaikADat2 :: Dat2
-
--- | 声無行処; la ytartanerfergal ~ | BapPok -- ^ 同色; la dejixece
-Cuop2Mun1Mok1Hue :: Dat2
 
 -- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
 --   required for the declaration is not met.
 declare :: Side -> Dat2 -> Operation ()
+
+-- | Supposed to be a declaration that the game has ended, but currently is
+--   just a dummy operation with no consequences.
 taxot1 :: Operation ()
-type Operation = StateT Fullboard (Either Error)
 
 -- | <a>Upward</a> plays, followed by <a>Downward</a>
 (>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
