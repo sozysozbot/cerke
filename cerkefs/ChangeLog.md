@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.0.2: Refactor the dependencies
 * ver 0.5.0.1: initialBoard is to be defined explicitly; the relationship between this and the ASCII representation is to be confirmed by spec
 * ver 0.5.0.0: implement tam2 hue a uai1
 * ver 0.4.2.1: move part of the test to be done in test not main
