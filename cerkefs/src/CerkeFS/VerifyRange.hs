@@ -3,8 +3,18 @@ module CerkeFS.VerifyRange
 ,vPlays3
 ,vPlays3'
 ,vPlays2'
+,vPlTam2
+,vPlTam3
+,Operation
+,taxot1
+,drops
+,drops'
+,mun1
+,declare
+,(>+>),(>->)
+,Dat2(..)
 ) where
-import CerkeFS.Board2
+import CerkeFS.Internal.Board
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
@@ -13,6 +23,41 @@ import CerkeFS.VerifyDisplacement
 
 import Control.Exception.Base(assert)
 import Control.Monad(unless)
+import Data.List(intersect)
+
+-- | Plays Tam2, which did not step on a piece.
+--
+-- Thus, Tam2 must have visited an empty square, then to the destination.
+vPlTam2 :: Square -> Square -> Side -> Operation ()
+vPlTam2 from to sid = do 
+ playsTam from to sid
+ Fullboard{board = b} <- get
+ unless(doesMeetingPlaceExist b from to) $
+  lift $ Left (Tam2PrivilegeExceeded from Nothing to)
+
+-- | Checks whether there exists an unoccupied square X such that it is the neighbor of both alpha and beta.
+--
+-- If candidate is empty, returns False as expected.
+doesMeetingPlaceExist :: Board1 -> Square -> Square -> Bool
+doesMeetingPlaceExist b alpha beta = not(all (`isOccupied` b) candidate)
+ where candidate = getNeighbors alpha `intersect` getNeighbors beta  
+
+-- | Plays Tam2, which stepped on a piece.
+vPlTam3 :: Square -> Square -> Square -> Side -> Operation ()
+vPlTam3 from thru to sid = do
+ verifyNonEmpty thru
+ playsTam from to sid
+ Fullboard{board = b} <- get
+ if 
+   (from `isNeighborOf` thru && doesMeetingPlaceExist b thru to) || 
+    -- [from ~> thru ~> somewhere] + [somewhere ~> to]
+   (thru `isNeighborOf` to && doesMeetingPlaceExist b from thru)
+    -- [from ~> somewhere] + [somewhere ~> thru ~> to]
+  then return ()
+  else lift $ Left (Tam2PrivilegeExceeded from (Just thru) to)
+ 
+
+
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 vPlays2 :: Square -> Square -> Side -> Operation ()

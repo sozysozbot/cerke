@@ -120,10 +120,13 @@ plays' from prof to sid = f `validatesPlaying` (from, to, sid) where
   (True, True) -> return ()
 
 -- | Similar to 'plays', but also checks if the moving piece is Tam2.
-playsTam :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
-playsTam from to sid = f `validatesPlaying` (from, to, sid) where
- f Nothing = return ()
- f (Just(_, p, _))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
+playsTam :: Square -> Square -> Side -> Operation ()
+playsTam from to sid = do
+ Nothing <- f `validatesPlaying` (from, to, sid) -- cannot fail
+ return () 
+ where
+  f Nothing = return ()
+  f (Just(_, p, _))= Left WrongProfessionSpecified{expected = Just p, specified = Nothing}
 
 
 
