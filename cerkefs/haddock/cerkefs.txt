@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.3.2
+@version 0.5.4.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -280,6 +280,12 @@ SteppingEmptySquare :: Square -> Error
 -- | Trying a movement that the profession does not allow
 ProfessionPrivilegeExceeded :: Profession -> Square -> Error
 
+-- | Trying a movement that the Tam2 cannot do
+Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
+[_from] :: Error -> Square
+[_thru] :: Error -> (Maybe Square)
+[_to] :: Error -> Square
+
 -- | Add a vector to the square to get a new square. <a>Nothing</a> if it
 --   goes out of the board.
 add :: Vec -> Square -> Maybe Square
@@ -288,6 +294,7 @@ add :: Vec -> Square -> Maybe Square
 --   q</tt> is p minus q.
 minus :: Square -> Square -> Vec
 getNeighborsAndSelf :: Square -> [Square]
+getNeighbors :: Square -> [Square]
 sqKA :: Square
 sqLA :: Square
 sqNA :: Square
@@ -384,6 +391,7 @@ isOccupied :: Square -> Board1 -> Bool
 
 -- | Checks whether a given square is in Tam2Hue.
 isTam2Hue :: Board1 -> Square -> Bool
+isNeighborOf :: Square -> Square -> Bool
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Error
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Error
 instance GHC.Show.Show CerkeFS.Internal.Board.Error
@@ -443,6 +451,12 @@ SteppingEmptySquare :: Square -> Error
 
 -- | Trying a movement that the profession does not allow
 ProfessionPrivilegeExceeded :: Profession -> Square -> Error
+
+-- | Trying a movement that the Tam2 cannot do
+Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
+[_from] :: Error -> Square
+[_thru] :: Error -> (Maybe Square)
+[_to] :: Error -> Square
 sqKA :: Square
 sqLA :: Square
 sqNA :: Square
@@ -613,7 +627,7 @@ mun1 :: (Side -> Operation a) -> Side -> Operation ()
 plays' :: Square -> Profession -> Square -> Side -> Operation (Maybe PhantomPiece)
 
 -- | Similar to <a>plays</a>, but also checks if the moving piece is Tam2.
-playsTam :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
+playsTam :: Square -> Square -> Side -> Operation ()
 
 -- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
 --   required for the declaration is not met.
@@ -677,6 +691,75 @@ vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
 -- | Similar to <a>plays'</a>, but checks whether the move is allowed by
 --   the profession.
 vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
+
+-- | Plays Tam2, which did not step on a piece.
+--   
+--   Thus, Tam2 must have visited an empty square, then to the destination.
+vPlTam2 :: Square -> Square -> Side -> Operation ()
+
+-- | Plays Tam2, which stepped on a piece.
+vPlTam3 :: Square -> Square -> Square -> Side -> Operation ()
+
+-- | An alias for the monad that represents an operation.
+type Operation = StateT Fullboard (Either Error)
+
+-- | Supposed to be a declaration that the game has ended, but currently is
+--   just a dummy operation with no consequences.
+taxot1 :: Operation ()
+
+-- | Drops the piece to the square.
+--   
+--   <ul>
+--   <li><a>NoCorrespondingPieceInHand</a> is raised if no pieces in the
+--   hand matches the condition given by the arguments.</li>
+--   <li><a>AlreadyOccupied</a> is raised if the square is already occupied
+--   by another piece.</li>
+--   </ul>
+drops :: (Color, Profession) -> Square -> Side -> Operation ()
+
+-- | Similar to <a>drops'</a>, but infers the color of the piece to be
+--   dropped. <a>AmbiguousColor</a> is raised if the color of the piece
+--   cannot be uniquely identified.
+drops' :: Profession -> Square -> Side -> Operation ()
+
+-- | Wraps an operation to show that the operation must theoretically
+--   succeed but did not happen. Fails if the wrapped operation is illegal.
+mun1 :: (Side -> Operation a) -> Side -> Operation ()
+
+-- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
+--   required for the declaration is not met.
+declare :: Side -> Dat2 -> Operation ()
+
+-- | <a>Upward</a> plays, followed by <a>Downward</a>
+(>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+
+-- | <a>Downward</a> plays, followed by <a>Upward</a>
+(>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+data Dat2
+
+-- | 無抗行処; la als
+Mun1MakMok1Hue :: Dat2
+
+-- | 筆兵無傾; la ny anknish
+Kua2Kauk2Mun1Aum1 :: Dat2
+
+-- | 地心; la meunerfergal
+Huep2Hia1 :: Dat2
+
+-- | 行行; la nienulerless
+Mok1Mok1 :: Dat2
+
+-- | 王; la nermetixaler
+Dat2AIo :: Dat2
+
+-- | 獣; la pysess
+Saup1 :: Dat2
+
+-- | 闇戦之集; la phertarsa'd elmss
+HuetKaikADat2 :: Dat2
+
+-- | 声無行処; la ytartanerfergal
+Cuop2Mun1Mok1Hue :: Dat2
 
 module CerkeFS
 
