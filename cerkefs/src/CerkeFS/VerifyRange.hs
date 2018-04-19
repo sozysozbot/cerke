@@ -5,6 +5,14 @@ module CerkeFS.VerifyRange
 ,vPlays2'
 ,vPlTam2
 ,vPlTam3
+,Operation
+,taxot1
+,drops
+,drops'
+,mun1
+,declare
+,(>+>),(>->)
+,Dat2(..)
 ) where
 import CerkeFS.Internal.Board
 import CerkeFS.Piece3

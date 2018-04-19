@@ -1,6 +1,5 @@
 module CerkeFS
 (module CerkeFS.Board2
-,module CerkeFS.GameState
 ,module CerkeFS.PrettyPrint
 ,module Control.Monad.Trans.State.Lazy
 ,module CerkeFS.Piece3

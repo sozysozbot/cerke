@@ -2,6 +2,7 @@ module CerkeFS.GameStateSpec (spec) where
 
 import Test.Hspec
 import CerkeFS
+import CerkeFS.GameState
 import CerkeFS.TestUtilities
 
 spec :: Spec

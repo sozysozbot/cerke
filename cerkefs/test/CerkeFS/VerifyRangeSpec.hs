@@ -2,19 +2,12 @@ module CerkeFS.VerifyRangeSpec (spec) where
 
 import Test.Hspec
 import CerkeFS
+import CerkeFS.GameState
 import CerkeFS.TestUtilities
 
 spec :: Spec
 spec = do
   describe "error detections" $ do
-    it "privilege exceeded by Kauk2" $
-      ProfessionPrivilegeExceeded Kauk2 sqTI `shouldBeThrownBy` vPlays2 sqTI sqNE Downward
-    it "privilege exceeded by Kauk2" $
-      ProfessionPrivilegeExceeded Kauk2 sqTI `shouldBeThrownBy` vPlays2 sqTI sqTO Downward
-    it "privilege exceeded by Kauk2" $
-      ProfessionPrivilegeExceeded Kauk2 sqKAI `shouldBeThrownBy` vPlays2 sqKAI sqZAU Upward
-    it "privilege exceeded by Kauk2, but MovingOpponentPiece takes precedence" $
-      MovingOpponentPiece `shouldBeThrownBy` vPlays2 sqKAI sqZAU Downward
     it "fedirrgavir 000 with validator" $ 
       ProfessionPrivilegeExceeded Dau2 sqTY `shouldBeThrownBy` fed000'
   describe "correct behaviors" $ do
@@ -23,12 +16,6 @@ spec = do
     it "fedirrgavir 003 with validator" $ res003 `shouldBeGeneratedBy` fed003'
     it "fedirrgavir 004 with validator" $ res004 `shouldBeGeneratedBy` fed004'
     it "fedirrgavir 005 with validator" $ res005 `shouldBeGeneratedBy` fed005'
-    it "sample in the haddock" $ "_6h_5h_3h_8h_#k_8k_3k_5k_6k\n - _2k_7k_4k - _4h - _2h_7h\n_1h_1k_1h_1k_!k_1k_1h_1k_1h\n -  -  -  -  -  -  -  -  - \n -  -  -  - ^$h -  -  -  - \n -  -  - ^1k -  -  -  -  - \n^1h^1k^1h - ^!h^1k^1h^1k^1h\n^7h^2h - ^4h - ^4k - ^2k^7k\n^6k^5k^3k^8k^#h^8h^3h^5h^6h\n~~~\n\n" `shouldBeGeneratedBy` do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
-    it "fedirrgavir 001, Tam2 also validated" $ res001 `shouldBeGeneratedBy` fed001''
-    it "fedirrgavir 002, Tam2 also validated" $ res002 `shouldBeGeneratedBy` fed002''
-    it "fedirrgavir 003, Tam2 also validated" $ res003 `shouldBeGeneratedBy` fed003''
-    it "fedirrgavir 004, Tam2 also validated" $ res004 `shouldBeGeneratedBy` fed004''
-    it "fedirrgavir 005, Tam2 also validated" $ res005 `shouldBeGeneratedBy` fed005''
 
 
 fed000' :: Operation ()
