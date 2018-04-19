@@ -19,7 +19,7 @@ import CerkeFS.Internal.Board
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
-import CerkeFS.GameState
+import CerkeFS.Operations
 import CerkeFS.VerifyDisplacement
 
 import Control.Exception.Base(assert)
