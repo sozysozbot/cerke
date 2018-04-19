@@ -12,6 +12,7 @@ module CerkeFS.Internal.Board
 ,Error(..)
 ,add,minus
 ,getNeighborsAndSelf
+,getNeighbors
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
  sqKE,  sqLE,  sqNE,  sqTE,  sqZE,  sqXE,  sqCE,  sqME,  sqPE, 
  sqKI,  sqLI,  sqNI,  sqTI,  sqZI,  sqXI,  sqCI,  sqMI,  sqPI, 
@@ -82,6 +83,11 @@ data Error
  | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
  | SteppingEmptySquare Square -- ^ Tried to step on an empty square
  | ProfessionPrivilegeExceeded Profession Square -- ^ Trying a movement that the profession does not allow
+ | Tam2PrivilegeExceeded{
+  _from :: Square,
+  _thru :: (Maybe Square),
+  _to :: Square
+  } -- ^ Trying a movement that the Tam2 cannot do
   deriving(Show, Eq, Ord) 
 
 {-
@@ -95,6 +101,10 @@ inherentTam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
 getNeighborsAndSelf :: Square -> [Square]
 getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
+
+getNeighbors :: Square -> [Square]
+getNeighbors sq = mapMaybe (`add` sq) 
+ [Vec a b | (a,b) <- [(1,1),(1,-1),(-1,1),(-1,-1),(0,1),(1,0),(0,-1),(-1,0)]]
 
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool

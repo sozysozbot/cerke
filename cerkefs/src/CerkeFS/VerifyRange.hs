@@ -3,7 +3,10 @@ module CerkeFS.VerifyRange
 ,vPlays3
 ,vPlays3'
 ,vPlays2'
+,vPlTam2
+,vPlTam3
 ) where
+import CerkeFS.Internal.Board
 import CerkeFS.Board2
 import CerkeFS.Piece3
 import Control.Monad.Trans.Class
@@ -12,7 +15,26 @@ import CerkeFS.GameState
 import CerkeFS.VerifyDisplacement
 
 import Control.Exception.Base(assert)
-import Control.Monad(unless)
+import Control.Monad(unless, when)
+import Data.List(intersect)
+
+-- | Plays Tam2, which did not step on a piece.
+--
+-- Thus, Tam2 must have visited an empty square, then to the destination.
+vPlTam2 :: Square -> Square -> Side -> Operation ()
+vPlTam2 from to sid = do 
+ playsTam from to sid
+ Fullboard{board = b} <- get
+ let candidate = getNeighbors from `intersect` getNeighbors to
+ when (all (`isOccupied` b) candidate) $
+  lift $ Left (Tam2PrivilegeExceeded from Nothing to)
+
+-- | __/FIXME/__
+vPlTam3 :: Square -> Square -> Square -> Side -> Operation ()
+vPlTam3 from thru to sid = do
+ verifyNonEmpty thru
+ playsTam from to sid
+ return ()
 
 -- | Similar to 'plays', but checks whether the move is allowed by the profession.
 vPlays2 :: Square -> Square -> Side -> Operation ()
