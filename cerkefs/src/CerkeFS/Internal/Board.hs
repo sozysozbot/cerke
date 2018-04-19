@@ -26,6 +26,7 @@ module CerkeFS.Internal.Board
 ,isTam2HueAUai1
 ,isOccupied
 ,isTam2Hue
+,isNeighborOf
 --,toEither
 ) where
 import CerkeFS.Piece3
@@ -105,6 +106,9 @@ getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,
 getNeighbors :: Square -> [Square]
 getNeighbors sq = mapMaybe (`add` sq) 
  [Vec a b | (a,b) <- [(1,1),(1,-1),(-1,1),(-1,-1),(0,1),(1,0),(0,-1),(-1,0)]]
+
+isNeighborOf :: Square -> Square -> Bool
+isNeighborOf s1 s2 = s1 `elem` getNeighbors s2
 
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
