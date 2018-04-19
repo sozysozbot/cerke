@@ -9,7 +9,7 @@ module CerkeFS
 ,toDebugOutput
 ) where
 import CerkeFS.Board2
-import CerkeFS.GameState
+--import CerkeFS.GameState
 import CerkeFS.PrettyPrint
 import Control.Monad.Trans.State.Lazy
 import CerkeFS.Piece3

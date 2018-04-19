@@ -13,6 +13,7 @@ module CerkeFS.VerifyRange
 ,declare
 ,(>+>),(>->)
 ,Dat2(..)
+,Fullboard(..)
 ) where
 import CerkeFS.Internal.Board
 import CerkeFS.Piece3
