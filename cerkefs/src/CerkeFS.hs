@@ -9,6 +9,7 @@ CerkeFS, which stands for cerke'd fedirrgavir'i slergyl, is a library to check w
 module CerkeFS
 (module CerkeFS.Board2
 ,module CerkeFS.PrettyPrint
+,module Control.Monad.Trans.Class
 ,module Control.Monad.Trans.State.Lazy
 ,module CerkeFS.Piece3
 ,vPlays2
@@ -27,20 +28,25 @@ module CerkeFS
 ,Dat2(..)
 ,Fullboard(..)
 ,initialBoard
+,initialFullBoard
 ,playFromStart
 ,toDebugOutput
 ) where
 import CerkeFS.Board2
 --import CerkeFS.GameState
 import CerkeFS.PrettyPrint
+import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 import CerkeFS.Piece3
 import CerkeFS.VerifyRange
 import CerkeFS.InitialBoard
 
+initialFullBoard :: Fullboard
+initialFullBoard = Fullboard{board = initialBoard, hand = []}
+
 -- | Applies the given operation to 'initialBoard'.
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
-playFromStart p = execStateT p Fullboard{board = initialBoard, hand = []}
+playFromStart p = execStateT p initialFullBoard
 
 -- | Similar to 'playFromStart', but outputs in the concise ASCII format.
 --
