@@ -1,0 +1,20 @@
+(Move3 sqZO sqZO sqXU,162)
+(Move2 sqXU sqZU,156)
+(Move3 sqZU sqTI sqXI,192)
+(Move3 sqLA sqTI sqXO,166)
+(Move3 sqXI sqXE sqXU,231)
+(Move3 sqXA sqXE sqCE,188)
+(Move3 sqZAI sqZI sqZA,199)
+[Dat2AIo]
+_6h - _3h_8h^!h - _3k_5k_6k
+_7k_2k - _4k - _4h_8k_2h_7h
+_1h_1k_1h_1k_!k - _1h_1k_1h
+ -  -  -  -  - ^$h -  -  - 
+ -  -  -  -  - _5h -  -  - 
+ -  -  -  -  -  -  -  -  - 
+^1h^1k^1h^1k - ^1k^1h^1k^1h
+^7h^2h - ^4h - ^4k - ^2k^7k
+^6k^5k^3k^8k^#h^8h^3h^5h^6h
+~~~
+^#k^1k
+

@@ -1,0 +1,22 @@
+(Move3 sqZO sqTI sqNE,162)
+(Move3 sqKE sqLE sqZO,138)
+(Move3 sqMAU sqMAI sqMI,176)
+(Move2 sqCI sqCU,249)
+(Move3 sqNE sqTI sqXA,207)
+(Move3 sqZO sqCAI sqPO,225)
+(Move3 sqXA sqMA sqPA,213)
+(Move3 sqPE sqME sqCI,148)
+(Move3 sqTAU sqNAI sqCI,150)
+[Huep2Hia1]
+_6h_5h_3h_8h_#k - _3k_5k^$h
+ - _2k - _4k - _4h - _2h - 
+_1h_1k_1h_1k_!k_1k^4h^2k_1h
+ -  -  -  -  -  - _1h -  - 
+ -  -  -  -  -  -  -  - _7k
+ -  -  -  -  -  -  -  -  - 
+^1h^1k^1h^1k^!h^1k^1h^1k^1h
+^7h^2h -  -  - ^4k -  - ^7k
+^6k^5k^3k^8k^#h^8h^3h^5h^6h
+~~~
+^7h^6k^8k^1k
+

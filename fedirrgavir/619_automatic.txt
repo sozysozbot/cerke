@@ -1,0 +1,24 @@
+(Move3 sqZO sqZI sqTE,162)
+(Move3 sqTE sqZA sqZE,163)
+(Move3 sqZE sqTA sqXA,202)
+(Move3 sqLA sqTI sqLO,125)
+(Move3 sqXA sqCI sqME,184)
+(Move3 sqTA sqZA sqXA,211)
+(Move2 sqME sqMI,204)
+(Move3 sqMI sqXI sqZE,199)
+(Move3 sqZE sqXI sqZU,198)
+(Move3 sqLO sqTI sqXO,206)
+(Move3 sqZU sqXI sqXO,214)
+[Saup1]
+_6h - _3h - _#k_8h_3k_5k_6k
+_7k_2k -  -  - _4h -  - _7h
+_1h_1k_1h_1k_!k_1k_1h - _1h
+ -  -  -  -  -  -  -  -  - 
+ -  -  -  -  - ^$h -  -  - 
+ -  -  -  -  -  -  -  -  - 
+^1h^1k^1h^1k^!h^1k^1h^1k^1h
+^7h^2h - ^4h - ^4k - ^2k^7k
+^6k^5k^3k^8k^#h^8h^3h^5h^6h
+~~~
+^5h^1k^2h^8k^4k
+

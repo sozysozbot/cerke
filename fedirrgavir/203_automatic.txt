@@ -1,0 +1,60 @@
+(Move3 sqZAI sqZO sqZI,162)
+(Move3 sqZO sqCAI sqXAU,157)
+(Move3 sqTIA sqTAU sqZAI,156)
+(Move3 sqXAU sqZIA sqNAU,202)
+(Move3 sqMAU sqPAU sqZAU,179)
+(Move3 sqNAU sqNIA sqTAI,199)
+(Move3 sqZAU sqTAU sqTIA,191)
+(Move3 sqTAI sqLAU sqKAU,207)
+(Move3 sqLAI sqNAI sqTAI,158)
+(Move2 sqMI sqMU,144)
+(Move3 sqLAU sqLI sqKI,153)
+(Move3 sqKAU sqNIA sqNAU,159)
+(Move2 sqCIA sqMAU,194)
+(Move3 sqXA sqXE sqZI,217)
+(Move3 sqMAU sqPAI sqCIA,194)
+(Move3 sqNAU sqTIA sqTAU,223)
+(Move3 sqKI sqKE sqKU,215)
+(Move3 sqTAU sqTAU sqZAI,241)
+(Move3 sqZAI sqXAI sqZY,220)
+(Move3 sqTE sqNI sqLU,197)
+(Move3 sqNAI sqTAI sqTO,200)
+(Move2 sqZY sqTY,219)
+(Move3 sqTY sqTO sqLI,208)
+(Move3 sqPE sqPI sqPU,261)
+(Move3 sqZIA sqXIA sqZAU,244)
+(Move2 sqMU sqMO,264)
+(Move3 sqLI sqNI sqNA,255)
+(Move3 sqZI sqXI sqZE,193)
+(Move2 sqNA sqTI,197)
+(Move3 sqZE sqTI sqTE,214)
+(Move3 sqTI sqTA sqTE,228)
+(Move2 sqTE sqZE,175)
+(Move3 sqTIA sqTAI sqTY,225)
+(Move2 sqLU sqKO,195)
+(Move2 sqZE sqXI,240)
+(Move3 sqXI sqME sqMI,187)
+(Move3 sqMI sqCI sqXO,259)
+(Move2 sqXO sqZAI,194)
+(Move3 sqZAI sqTY sqNAU,256)
+(Move3 sqNAU sqNIA sqTAI,211)
+(Move3 sqTAI sqLIA sqLAU,220)
+(Move2 sqLAU sqTAI,193)
+(Move3 sqLIA sqTAI sqXO,220)
+(Move2 sqPU sqPO,207)
+(Move2 sqCIA sqMAU,215)
+(Move3 sqTAI sqXAI sqCAU,207)
+(Move2 sqMAI sqMO,212)
+[HuetKaikADat2]
+_6h_5h - _8h_#k - _3k_5k_6k
+_7k_2k -  -  - _4h - _2h - 
+ -  - _1h -  -  - _1h - _1h
+^2h -  -  -  -  -  -  -  - 
+_4k -  - ^1h - ^5k - ^1k_7h
+ -  -  - ^2k -  -  -  -  - 
+^1h -  -  -  - ^1k^1h - ^1h
+ -  -  -  - ^#h - ^$h^3h^7k
+^6k - ^3k -  - ^8h - ^5h^6h
+~~~
+^1k_1k^1k^8k^1k^3h^1k_8k_4h_!h^1h_7h_1k_4k^!k
+
