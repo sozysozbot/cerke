@@ -3,10 +3,65 @@ module Main
 )
 where
 import CerkeFS
+import Data.Either(isRight)
+import System.Random.MWC
+import Control.Monad
+
+data Move = Move2 Square Square | Move3 Square Square Square deriving(Show, Eq, Ord)
+
+testAll :: Side -> Fullboard -> [Move]
+testAll sid fb =
+ [ Move2 from to | from <- l, to <- l, isValid2 sid fb from to, from /= to ] ++
+ [ Move3 from thru to | from <- l, thru <- l, to <- l, isValid3 sid fb from thru to, from /= to]
+  where l = sqList
+isValid2 :: Side -> Fullboard -> Square -> Square -> Bool
+isValid2 sid fb from to = isRight $ execStateT (vPlays2 from to sid) fb
+
+isValid3 :: Side -> Fullboard -> Square -> Square -> Square -> Bool
+isValid3 sid fb from thru to = isRight $ execStateT (vPlays3 from thru to sid) fb
+
+dispatch :: Move -> Side -> Fullboard -> Either Error Fullboard
+dispatch (Move2 from to) sid fb = vPlays2 from to sid `execStateT` fb
+dispatch (Move3 from thru to) sid fb = vPlays3 from thru to sid `execStateT` fb
+
+canDeclare :: Side -> Fullboard -> [Dat2]
+canDeclare sid fb = [ dat | dat <- [Mun1MakMok1Hue .. Cuop2Mun1Mok1Hue], isRight (declare sid dat `runStateT` fb)] 
+
 
 main :: IO ()
 main = do
- print $ toDebugOutput $ do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
+ ((), Fullboard{board = final, hand = pieces}) <- runStateT randomPlay initialFullBoard
+ putStrLn $ drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
+
+randomPlay :: StateT Fullboard IO ()
+randomPlay = do
+ coin <- lift . withSystemRandom . asGenIO $ \gen -> uniformR (0, 1) gen
+ [] <- if coin == (0 :: Int) then randomlyPlayOnce Downward else return []
+ randomPlay'
+
+randomPlay' :: StateT Fullboard IO ()
+randomPlay' = do
+ arr1 <- randomlyPlayOnce Upward
+ if(null arr1) then do
+   arr2 <- randomlyPlayOnce Downward
+   if(null arr2) then randomPlay' else lift $ print arr2
+ else lift $ print arr1
+
+
+randomlyPlayOnce :: Side -> StateT Fullboard IO [Dat2]
+randomlyPlayOnce sid = StateT $ \fb -> do
+ let list = testAll sid fb
+ i <- withSystemRandom . asGenIO $ \gen -> uniformR (0, length list - 1) gen
+ let move = list !! i
+ print $ (move, length list)
+ let Right new_fb = dispatch move sid fb
+ return (canDeclare sid new_fb,new_fb)
+
+
+
+
+ --print $ toDebugOutput $ do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
+ {-
  foo "test" $ do
   -- vPlays2' sqTAI Kauk2 sqTY  >+> vPlays2' sqXI Kauk2 sqXU
   -- vPlays2' sqXAI Kauk2 sqXY  >+> vPlays2' sqZI Nuak1 sqZU
@@ -23,7 +78,7 @@ main = do
   -- vPlays2' sqZAU Gua2  sqZY  >+> vPlays3' sqMU Gua2  sqMY sqMIA
   -- vPlays3' sqCIA Kaun1 sqXAU sqZAI >+> vPlays2' sqMIA Gua2 sqZIA
   -- declare Downward Dat2AIo 
-  taxot1 
+  taxot1 -}
 
 foo :: String -> Operation a2 -> IO ()
 foo str fed = do

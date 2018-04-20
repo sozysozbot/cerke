@@ -38,6 +38,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - cerkefs
+    - mwc-random
 
 tests:
   cerkefs-test:
