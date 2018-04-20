@@ -54,29 +54,29 @@ fed001'' = do
 
 fed002'' :: Operation ()
 fed002'' = do
- vPlays3' sqKE  Tuk2 sqLE sqNE >-> vPlays2' sqTAI Kauk2 sqTY
- vPlays2' sqNI  Kauk2 sqNU >-> vPlTam3 sqZO    sqTY    sqZAU
- vPlays2' sqNE  Tuk2  sqNI >-> vPlays2' sqNAI Kauk2 sqNY
- vPlays2' sqNI  Tuk2  sqTU >-> vPlays3' sqKAU Tuk2  sqLAU sqNAU
- vPlays3' sqTA  Uai1  sqTE sqNI >-> vPlays2' sqXAI Kauk2 sqXY
- vPlays3' sqTE  Dau2  sqNI sqLU >-> vPlays2' sqNAU Tuk2 sqNAI
- vPlays3' sqXE  Dau2  sqCI sqXU >-> vPlays2' sqCAI Kauk2 sqCY
- vPlays3' sqPE  Tuk2  sqME sqCE >-> vPlays3' sqXIA Uai1 sqXAU sqXAI
- vPlays2' sqCI  Kauk2 sqCU >-> vPlays3' sqTIA Uai1 sqTAU sqTAI
- vPlays3' sqXA  Uai1  sqCE sqCI >-> vPlays3' sqTAU Dau2 sqNAI sqLY
- vPlays3' sqMA  Maun1 sqXI sqTO >-> vPlays2' sqTY  Kauk2 sqTO
- vPlTam3  sqZAU   sqTAI    sqZO >-> vPlTam3 sqZO  sqXU      sqZY
- vPlays2' sqLE  Gua2  sqZE >-> vPlays3' sqZAI Nuak1 sqXAI sqCAI
- vPlays3' sqLA  Maun1 sqTI sqLO >-> mun1 (vPlays2' sqXAI Uai1 sqZAI)
- vPlays3' sqKA  Kua2  sqKI sqKU >-> vPlays3' sqLAI Kauk2 sqLY sqLO
- vPlays3' sqLI  Kauk2 sqLU sqLO >-> vPlays3' sqLY  Dau2  sqNAI sqTY
- mun1 (vPlays3' sqZE Gua2 sqZI sqZU) >-> vPlays3' sqZIA Io sqXAU sqCAU
- vPlTam2  sqZY        sqCO >-> vPlTam3 sqCO   sqXY     sqZAU
- vPlays2' sqZI  Nuak1 sqZO >-> vPlays2' sqTY Dau2   sqZO
- mun1 (vPlays2' sqZE Gua2 sqZO) >-> vPlays3' sqZO Dau2 sqTU sqNI
- vPlays2' sqTU  Tuk2  sqNI >-> vPlays3' sqTAI Uai1 sqNY sqLO
- vPlays3' sqLU  Dau2  sqNI sqTE >-> vPlays2' sqNAI Tuk2  sqCI
- vPlays2' sqCE  Tuk2  sqCI >-> vPlays2' sqXY  Kauk2 sqXU
+ vPlays3'      sqKE  Tuk2  sqLE  sqNE >-> vPlays2'      sqTAI Kauk2       sqTY
+ vPlays2'      sqNI  Kauk2       sqNU >-> vPlTam3       sqZO        sqTY  sqZAU
+ vPlays2'      sqNE  Tuk2        sqNI >-> vPlays2'      sqNAI Kauk2       sqNY
+ vPlays2'      sqNI  Tuk2        sqTU >-> vPlays3'      sqKAU Tuk2  sqLAU sqNAU
+ vPlays3'      sqTA  Uai1  sqTE  sqNI >-> vPlays2'      sqXAI Kauk2       sqXY
+ vPlays3'      sqTE  Dau2  sqNI  sqLU >-> vPlays2'      sqNAU Tuk2        sqNAI
+ vPlays3'      sqXE  Dau2  sqCI  sqXU >-> vPlays2'      sqCAI Kauk2       sqCY
+ vPlays3'      sqPE  Tuk2  sqME  sqCE >-> vPlays3'      sqXIA Uai1  sqXAU sqXAI
+ vPlays2'      sqCI  Kauk2       sqCU >-> vPlays3'      sqTIA Uai1  sqTAU sqTAI
+ vPlays3'      sqXA  Uai1  sqCE  sqCI >-> vPlays3'      sqTAU Dau2  sqNAI sqLY
+ vPlays3'      sqMA  Maun1 sqXI  sqTO >-> vPlays2'      sqTY  Kauk2       sqTO
+ vPlTam3       sqZAU       sqTAI sqZO >-> vPlTam3       sqZO        sqXU  sqZY
+ vPlays2'      sqLE  Gua2        sqZE >-> vPlays3'      sqZAI Nuak1 sqXAI sqCAI
+ vPlays3'      sqLA  Maun1 sqTI  sqLO >-> mun1(vPlays2' sqXAI Uai1        sqZAI)
+ vPlays3'      sqKA  Kua2  sqKI  sqKU >-> vPlays3'      sqLAI Kauk2 sqLY  sqLO
+ vPlays3'      sqLI  Kauk2 sqLU  sqLO >-> vPlays3'      sqLY  Dau2  sqNAI sqTY
+ mun1(vPlays3' sqZE  Gua2  sqZI  sqZU)>-> vPlays3'      sqZIA Io    sqXAU sqCAU
+ vPlTam2       sqZY              sqCO >-> vPlTam3       sqCO        sqXY  sqZAU
+ vPlays2'      sqZI  Nuak1       sqZO >-> vPlays2'      sqTY  Dau2        sqZO
+ mun1(vPlays2' sqZE  Gua2        sqZO)>-> vPlays3'      sqZO  Dau2  sqTU  sqNI
+ vPlays2'      sqTU  Tuk2        sqNI >-> vPlays3'      sqTAI Uai1  sqNY  sqLO
+ vPlays3'      sqLU  Dau2  sqNI  sqTE >-> vPlays2'      sqNAI Tuk2        sqCI
+ vPlays2'      sqCE  Tuk2        sqCI >-> vPlays2'      sqXY  Kauk2       sqXU
  declare Upward Saup1 
  taxot1 
 

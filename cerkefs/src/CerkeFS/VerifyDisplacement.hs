@@ -3,7 +3,7 @@ module CerkeFS.VerifyDisplacement
 ) where
 import CerkeFS.Internal.Board
 import CerkeFS.Piece3
-import CerkeFS.GameState
+import CerkeFS.Operations
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 

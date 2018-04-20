@@ -1,15 +1,37 @@
+{-|
+Module      : CerkeFS
+Description : Public APIs for the CerkeFS. It should be possible to depict most valid operations with functions exported from this module.
+Maintainer  : sozysozbot@email.com
+Stability   : experimental
+
+CerkeFS, which stands for cerke'd fedirrgavir'i slergyl, is a library to check whether the given record of the game of Cerke is valid or not. It should be possible to depict most valid operations with functions exported from this module.
+-}
 module CerkeFS
 (module CerkeFS.Board2
 ,module CerkeFS.PrettyPrint
 ,module Control.Monad.Trans.State.Lazy
 ,module CerkeFS.Piece3
-,module CerkeFS.VerifyRange
-,module CerkeFS.InitialBoard
+,vPlays2
+,vPlays3
+,vPlays3'
+,vPlays2'
+,vPlTam2
+,vPlTam3
+,Operation
+,taxot1
+,drops
+,drops'
+,mun1
+,declare
+,(>+>),(>->)
+,Dat2(..)
+,Fullboard(..)
+,initialBoard
 ,playFromStart
 ,toDebugOutput
 ) where
 import CerkeFS.Board2
-import CerkeFS.GameState
+--import CerkeFS.GameState
 import CerkeFS.PrettyPrint
 import Control.Monad.Trans.State.Lazy
 import CerkeFS.Piece3

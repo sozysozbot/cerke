@@ -1,8 +1,8 @@
-module CerkeFS.GameStateSpec (spec) where
+module CerkeFS.OperationsSpec (spec) where
 
 import Test.Hspec
 import CerkeFS
-import CerkeFS.GameState
+import CerkeFS.Operations
 import CerkeFS.TestUtilities
 
 spec :: Spec

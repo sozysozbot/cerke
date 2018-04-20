@@ -1,4 +1,4 @@
-module CerkeFS.GameState
+module CerkeFS.Operations
 (Fullboard(..)
 ,Operation
 ,Dat2(..)
