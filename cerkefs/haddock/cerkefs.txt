@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.4.0
+@version 0.5.4.1
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -410,6 +410,102 @@ instance GHC.Classes.Eq CerkeFS.Internal.Board.Col
 instance GHC.Show.Show CerkeFS.Internal.Board.Col
 instance GHC.Show.Show CerkeFS.Internal.Board.Square
 
+module CerkeFS.Operations
+data Fullboard
+Fullboard :: Board1 -> [Piece] -> Fullboard
+[board] :: Fullboard -> Board1
+[hand] :: Fullboard -> [Piece]
+
+-- | An alias for the monad that represents an operation.
+type Operation = StateT Fullboard (Either Error)
+data Dat2
+
+-- | 無抗行処; la als
+Mun1MakMok1Hue :: Dat2
+
+-- | 筆兵無傾; la ny anknish
+Kua2Kauk2Mun1Aum1 :: Dat2
+
+-- | 地心; la meunerfergal
+Huep2Hia1 :: Dat2
+
+-- | 行行; la nienulerless
+Mok1Mok1 :: Dat2
+
+-- | 王; la nermetixaler
+Dat2AIo :: Dat2
+
+-- | 獣; la pysess
+Saup1 :: Dat2
+
+-- | 闇戦之集; la phertarsa'd elmss
+HuetKaikADat2 :: Dat2
+
+-- | 声無行処; la ytartanerfergal
+Cuop2Mun1Mok1Hue :: Dat2
+
+-- | Moves the piece. If the destination is blocked, the piece at the
+--   destination is implicitly captured.
+--   
+--   <ul>
+--   <li><a>MovingOpponentPiece</a> is raised if the side of the moving
+--   piece does not match the side given in the argument.</li>
+--   <li><a>FriendlyFire</a> is raised if the destination is blocked by the
+--   piece belonging to the same side as the moving piece.</li>
+--   <li><a>TamCapture</a> is raised if the destination is occupied by
+--   Tam2, which cannot be captured.</li>
+--   </ul>
+plays :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
+
+-- | Drops the piece to the square.
+--   
+--   <ul>
+--   <li><a>NoCorrespondingPieceInHand</a> is raised if no pieces in the
+--   hand matches the condition given by the arguments.</li>
+--   <li><a>AlreadyOccupied</a> is raised if the square is already occupied
+--   by another piece.</li>
+--   </ul>
+drops :: (Color, Profession) -> Square -> Side -> Operation ()
+
+-- | Skips a turn.
+passes :: Side -> Operation ()
+
+-- | Similar to <a>drops'</a>, but infers the color of the piece to be
+--   dropped. <a>AmbiguousColor</a> is raised if the color of the piece
+--   cannot be uniquely identified.
+drops' :: Profession -> Square -> Side -> Operation ()
+
+-- | Wraps an operation to show that the operation must theoretically
+--   succeed but did not happen. Fails if the wrapped operation is illegal.
+mun1 :: (Side -> Operation a) -> Side -> Operation ()
+
+-- | Similar to <a>plays</a>, but also checks if the moving piece has the
+--   profession specified by the argument.
+plays' :: Square -> Profession -> Square -> Side -> Operation (Maybe PhantomPiece)
+
+-- | Similar to <a>plays</a>, but also checks if the moving piece is Tam2.
+playsTam :: Square -> Square -> Side -> Operation ()
+
+-- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
+--   required for the declaration is not met.
+declare :: Side -> Dat2 -> Operation ()
+
+-- | Supposed to be a declaration that the game has ended, but currently is
+--   just a dummy operation with no consequences.
+taxot1 :: Operation ()
+
+-- | <a>Upward</a> plays, followed by <a>Downward</a>
+(>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+
+-- | <a>Downward</a> plays, followed by <a>Upward</a>
+(>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+instance GHC.Classes.Ord CerkeFS.Operations.Dat2
+instance GHC.Classes.Eq CerkeFS.Operations.Dat2
+instance GHC.Show.Show CerkeFS.Operations.Dat2
+instance GHC.Classes.Ord CerkeFS.Operations.Fullboard
+instance GHC.Classes.Eq CerkeFS.Operations.Fullboard
+instance GHC.Show.Show CerkeFS.Operations.Fullboard
+
 module CerkeFS.Board2
 type Board1 = Map Square Piece
 data Error
@@ -553,102 +649,6 @@ module CerkeFS.InitialBoard
 -- | Initial configuration of the cerke board.
 initialBoard :: Board1
 
-module CerkeFS.GameState
-data Fullboard
-Fullboard :: Board1 -> [Piece] -> Fullboard
-[board] :: Fullboard -> Board1
-[hand] :: Fullboard -> [Piece]
-
--- | An alias for the monad that represents an operation.
-type Operation = StateT Fullboard (Either Error)
-data Dat2
-
--- | 無抗行処; la als
-Mun1MakMok1Hue :: Dat2
-
--- | 筆兵無傾; la ny anknish
-Kua2Kauk2Mun1Aum1 :: Dat2
-
--- | 地心; la meunerfergal
-Huep2Hia1 :: Dat2
-
--- | 行行; la nienulerless
-Mok1Mok1 :: Dat2
-
--- | 王; la nermetixaler
-Dat2AIo :: Dat2
-
--- | 獣; la pysess
-Saup1 :: Dat2
-
--- | 闇戦之集; la phertarsa'd elmss
-HuetKaikADat2 :: Dat2
-
--- | 声無行処; la ytartanerfergal
-Cuop2Mun1Mok1Hue :: Dat2
-
--- | Moves the piece. If the destination is blocked, the piece at the
---   destination is implicitly captured.
---   
---   <ul>
---   <li><a>MovingOpponentPiece</a> is raised if the side of the moving
---   piece does not match the side given in the argument.</li>
---   <li><a>FriendlyFire</a> is raised if the destination is blocked by the
---   piece belonging to the same side as the moving piece.</li>
---   <li><a>TamCapture</a> is raised if the destination is occupied by
---   Tam2, which cannot be captured.</li>
---   </ul>
-plays :: Square -> Square -> Side -> Operation (Maybe PhantomPiece)
-
--- | Drops the piece to the square.
---   
---   <ul>
---   <li><a>NoCorrespondingPieceInHand</a> is raised if no pieces in the
---   hand matches the condition given by the arguments.</li>
---   <li><a>AlreadyOccupied</a> is raised if the square is already occupied
---   by another piece.</li>
---   </ul>
-drops :: (Color, Profession) -> Square -> Side -> Operation ()
-
--- | Skips a turn.
-passes :: Side -> Operation ()
-
--- | Similar to <a>drops'</a>, but infers the color of the piece to be
---   dropped. <a>AmbiguousColor</a> is raised if the color of the piece
---   cannot be uniquely identified.
-drops' :: Profession -> Square -> Side -> Operation ()
-
--- | Wraps an operation to show that the operation must theoretically
---   succeed but did not happen. Fails if the wrapped operation is illegal.
-mun1 :: (Side -> Operation a) -> Side -> Operation ()
-
--- | Similar to <a>plays</a>, but also checks if the moving piece has the
---   profession specified by the argument.
-plays' :: Square -> Profession -> Square -> Side -> Operation (Maybe PhantomPiece)
-
--- | Similar to <a>plays</a>, but also checks if the moving piece is Tam2.
-playsTam :: Square -> Square -> Side -> Operation ()
-
--- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
---   required for the declaration is not met.
-declare :: Side -> Dat2 -> Operation ()
-
--- | Supposed to be a declaration that the game has ended, but currently is
---   just a dummy operation with no consequences.
-taxot1 :: Operation ()
-
--- | <a>Upward</a> plays, followed by <a>Downward</a>
-(>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
-
--- | <a>Downward</a> plays, followed by <a>Upward</a>
-(>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
-instance GHC.Classes.Ord CerkeFS.GameState.Dat2
-instance GHC.Classes.Eq CerkeFS.GameState.Dat2
-instance GHC.Show.Show CerkeFS.GameState.Dat2
-instance GHC.Classes.Ord CerkeFS.GameState.Fullboard
-instance GHC.Classes.Eq CerkeFS.GameState.Fullboard
-instance GHC.Show.Show CerkeFS.GameState.Fullboard
-
 module CerkeFS.PrettyPrint
 
 -- | Converts the ASCII board format used in the <a>Cerke board image
@@ -760,8 +760,115 @@ HuetKaikADat2 :: Dat2
 
 -- | 声無行処; la ytartanerfergal
 Cuop2Mun1Mok1Hue :: Dat2
+data Fullboard
+Fullboard :: Board1 -> [Piece] -> Fullboard
+[board] :: Fullboard -> Board1
+[hand] :: Fullboard -> [Piece]
 
+
+-- | CerkeFS, which stands for cerke'd fedirrgavir'i slergyl, is a library
+--   to check whether the given record of the game of Cerke is valid or
+--   not. It should be possible to depict most valid operations with
+--   functions exported from this module.
 module CerkeFS
+
+-- | Similar to <a>plays</a>, but checks whether the move is allowed by the
+--   profession.
+vPlays2 :: Square -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays</a>, but checks whether the move is allowed by the
+--   profession.
+--   
+--   The first arguments denotes the origin, the second denotes the square
+--   to step on, and the third denotes the destination.
+vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays'</a>, but checks whether the move is allowed by
+--   the profession.
+--   
+--   The first arguments denotes the origin, the third denotes the square
+--   to step on, and the fourth denotes the destination.
+vPlays3' :: Square -> Profession -> Square -> Square -> Side -> Operation ()
+
+-- | Similar to <a>plays'</a>, but checks whether the move is allowed by
+--   the profession.
+vPlays2' :: Square -> Profession -> Square -> Side -> Operation ()
+
+-- | Plays Tam2, which did not step on a piece.
+--   
+--   Thus, Tam2 must have visited an empty square, then to the destination.
+vPlTam2 :: Square -> Square -> Side -> Operation ()
+
+-- | Plays Tam2, which stepped on a piece.
+vPlTam3 :: Square -> Square -> Square -> Side -> Operation ()
+
+-- | An alias for the monad that represents an operation.
+type Operation = StateT Fullboard (Either Error)
+
+-- | Supposed to be a declaration that the game has ended, but currently is
+--   just a dummy operation with no consequences.
+taxot1 :: Operation ()
+
+-- | Drops the piece to the square.
+--   
+--   <ul>
+--   <li><a>NoCorrespondingPieceInHand</a> is raised if no pieces in the
+--   hand matches the condition given by the arguments.</li>
+--   <li><a>AlreadyOccupied</a> is raised if the square is already occupied
+--   by another piece.</li>
+--   </ul>
+drops :: (Color, Profession) -> Square -> Side -> Operation ()
+
+-- | Similar to <a>drops'</a>, but infers the color of the piece to be
+--   dropped. <a>AmbiguousColor</a> is raised if the color of the piece
+--   cannot be uniquely identified.
+drops' :: Profession -> Square -> Side -> Operation ()
+
+-- | Wraps an operation to show that the operation must theoretically
+--   succeed but did not happen. Fails if the wrapped operation is illegal.
+mun1 :: (Side -> Operation a) -> Side -> Operation ()
+
+-- | Declares a Dat2. Fails with <a>FalseDeclaration</a> if the condition
+--   required for the declaration is not met.
+declare :: Side -> Dat2 -> Operation ()
+
+-- | <a>Upward</a> plays, followed by <a>Downward</a>
+(>+>) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+
+-- | <a>Downward</a> plays, followed by <a>Upward</a>
+(>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+data Dat2
+
+-- | 無抗行処; la als
+Mun1MakMok1Hue :: Dat2
+
+-- | 筆兵無傾; la ny anknish
+Kua2Kauk2Mun1Aum1 :: Dat2
+
+-- | 地心; la meunerfergal
+Huep2Hia1 :: Dat2
+
+-- | 行行; la nienulerless
+Mok1Mok1 :: Dat2
+
+-- | 王; la nermetixaler
+Dat2AIo :: Dat2
+
+-- | 獣; la pysess
+Saup1 :: Dat2
+
+-- | 闇戦之集; la phertarsa'd elmss
+HuetKaikADat2 :: Dat2
+
+-- | 声無行処; la ytartanerfergal
+Cuop2Mun1Mok1Hue :: Dat2
+data Fullboard
+Fullboard :: Board1 -> [Piece] -> Fullboard
+[board] :: Fullboard -> Board1
+[hand] :: Fullboard -> [Piece]
+
+-- | Initial configuration of the cerke board.
+initialBoard :: Board1
 
 -- | Applies the given operation to <a>initialBoard</a>.
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard

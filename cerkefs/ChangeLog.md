@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.4.1: Improve the dependency, rename files, write what to explicitly export
 * ver 0.5.4.0: Check the privilege for Tam2
 * ver 0.5.3.2: Add more documentations
 * ver 0.5.3.1: Refactor the code
