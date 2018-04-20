@@ -34,6 +34,7 @@ vPlTam2 from to sid = do
  playsTam from to sid
  vPlTam2_latter from to
 
+vPlTam2_latter :: Square -> Square -> Operation ()
 vPlTam2_latter from to = do
  Fullboard{board = b} <- get
  unless(doesMeetingPlaceExist b from to) $
@@ -53,6 +54,7 @@ vPlTam3 from thru to sid = do
  playsTam from to sid
  vPlTam3_latter from thru to
 
+vPlTam3_latter :: Square -> Square -> Square -> Operation ()
 vPlTam3_latter from thru to = do
  Fullboard{board = b} <- get
  if 
