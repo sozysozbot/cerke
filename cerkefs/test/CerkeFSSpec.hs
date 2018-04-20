@@ -22,6 +22,8 @@ spec = do
     it "fedirrgavir 003, Tam2 also validated" $ res003 `shouldBeGeneratedBy` fed003''
     it "fedirrgavir 004, Tam2 also validated" $ res004 `shouldBeGeneratedBy` fed004''
     it "fedirrgavir 005, Tam2 also validated" $ res005 `shouldBeGeneratedBy` fed005''
+    it "fedirrgavir 003, Tam2 uses vPlays2"   $ res003 `shouldBeGeneratedBy` fed003'''
+    it "fedirrgavir 005, Tam2 uses vPlays3"   $ res005 `shouldBeGeneratedBy` fed005'''
 
 
 
@@ -95,6 +97,19 @@ fed003'' = do
  declare Downward Dat2AIo 
  taxot1 
 
+fed003''' :: Operation ()
+fed003''' = do
+ vPlays2 sqXIA       sqZAU >+> vPlays2 sqTI      sqTU
+ vPlays2 sqZO        sqCY  >+> vPlays2 sqXI      sqXU
+ vPlays2 sqMAI       sqMY  >+> vPlays2 sqNI      sqNU
+ vPlays2 sqCY        sqCAU >+> vPlays3 sqKE sqLE sqNE
+ vPlays2 sqCAI       sqCY  >+> vPlays2 sqNE      sqNI
+ vPlays2 sqZAI       sqZY  >+> vPlays2 sqZI      sqZY
+ vPlays3 sqZAU sqTAI sqZY  >+> vPlays3 sqLE sqTE sqZE
+ vPlays3 sqZY  sqXAI sqCAI >+> vPlays2 sqZE      sqZIA
+ declare Downward Dat2AIo 
+ taxot1 
+
 
 
 fed004'' :: Operation ()
@@ -131,6 +146,22 @@ fed005'' = do
  vPlays2' sqZE 弓 sqTE  >-> mun1(vPlays2' sqLY  弓 sqZY)
  vPlays2' sqTU 兵 sqTY  >-> vPlays2' sqZAI 船 sqZU
  vPlays2' sqTY 兵 sqTAI Downward
+ declare Downward Saup1 
+ taxot1
+
+fed005''' :: Operation ()
+fed005''' = do
+ vPlays3 sqTE sqNI sqTU  >-> vPlays2 sqTAI       sqTY
+ vPlays2 sqZI      sqZU  >-> vPlays3 sqTAU sqZAI sqXY
+ vPlays3 sqZO sqXI sqCE  >-> vPlays2 sqXIA       sqZAU
+ vPlays2 sqLE      sqZE  >-> vPlays2 sqTY        sqTU
+ vPlays2 sqTI      sqTU  >-> vPlays2 sqZIA       sqXIA
+ vPlays3 sqME sqMI sqMU  >-> vPlays2 sqXY        sqMU
+ vPlays2 sqPE      sqME  >-> vPlays2 sqLIA       sqTAI
+ vPlays2 sqMI      sqMU  >-> vPlays3 sqLAU       sqLAI sqLY
+ vPlays2 sqZE      sqTE  >-> mun1(vPlays2 sqLY  sqZY)
+ vPlays2 sqTU      sqTY  >-> vPlays2 sqZAI sqZU
+ vPlays2 sqTY      sqTAI Downward
  declare Downward Saup1 
  taxot1 
 
