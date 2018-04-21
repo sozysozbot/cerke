@@ -31,6 +31,8 @@ module CerkeFS
 ,initialFullBoard
 ,playFromStart
 ,toDebugOutput
+,Move(..)
+,testAll
 ) where
 import CerkeFS.Board2
 --import CerkeFS.GameState
