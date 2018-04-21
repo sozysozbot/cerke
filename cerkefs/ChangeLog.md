@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.5.0: Automatic generation of fedirrgavirs
 * ver 0.5.4.1: Improve the dependency, rename files, write what to explicitly export
 * ver 0.5.4.0: Check the privilege for Tam2
 * ver 0.5.3.2: Add more documentations

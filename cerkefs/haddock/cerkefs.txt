@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.4.1
+@version 0.5.5.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -499,6 +499,7 @@ taxot1 :: Operation ()
 
 -- | <a>Downward</a> plays, followed by <a>Upward</a>
 (>->) :: Monad m => (Side -> m a) -> (Side -> m b) -> m b
+instance GHC.Enum.Enum CerkeFS.Operations.Dat2
 instance GHC.Classes.Ord CerkeFS.Operations.Dat2
 instance GHC.Classes.Eq CerkeFS.Operations.Dat2
 instance GHC.Show.Show CerkeFS.Operations.Dat2
@@ -671,11 +672,11 @@ verifyDisplacement :: Side -> Profession -> Square -> Square -> Operation ()
 module CerkeFS.VerifyRange
 
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
---   profession.
+--   profession. Tam2 is allowed.
 vPlays2 :: Square -> Square -> Side -> Operation ()
 
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
---   profession.
+--   profession. Tam2 is allowed.
 --   
 --   The first arguments denotes the origin, the second denotes the square
 --   to step on, and the third denotes the destination.
@@ -773,11 +774,11 @@ Fullboard :: Board1 -> [Piece] -> Fullboard
 module CerkeFS
 
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
---   profession.
+--   profession. Tam2 is allowed.
 vPlays2 :: Square -> Square -> Side -> Operation ()
 
 -- | Similar to <a>plays</a>, but checks whether the move is allowed by the
---   profession.
+--   profession. Tam2 is allowed.
 --   
 --   The first arguments denotes the origin, the second denotes the square
 --   to step on, and the third denotes the destination.
@@ -869,6 +870,7 @@ Fullboard :: Board1 -> [Piece] -> Fullboard
 
 -- | Initial configuration of the cerke board.
 initialBoard :: Board1
+initialFullBoard :: Fullboard
 
 -- | Applies the given operation to <a>initialBoard</a>.
 playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
