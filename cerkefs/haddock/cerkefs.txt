@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.5.0
+@version 0.5.6.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -280,6 +280,9 @@ SteppingEmptySquare :: Square -> Error
 -- | Trying a movement that the profession does not allow
 ProfessionPrivilegeExceeded :: Profession -> Square -> Error
 
+-- | Trying to capture a piece by Tam2
+CaptureByTam :: Error
+
 -- | Trying a movement that the Tam2 cannot do
 Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
 [_from] :: Error -> Square
@@ -549,6 +552,9 @@ SteppingEmptySquare :: Square -> Error
 -- | Trying a movement that the profession does not allow
 ProfessionPrivilegeExceeded :: Profession -> Square -> Error
 
+-- | Trying to capture a piece by Tam2
+CaptureByTam :: Error
+
 -- | Trying a movement that the Tam2 cannot do
 Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
 [_from] :: Error -> Square
@@ -766,6 +772,16 @@ Fullboard :: Board1 -> [Piece] -> Fullboard
 [board] :: Fullboard -> Board1
 [hand] :: Fullboard -> [Piece]
 
+-- | Generates all the possible moves. Implemented here to gain the speed
+--   performance.
+testAll :: Side -> Fullboard -> [Move]
+data Move
+Move2 :: Square -> Square -> Move
+Move3 :: Square -> Square -> Square -> Move
+instance GHC.Classes.Ord CerkeFS.VerifyRange.Move
+instance GHC.Classes.Eq CerkeFS.VerifyRange.Move
+instance GHC.Show.Show CerkeFS.VerifyRange.Move
+
 
 -- | CerkeFS, which stands for cerke'd fedirrgavir'i slergyl, is a library
 --   to check whether the given record of the game of Cerke is valid or
@@ -883,3 +899,10 @@ playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
 --   "_6h_5h_3h_8h_#k_8k_3k_5k_6k\n - _2k_7k_4k - _4h - _2h_7h\n_1h_1k_1h_1k_!k_1k_1h_1k_1h\n -  -  -  -  -  -  -  -  - \n -  -  -  - ^$h -  -  -  - \n -  -  - ^1k -  -  -  -  - \n^1h^1k^1h - ^!h^1k^1h^1k^1h\n^7h^2h - ^4h - ^4k - ^2k^7k\n^6k^5k^3k^8k^#h^8h^3h^5h^6h\n~~~\n\n"
 --   </pre>
 toDebugOutput :: Operation a2 -> String
+data Move
+Move2 :: Square -> Square -> Move
+Move3 :: Square -> Square -> Square -> Move
+
+-- | Generates all the possible moves. Implemented here to gain the speed
+--   performance.
+testAll :: Side -> Fullboard -> [Move]

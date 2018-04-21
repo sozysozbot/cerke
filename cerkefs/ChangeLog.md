@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.6.0: Forbid Tam2 to take a piece
 * ver 0.5.5.1: Improves the speed at which fedirrgavirs are generated
 * ver 0.5.5.0: Automatic generation of fedirrgavirs
 * ver 0.5.4.1: Improve the dependency, rename files, write what to explicitly export
