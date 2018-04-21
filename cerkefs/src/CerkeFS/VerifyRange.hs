@@ -14,6 +14,8 @@ module CerkeFS.VerifyRange
 ,(>+>),(>->)
 ,Dat2(..)
 ,Fullboard(..)
+,testAll
+,Move(..)
 ) where
 import CerkeFS.Internal.Board
 import CerkeFS.Piece3
@@ -25,6 +27,37 @@ import CerkeFS.VerifyDisplacement
 import Control.Exception.Base(assert)
 import Control.Monad(unless)
 import Data.List(intersect)
+import Data.Either(isRight)
+import qualified Data.Map as M
+
+data Move = Move2 Square Square | Move3 Square Square Square deriving(Show, Eq, Ord)
+
+-- | Generates all the possible moves. Implemented here to gain the speed performance.
+testAll :: Side -> Fullboard -> [Move]
+testAll sid fb =
+ [ Move2 from to | from <- m, to <- l, isValid2 sid fb from to, from /= to ] ++
+ [ Move3 from thru to | from <- m, thru <- nonEmptySquares fb, to <- l, isValid3 sid fb from thru to, from /= to]
+  where 
+   l = sqList
+   m = ofSide sid fb
+isValid2 :: Side -> Fullboard -> Square -> Square -> Bool
+isValid2 sid fb from to = isRight $ execStateT (vPlays2 from to sid) fb
+
+isValid3 :: Side -> Fullboard -> Square -> Square -> Square -> Bool
+isValid3 sid fb from thru to = isRight $ execStateT (vPlays3 from thru to sid) fb
+
+nonEmptySquares :: Fullboard -> [Square]
+nonEmptySquares Fullboard{board = b} = [ sq | sq <- sqList, sq `isOccupied` b]
+
+ofSide :: Side -> Fullboard -> [Square]
+ofSide sid Fullboard{board = b} = do
+ sq <- sqList
+ Just piece <- [sq `M.lookup` b]
+ case toPhantom piece of
+  Nothing {- phantomTam -} -> return sq
+  Just (_,_,s) -> if s == sid then return sq else []
+
+
 
 -- | Plays Tam2, which did not step on a piece.
 --

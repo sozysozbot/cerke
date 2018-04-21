@@ -7,19 +7,6 @@ import Data.Either(isRight)
 import System.Random.MWC
 import Control.Monad
 
-data Move = Move2 Square Square | Move3 Square Square Square deriving(Show, Eq, Ord)
-
-testAll :: Side -> Fullboard -> [Move]
-testAll sid fb =
- [ Move2 from to | from <- l, to <- l, isValid2 sid fb from to, from /= to ] ++
- [ Move3 from thru to | from <- l, thru <- l, to <- l, isValid3 sid fb from thru to, from /= to]
-  where l = sqList
-isValid2 :: Side -> Fullboard -> Square -> Square -> Bool
-isValid2 sid fb from to = isRight $ execStateT (vPlays2 from to sid) fb
-
-isValid3 :: Side -> Fullboard -> Square -> Square -> Square -> Bool
-isValid3 sid fb from thru to = isRight $ execStateT (vPlays3 from thru to sid) fb
-
 dispatch :: Move -> Side -> Fullboard -> Either Error Fullboard
 dispatch (Move2 from to) sid fb = vPlays2 from to sid `execStateT` fb
 dispatch (Move3 from thru to) sid fb = vPlays3 from thru to sid `execStateT` fb
