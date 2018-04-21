@@ -188,7 +188,7 @@ data Dat2
  | Cuop2Mun1Mok1Hue -- ^ 声無行処; la ytartanerfergal
 
 -- ~ | BapPok -- ^ 同色; la dejixece
- deriving(Show, Eq, Ord)
+ deriving(Show, Eq, Ord, Enum)
 
 -- | Declares a Dat2. Fails with 'FalseDeclaration' if the condition required for the declaration is not met.
 declare :: Side -> Dat2 -> Operation ()

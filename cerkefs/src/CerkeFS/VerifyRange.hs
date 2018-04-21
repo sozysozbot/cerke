@@ -32,6 +32,10 @@ import Data.List(intersect)
 vPlTam2 :: Square -> Square -> Side -> Operation ()
 vPlTam2 from to sid = do 
  playsTam from to sid
+ vPlTam2_latter from to
+
+vPlTam2_latter :: Square -> Square -> Operation ()
+vPlTam2_latter from to = do
  Fullboard{board = b} <- get
  unless(doesMeetingPlaceExist b from to) $
   lift $ Left (Tam2PrivilegeExceeded from Nothing to)
@@ -48,6 +52,10 @@ vPlTam3 :: Square -> Square -> Square -> Side -> Operation ()
 vPlTam3 from thru to sid = do
  verifyNonEmpty thru
  playsTam from to sid
+ vPlTam3_latter from thru to
+
+vPlTam3_latter :: Square -> Square -> Square -> Operation ()
+vPlTam3_latter from thru to = do
  Fullboard{board = b} <- get
  if 
    (from `isNeighborOf` thru && doesMeetingPlaceExist b thru to) || 
@@ -60,18 +68,18 @@ vPlTam3 from thru to sid = do
 
 
 
--- | Similar to 'plays', but checks whether the move is allowed by the profession.
+-- | Similar to 'plays', but checks whether the move is allowed by the profession. Tam2 is allowed.
 vPlays2 :: Square -> Square -> Side -> Operation ()
 vPlays2 from to sid = do
  phantom <- plays from to sid
  case phantom of
-  Nothing -> error "Tam2 not handled"
+  Nothing -> vPlTam2_latter from to
   Just(_,p,s) -> do
    assert(s == sid) $ return ()
    verifyDisplacement s p from to
 
 
--- | Similar to 'plays', but checks whether the move is allowed by the profession.
+-- | Similar to 'plays', but checks whether the move is allowed by the profession. Tam2 is allowed.
 --
 -- The first arguments denotes the origin, the second denotes the square to step on, and the third denotes the destination.
 vPlays3 :: Square -> Square -> Square -> Side -> Operation ()
@@ -79,7 +87,7 @@ vPlays3 from thru to sid = do
  verifyNonEmpty thru
  phantom <- plays from to sid
  case phantom of
-  Nothing -> error "Tam2 not handled"
+  Nothing -> vPlTam3_latter from thru to
   Just(_,p,s) -> do
    assert(s == sid) $ return ()
    verifyDisplacement s p from thru
