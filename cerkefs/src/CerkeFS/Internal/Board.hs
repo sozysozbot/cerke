@@ -84,6 +84,7 @@ data Error
  | Tam2HueAUai1Violation -- ^ Tried to take a piece protected by Tam2HueAUai1
  | SteppingEmptySquare Square -- ^ Tried to step on an empty square
  | ProfessionPrivilegeExceeded Profession Square -- ^ Trying a movement that the profession does not allow
+ | CaptureByTam -- ^ Trying to capture a piece by Tam2
  | Tam2PrivilegeExceeded{
   _from :: Square,
   _thru :: (Maybe Square),
