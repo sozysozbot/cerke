@@ -31,9 +31,29 @@ spec = do
     it "fedirrgavir 005, Tam2 also validated" $ res005 `shouldBeGeneratedBy` fed005''
     it "fedirrgavir 003, Tam2 uses vPlays2"   $ res003 `shouldBeGeneratedBy` fed003'''
     it "fedirrgavir 005, Tam2 uses vPlays3"   $ res005 `shouldBeGeneratedBy` fed005'''
+    it "random example" $ str `shouldBeGeneratedBy` do
+     vPlays3 sqZO sqTI sqTU >-> vPlays3 sqTAU sqNAI sqTY
+     vPlays3 sqNI sqLI sqLU >-> vPlays3 sqLAU sqKAU sqTAU
+     vPlays3 sqZI sqZAI sqZIA Downward
 
 
 
+
+
+
+
+str = 
+ "_6h_5h_3h_8h_#k_8k_3k_5k_6k\n\
+ \_7k_2k - _4k - _4h - _2h_7h\n\
+ \_1h_1k - _1k - _1k_1h_1k_1h\n\
+ \ - _1h - ^$h -  -  -  -  - \n\
+ \ -  -  -  -  -  -  -  -  - \n\
+ \ -  -  - ^4h -  -  -  -  - \n\
+ \^1h^1k^1h^1k^!h^1k^1h^1k^1h\n\
+ \^7h -  - ^2h - ^4k - ^2k^7k\n\
+ \^6k^5k^3k^8k_!k^8h^3h^5h^6h\n\
+ \~~~\n\
+ \_#h\n"
 
 fed001'' :: Operation ()
 fed001'' = do
