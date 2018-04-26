@@ -167,11 +167,9 @@ isTam2HueAUai1 sid board sq = isJust $ do
 
 -- | Checks whether a given square is in Tam2Hue.
 isTam2Hue :: Board1 -> Square2 -> Bool
-isTam2Hue board sq = isJust $
- if sq `elem` inherentTam2Hue'
-  then return ()
-  else let ps = mapMaybe (`I.lookup` unBoard1 board) $ getNeighborsAndSelf sq in
-   unless (phantomTam `elem` map toPhantom ps) Nothing
+isTam2Hue board sq = (sq `elem` inherentTam2Hue') || 
+  let ps = mapMaybe (`I.lookup` unBoard1 board) $ getNeighborsAndSelf sq in
+   phantomTam `elem` map toPhantom ps
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
