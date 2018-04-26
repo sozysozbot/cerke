@@ -5,6 +5,8 @@ where
 import CerkeFS
 import Data.Either(isRight)
 import System.Random.MWC
+import Data.IORef
+import Control.Monad.Trans.Reader
 
 dispatch :: Move -> Side -> Fullboard -> Either Error Fullboard
 dispatch (Move2 from to) sid fb = vPlays2 from to sid `execStateT` fb
@@ -17,14 +19,20 @@ canDeclare sid fb = [ dat | dat <- [Mun1MakMok1Hue .. Cuop2Mun1Mok1Hue], isRight
 
 main :: IO ()
 main = do
- ((), Fullboard{board = final, hand = pieces}) <- runStateT randomPlay initialFullBoard
+ ((), Fullboard{board = final, hand = pieces}) <- runPseudoStateT randomPlay2_ initialFullBoard
  putStrLn $ drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
 
-randomPlay :: StateT Fullboard IO ()
-randomPlay = do
+randomPlay2 :: StateT Fullboard IO ()
+randomPlay2 = do
  coin <- lift . withSystemRandom . asGenIO $ \gen -> uniformR (0, 1) gen
  [] <- if coin == (0 :: Int) then randomlyPlayOnce Downward else return []
  randomPlay'
+
+randomPlay2_ :: App ()
+randomPlay2_ = do
+ coin <- lift . withSystemRandom . asGenIO $ \gen -> uniformR (0, 1) gen
+ [] <- if coin == (0 :: Int) then randomlyPlayOnce_ Downward else return []  
+ randomPlay_
 
 randomPlay' :: StateT Fullboard IO ()
 randomPlay' = do
@@ -34,9 +42,20 @@ randomPlay' = do
    if(null arr2) then randomPlay' else lift $ print arr2
  else lift $ print arr1
 
+randomPlay_ :: App ()
+randomPlay_ = do
+ arr1 <- randomlyPlayOnce_ Upward
+ if(null arr1) then do
+   arr2 <- randomlyPlayOnce_ Downward
+   if(null arr2) then randomPlay_ else lift $ print arr2
+ else lift $ print arr1
+
 
 randomlyPlayOnce :: Side -> StateT Fullboard IO [Dat2]
-randomlyPlayOnce sid = StateT $ \fb -> do
+randomlyPlayOnce sid = StateT (randomlyPlayOnce' sid)
+
+randomlyPlayOnce' :: Side -> Fullboard -> IO ([Dat2], Fullboard)
+randomlyPlayOnce' sid = \fb -> do
  let list = testAll sid fb
  i <- withSystemRandom . asGenIO $ \gen -> uniformR (0, length list - 1) gen
  let move = list !! i
@@ -44,8 +63,25 @@ randomlyPlayOnce sid = StateT $ \fb -> do
  let Right new_fb = dispatch move sid fb
  return (canDeclare sid new_fb,new_fb)
 
+type App = ReaderT (IORef Fullboard) IO
 
+randomlyPlayOnce_ :: Side -> App [Dat2]
+randomlyPlayOnce_ sid = toApp (randomlyPlayOnce' sid)
 
+toApp :: (Fullboard -> IO (b, Fullboard)) -> App b
+toApp f = do
+ ioref <- ask
+ fb <- lift $ readIORef ioref
+ (dats, new_fb) <- lift $ f fb
+ lift $ writeIORef ioref new_fb
+ return dats
+
+runPseudoStateT :: App b -> Fullboard -> IO (b, Fullboard)
+runPseudoStateT (ReaderT f) fb = do
+ ioref <- newIORef fb
+ b <- f ioref
+ new_fb <- readIORef ioref
+ return (b, new_fb)
 
  --print $ toDebugOutput $ do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
  {-
