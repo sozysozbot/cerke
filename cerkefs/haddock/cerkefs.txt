@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.7.2
+@version 0.5.7.3
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -224,7 +224,7 @@ data Square
 Square :: Row -> Col -> Square
 [row] :: Square -> Row
 [col] :: Square -> Col
-type Board1 = Map Square Piece
+data Board1
 data Vec
 Vec :: Int -> Int -> Vec
 [dx] :: Vec -> Int
@@ -308,12 +308,13 @@ Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
 -- | Add a vector to the square to get a new square. <a>Nothing</a> if it
 --   goes out of the board.
 add :: Vec -> Square -> Maybe Square
+add_ :: Vec -> Square2 -> Maybe Square2
 
 -- | Takes the difference of two squares as a vec. <tt>p <a>minus</a>
 --   q</tt> is p minus q.
 minus :: Square -> Square -> Vec
-getNeighborsAndSelf :: Square -> [Square]
-getNeighbors :: Square -> [Square]
+getNeighborsAndSelf :: Square2 -> [Square2]
+getNeighbors :: Square -> [Square2]
 sqKA :: Square
 sqLA :: Square
 sqNA :: Square
@@ -403,20 +404,29 @@ sqList :: [Square]
 
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that
 --   belong to the side.
-isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
+isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
 
 -- | Checks whether a given square is in Tam2Hue.
-isTam2Hue :: Board1 -> Square -> Bool
+isTam2Hue :: Board1 -> Square2 -> Bool
 isNeighborOf :: Square -> Square -> Bool
+type Square2 = Int
+fromBoard1_old :: Board1_old -> Board1
+toSquare :: Square2 -> Square
+fromSquare :: Square -> Square2
+isOccupied' :: Square2 -> Board1 -> Bool
+lookup_ :: Square -> Board1 -> Maybe Piece
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Error
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Error
 instance GHC.Show.Show CerkeFS.Internal.Board.Error
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Vec
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Vec
 instance GHC.Show.Show CerkeFS.Internal.Board.Vec
+instance GHC.Classes.Ord CerkeFS.Internal.Board.Board1
+instance GHC.Classes.Eq CerkeFS.Internal.Board.Board1
+instance GHC.Show.Show CerkeFS.Internal.Board.Board1
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Square
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Square
 instance GHC.Enum.Enum CerkeFS.Internal.Board.Row
@@ -527,7 +537,7 @@ instance GHC.Classes.Eq CerkeFS.Operations.Fullboard
 instance GHC.Show.Show CerkeFS.Operations.Fullboard
 
 module CerkeFS.Board2
-type Board1 = Map Square Piece
+data Board1
 data Error
 
 -- | The square you're moving to is already occupied.
@@ -666,6 +676,12 @@ sqList :: [Square]
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
 data Square
+type Square2 = Int
+fromBoard1_old :: Board1_old -> Board1
+toSquare :: Square2 -> Square
+fromSquare :: Square -> Square2
+isOccupied' :: Square2 -> Board1 -> Bool
+lookup_ :: Square -> Board1 -> Maybe Piece
 
 module CerkeFS.InitialBoard
 

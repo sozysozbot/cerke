@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.7.3: Faster code
 * ver 0.5.7.2: Change the data structure so that only non-Tam2 can reside in hand
 * ver 0.5.7.1: Use ReaderT (IORef s) IO instead of StateT s IO
 * ver 0.5.7.0: RandomPlay can also drop a piece
