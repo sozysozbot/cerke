@@ -80,7 +80,7 @@ load (Gamma _ _) "" = Nothing
 load (Gamma side_ profOrTam) (c:xs) = do
  color_ <- asciiToColor c
  let piece = case profOrTam of{
-   Right prof_ -> Piece{color=color_, side=side_, prof=prof_};
+   Right prof_ -> NonTam2Piece $ Piece{color=color_, side=side_, prof=prof_};
    Left () -> Tam2
  }
  (Just piece :) <$> load Alpha xs
@@ -101,5 +101,5 @@ drawBoard b = foo [ maybe " - " convertPieceToStr (M.lookup sq b) | sq <- sqList
 -- | Converts the 'Piece' to the ASCII format used in the <https://sozysozbot.github.io/cerke/ Cerke board image generator>.
 convertPieceToStr :: Piece -> String
 convertPieceToStr Tam2 = "^$h"
-convertPieceToStr Piece{color=c,prof=p,side=s} = [sideToAscii s, profToAscii p ,colorToAscii c]
+convertPieceToStr (NonTam2Piece Piece{color=c,prof=p,side=s}) = [sideToAscii s, profToAscii p ,colorToAscii c]
 
