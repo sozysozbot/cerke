@@ -12,7 +12,7 @@ import Data.Maybe
 isTam2Hue' :: Square -> Operation Bool
 isTam2Hue' sq = do
  Fullboard{board = b}<- get
- return $ isTam2Hue b sq
+ return $ isTam2Hue b (fromSquare sq)
 
 moveInX, moveInPlus, moveTo8 :: [(Int,Int)]
 moveInX = [(1,1),(1,-1),(-1,1),(-1,-1)]

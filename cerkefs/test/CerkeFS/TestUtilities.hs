@@ -2,10 +2,12 @@ module CerkeFS.TestUtilities
 (shouldBeGivenBy
 ,shouldBeThrownBy
 ,shouldBeGeneratedBy
+,shouldBeSimilarTo
 ,res000, res001, res002, res003, res004, res005
 )where
 import Test.Hspec
 import CerkeFS
+import qualified Data.Set as S
 
 
 shouldBeGivenBy b a = playFromStart a `shouldBe` b
@@ -13,6 +15,7 @@ shouldBeThrownBy b a = playFromStart a `shouldBe` Left b
 
 shouldBeGeneratedBy b a = toDebugOutput a `shouldBe` b
 
+shouldBeSimilarTo a b = S.fromList a `shouldBe` S.fromList b
 
 res000, res001, res002, res003, res004, res005 :: String
 res000 = 

@@ -2,7 +2,7 @@ module CerkeFS.Internal.Board
 (Col(..)
 ,Row(..)
 ,Square(..)
-,Board1
+,Board1()
 ,Vec(..)
 ,putPiece
 ,removePiece
@@ -10,7 +10,7 @@ module CerkeFS.Internal.Board
 --,movePieceFromTo
 ,movePieceFromToFull
 ,Error(..)
-,add,minus
+,add,add_,minus
 ,getNeighborsAndSelf
 ,getNeighbors
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
@@ -28,9 +28,13 @@ module CerkeFS.Internal.Board
 ,isTam2Hue
 ,isNeighborOf
 --,toEither
+,Square2,fromBoard1_old,toSquare,fromSquare
+,isOccupied'
+,lookup_
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
+import qualified Data.IntMap as I
 import Control.Monad(guard, unless)
 import Data.Maybe(isJust,mapMaybe)
 
@@ -41,8 +45,10 @@ data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
 instance Show Square where
  show Square{col=c,row=r} = "sq" ++ length "Column" `drop` show c ++ length "Row" `drop` show r
 
-type Board1 = M.Map Square Piece
+type Board1_old = M.Map Square Piece
+newtype Board1 = Board1{ unBoard1 :: I.IntMap Piece } deriving(Show, Eq, Ord)
 
+type Square2 = Int
 
 data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
 
@@ -52,6 +58,16 @@ add (Vec x y) Square{col=c,row=r} = do
  new_c <- add' x c
  new_r <- add' y r
  return Square{col=new_c, row=new_r}
+
+add_ :: Vec -> Square2 -> Maybe Square2
+add_ (Vec x y) sq = do
+ let (r,c) = sq `divMod` 9
+ new_c <- add'' x c
+ new_r <- add'' y r
+ return $ new_r * 9 + new_c
+
+--fromSquare :: Square -> Square2
+--fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
 
 -- | Takes the difference of two squares as a vec. @p `minus` q@ is p minus q.
 minus :: Square -> Square -> Vec
@@ -65,6 +81,11 @@ add' a c
  | otherwise = Just $ toEnum (a+b)
  where b = fromEnum c
 
+add'' :: Int -> Int -> Maybe Int
+add'' a b
+ | a+b < 0 = Nothing  
+ | a+b > 8 = Nothing  
+ | otherwise = Just $ a+b
 
 toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
@@ -98,47 +119,82 @@ data Error
 ********************************************
 -}
 -- | The list of squares that are inherently tam2Hue
-inherentTam2Hue :: [Square]
-inherentTam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
+inherentTam2Hue' :: [Square2]
+inherentTam2Hue' = map fromSquare [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
-getNeighborsAndSelf :: Square -> [Square]
-getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
+getNeighborsAndSelf :: Square2 -> [Square2]
+getNeighborsAndSelf 0 = [0,1,9,10]
+getNeighborsAndSelf 8 = [7,8,16,17]
+getNeighborsAndSelf 72 = [63,64,72,73]
+getNeighborsAndSelf 80 = [70,71,79,80]
+getNeighborsAndSelf a
+ | 1 <= a && a <= 7 = [a-1, a, a+1, a+8, a+9, a+10]
+ | 73 <= a && a <= 79 = [a-1, a, a+1, a-10, a-9, a-8]
+ | a `mod` 9 == 0 = [a, a+1, a-9, a-8, a+9, a+10]
+ | a `mod` 9 == 8 = [a, a-1, a-9, a-10, a+9, a+8]
+ | otherwise = [a-10, a-9, a-8, a-1, a, a+1, a+8, a+9, a+10]
 
-getNeighbors :: Square -> [Square]
-getNeighbors sq = mapMaybe (`add` sq) 
- [Vec a b | (a,b) <- [(1,1),(1,-1),(-1,1),(-1,-1),(0,1),(1,0),(0,-1),(-1,0)]]
+
+-- 
+
+getNeighbors :: Square -> [Square2]
+getNeighbors sq = getNeighbors' (fromSquare sq)
+
+getNeighbors' :: Square2 -> [Square2]
+getNeighbors' 0 = [1,9,10]
+getNeighbors' 8 = [7,16,17]
+getNeighbors' 72 = [63,64,73]
+getNeighbors' 80 = [70,71,79]
+getNeighbors' a
+ | 1 <= a && a <= 7 = [a-1, a+1, a+8, a+9, a+10]
+ | 73 <= a && a <= 79 = [a-1, a+1, a-10, a-9, a-8]
+ | a `mod` 9 == 0 = [ a+1, a-9, a-8, a+9, a+10]
+ | a `mod` 9 == 8 = [a-1, a-9, a-10, a+9, a+8]
+ | otherwise = [a-10, a-9, a-8, a-1, a+1, a+8, a+9, a+10]
 
 isNeighborOf :: Square -> Square -> Bool
-isNeighborOf s1 s2 = s1 `elem` getNeighbors s2
+isNeighborOf s1 s2 = (fromSquare s1) `elem` getNeighbors s2
+
+isNeighborOf' :: Square2 -> Square2 -> Bool
+isNeighborOf' s1 s2 = s1 `elem` getNeighbors' s2
 
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
-isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
+isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
- piece <- sq `M.lookup` board
+ piece <- sq `I.lookup` unBoard1 board
  (_,Uai1,s) <- toPhantom piece
  guard(s == sid && isTam2Hue board sq)
 
 -- | Checks whether a given square is in Tam2Hue.
-isTam2Hue :: Board1 -> Square -> Bool
+isTam2Hue :: Board1 -> Square2 -> Bool
 isTam2Hue board sq = isJust $
- if sq `elem` inherentTam2Hue
+ if sq `elem` inherentTam2Hue'
   then return ()
-  else let ps = mapMaybe (`M.lookup` board) $ getNeighborsAndSelf sq in
+  else let ps = mapMaybe (`I.lookup` unBoard1 board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
-isOccupied = M.member
+isOccupied sq (Board1 b) = I.member (fromSquare sq) b
+
+isOccupied' :: Square2 -> Board1 -> Bool
+isOccupied' sq (Board1 b) = I.member sq b
 
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> Either Error Board1
-putPiece p sq b = if sq `isOccupied` b then Left (AlreadyOccupied sq) else Right(M.insert sq p b)
+putPiece p sq b = 
+ if sq `isOccupied` b 
+  then Left (AlreadyOccupied sq) 
+  else Right(Board1 $ I.insert (fromSquare sq) p (unBoard1 b))
 
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
-removePiece sq b = toEither (EmptySquare sq) $ do
- p <- sq `M.lookup` b
- return (p, M.delete sq b)
+removePiece sq (Board1 b) = toEither (EmptySquare sq) $ do
+ p <- sq `lookup_` (Board1 b)
+ return (p, Board1 $ I.delete (fromSquare sq) b)
+
+lookup_ :: Square -> Board1 -> Maybe Piece
+lookup_ sq (Board1 b) = (fromSquare sq) `I.lookup` b
 
 -- | Moves a piece on a square according to the vector. Raises: 
 --
@@ -187,3 +243,12 @@ sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA,
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA] = sqList
 
+toSquare :: Square2 -> Square
+toSquare i = sqList !! i
+-- let (r,c) = i `divMod` 9 in (Square (toEnum r) (toEnum c)) was slightly slower
+
+fromSquare :: Square -> Square2
+fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
+
+fromBoard1_old :: Board1_old -> Board1
+fromBoard1_old = Board1 . I.fromList . map (\(s,p) -> (fromSquare s, p)) . M.toList

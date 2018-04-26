@@ -19,7 +19,6 @@ import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 import qualified Data.MultiSet as S
 import Control.Monad(when)
-import qualified Data.Map as M
 
 data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
@@ -69,7 +68,7 @@ validator `validatesPlaying` (from, to, sid) = do
  fb <- get
  case movePieceFromToFull from to (board fb) of
   Left (AlreadyOccupied _) -> do
-   case from `M.lookup` board fb of
+   case from `lookup_` board fb of
     Nothing -> error "cannot happen bjirdgnsfk;ml"
     Just pie -> case toPhantom pie of
      Nothing -> lift $ Left CaptureByTam
@@ -100,7 +99,7 @@ validator `validatesTaking` (from, to, sid) = do
 validateUai1Protection :: Square -> Side -> Operation ()
 validateUai1Protection to s = do
  fb <- get
- let sqs = getNeighborsAndSelf to  -- Vec 0 0 does not cause any problem, since the piece at 'to' is already removed 
+ let sqs = getNeighborsAndSelf (fromSquare to)  -- Vec 0 0 does not cause any problem, since the piece at 'to' is already removed 
  when (any (isTam2HueAUai1 s (board fb)) sqs) $
   lift $ Left Tam2HueAUai1Violation
 

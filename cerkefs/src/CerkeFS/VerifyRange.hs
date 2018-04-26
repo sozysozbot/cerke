@@ -28,7 +28,6 @@ import Control.Exception.Base(assert)
 import Control.Monad(unless)
 import Data.List(intersect, partition)
 import Data.Either(isRight)
-import qualified Data.Map as M
 
 data Move = Drop (Color, Profession) Square | Move2 Square Square | Move3 Square Square Square deriving(Show, Eq, Ord)
 
@@ -60,7 +59,7 @@ emptySquares Fullboard{board = b} = [ sq | sq <- sqList, not(sq `isOccupied` b)]
 ofSide :: Side -> Fullboard -> [Square]
 ofSide sid Fullboard{board = b} = do
  sq <- sqList
- Just piece <- [sq `M.lookup` b]
+ Just piece <- [sq `lookup_` b]
  case toPhantom piece of
   Nothing {- phantomTam -} -> return sq
   Just (_,_,s) -> if s == sid then return sq else []
@@ -85,7 +84,7 @@ vPlTam2_latter from to = do
 --
 -- If candidate is empty, returns False as expected.
 doesMeetingPlaceExist :: Board1 -> Square -> Square -> Bool
-doesMeetingPlaceExist b alpha beta = not(all (`isOccupied` b) candidate)
+doesMeetingPlaceExist b alpha beta = not(all (`isOccupied'` b) candidate)
  where candidate = getNeighbors alpha `intersect` getNeighbors beta  
 
 -- | Plays Tam2, which stepped on a piece.
