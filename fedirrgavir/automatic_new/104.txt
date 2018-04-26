@@ -1,0 +1,76 @@
+vPlays3 sqTAU sqZAI sqXY Upward
+vPlays2 sqLI sqLU Downward
+vPlays2 sqTIA sqTAU Upward
+vPlays3 sqZO sqXY sqTO Downward
+vPlays3 sqTO sqXAI sqZAU Upward
+vPlays3 sqZAU sqZAI sqNO Downward
+vPlays3 sqTAU sqZAI sqTY Upward
+vPlays3 sqZA sqXA sqZE Downward
+vPlays2 sqZAI sqZY Upward
+vPlays3 sqNO sqNI sqTU Downward
+vPlays3 sqXAU sqCAI sqMY Upward
+vPlays3 sqTU sqLU sqLO Downward
+vPlays3 sqCIA sqTY sqTO Upward
+vPlays3 sqLO sqTO sqNO Downward
+vPlays3 sqMAU sqPAU sqTAU Upward
+vPlays2 sqTA sqNE Downward
+vPlays3 sqNO sqTO sqLI Upward
+vPlays3 sqZE sqTI sqZU Downward
+vPlays3 sqLI sqTO sqNY Upward
+vPlays3 sqTE sqNI sqZA Downward
+vPlays3 sqXY sqCAI sqTU Upward
+vPlays3 sqZU sqTO sqTY Downward
+vPlays3 sqTO sqNY sqLY Upward
+drops (Kok1,Uai1) sqNO Downward
+vPlays2 sqTAU sqXAU Upward
+vPlays3 sqNO sqNY sqTO Downward
+vPlays3 sqNY sqTO sqXU Upward
+vPlays3 sqNE sqTI sqZU Downward
+vPlays2 sqZIA sqTAU Upward
+vPlays3 sqTY sqZY sqXO Downward
+vPlays2 sqCAI sqCO Upward
+vPlays3 sqXU sqZU sqXY Downward
+vPlays3 sqKAU sqLAU sqNAU Upward
+vPlays3 sqXY sqXAU sqCAI Downward
+vPlays3 sqLIA sqTAI sqLO Upward
+vPlays3 sqZU sqXI sqZE Downward
+vPlays3 sqLO sqTAI sqLIA Upward
+vPlays3 sqNA sqZI sqXU Downward
+vPlays3 sqCAI sqCO sqXY Upward
+vPlays3 sqZE sqZI sqZU Downward
+vPlays3 sqPAU sqPAI sqPY Upward
+vPlays3 sqXY sqXAI sqMO Downward
+vPlays3 sqMO sqXI sqCE Upward
+vPlays3 sqZU sqXO sqZO Downward
+vPlays3 sqKIA sqKAI sqKI Upward
+vPlays3 sqME sqMI sqCU Downward
+vPlays3 sqMIA sqXAI sqTIA Upward
+vPlays3 sqCE sqXI sqTE Downward
+drops (Huok2,Kauk2) sqZU Upward
+vPlays2 sqZO sqZU Downward
+vPlays2 sqXIA sqCIA Upward
+vPlays3 sqLA sqTI sqLI Downward
+vPlays2 sqMY sqCAI Upward
+vPlays2 sqZI sqZE Downward
+vPlays3 sqKI sqLI sqLE Upward
+vPlays3 sqTI sqTE sqTA Downward
+drops (Kok1,Gua2) sqPO Upward
+drops (Huok2,Kauk2) sqCY Downward
+vPlays3 sqTAU sqTAI sqTY Upward
+vPlays2 sqPI sqPU Downward
+vPlays3 sqLY sqTU sqNU Upward
+vPlays3 sqXO sqCY sqXY Downward
+vPlays2 sqNIA sqXY Upward
+[Dat2AIo]
+_6h -  - _1k_4k_8k_3k_5k_6k
+_7k^6k - ^$h_!k_4h -  - _7h
+ - _5h_1h -  - _1k_1h_1k - 
+ - _1k^3h^4h_8h_3h_2h - _1h
+ -  -  - _8k -  - ^1h - ^2k
+ -  -  - ^#h^!h^3k_1h - ^7k
+^1h^1k^1h^1k - ^1k^4k^1k^1h
+ - ^2h^7h -  - ^2k -  -  - 
+ - ^5k - ^5h -  - ^8h - ^6h
+~~~
+^#k
+

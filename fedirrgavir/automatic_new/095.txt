@@ -1,0 +1,36 @@
+vPlays3 sqLAU sqLAI sqLO Upward
+vPlays3 sqZO sqXI sqCU Downward
+vPlays3 sqCU sqZI sqZU Upward
+vPlays3 sqZI sqTI sqTO Downward
+vPlays3 sqZU sqTE sqNE Upward
+vPlays3 sqTE sqNI sqTU Downward
+vPlays3 sqKIA sqLIA sqLAU Upward
+vPlays3 sqNA sqTA sqTE Downward
+vPlays2 sqCAI sqCO Upward
+vPlays3 sqTU sqNI sqMAU Downward
+vPlays3 sqCIA sqMAU sqNI Upward
+drops (Kok1,Gua2) sqTY Downward
+vPlays2 sqXAU sqCIA Upward
+vPlays3 sqLE sqKI sqKAI Downward
+vPlays3 sqNI sqTI sqXA Upward
+drops (Huok2,Kauk2) sqZU Downward
+drops (Huok2,Kauk2) sqMO Upward
+vPlays3 sqNE sqLI sqNA Downward
+vPlays3 sqTAU sqZAI sqXY Upward
+vPlays3 sqTE sqTA sqZE Downward
+vPlays3 sqLO sqLI sqLA Upward
+vPlays3 sqNA sqLA sqNI Downward
+vPlays3 sqPIA sqPAU sqMAU Upward
+[Saup1]
+_6h^2h - _8h_#k^3h_3k_5k_6k
+_7k -  -  - _3h_4h - _2h_7h
+_1h_1k^$h_1k - _1k_1h_1k_1h
+ -  -  -  - _1h -  -  -  - 
+ -  -  - _!k -  - ^1h^1h - 
+ -  -  - _2k - ^4h -  -  - 
+_2k^1k^1h^1k^!h^1k - ^1k^1h
+^7h^6k -  -  -  -  - ^6h^7k
+ - ^5k^3k^8k^#h^8h^4k^5h - 
+~~~
+^4k^5h^8k
+

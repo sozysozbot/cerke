@@ -1,0 +1,65 @@
+vPlays3 sqZO sqZI sqXU Downward
+vPlays2 sqTAI sqTY Upward
+vPlays3 sqZI sqZAI sqZAU Downward
+vPlays3 sqXIA sqZIA sqZAU Upward
+vPlays2 sqPI sqPU Downward
+vPlays2 sqTY sqNY Upward
+vPlays3 sqXU sqXI sqZI Downward
+vPlays3 sqZI sqXI sqZE Upward
+vPlays3 sqZE sqXE sqTU Downward
+vPlays3 sqTU sqTI sqXU Upward
+vPlays3 sqXU sqCI sqPO Downward
+drops (Kok1,Nuak1) sqCY Upward
+vPlays3 sqXA sqXE sqCE Downward
+vPlays2 sqMAI sqMY Upward
+vPlays3 sqZA sqTE sqZI Downward
+vPlays2 sqZAU sqTAI Upward
+vPlays3 sqXE sqCI sqZA Downward
+vPlays2 sqCY sqCU Upward
+vPlays2 sqPO sqMU Downward
+vPlays3 sqZIA sqTIA sqNAU Upward
+vPlays3 sqMU sqCI sqXA Downward
+vPlays3 sqXA sqZI sqZE Upward
+vPlays3 sqZE sqZI sqCO Downward
+vPlays3 sqLIA sqTAI sqXO Upward
+vPlays3 sqCO sqXO sqZU Downward
+vPlays3 sqZU sqTI sqXU Upward
+vPlays3 sqKE sqKI sqKU Downward
+vPlays3 sqCU sqCI sqCO Upward
+vPlays3 sqLE sqLI sqLO Downward
+vPlays3 sqTAI sqZAI sqXY Upward
+vPlays3 sqLO sqLAI sqNAI Downward
+vPlays3 sqCO sqCAI sqCU Upward
+vPlays3 sqXU sqCU sqZO Downward
+vPlays3 sqNAU sqLAU sqNAI Upward
+vPlays3 sqZO sqNY sqNO Downward
+vPlays3 sqMIA sqXAI sqTO Upward
+vPlays3 sqCE sqCI sqXU Downward
+vPlays2 sqLAU sqNAU Upward
+drops (Huok2,Kauk2) sqLU Downward
+vPlays3 sqTAU sqZAI sqTY Upward
+vPlays3 sqNO sqTY sqTAU Downward
+vPlays3 sqNAI sqNY sqNO Upward
+vPlays3 sqTAU sqNAU sqZAU Downward
+vPlays3 sqZAU sqZAI sqXIA Upward
+vPlays2 sqPE sqPI Downward
+vPlays3 sqZAI sqZI sqZA Upward
+vPlays3 sqXIA sqXAU sqZY Downward
+vPlays3 sqNO sqLU sqLO Upward
+vPlays3 sqXU sqXI sqZU Downward
+vPlays3 sqNAU sqKAU sqZAU Upward
+vPlays3 sqZY sqTY sqTU Downward
+vPlays3 sqTO sqTI sqLA Upward
+[Saup1]
+_6h^5h_3h_8h^!h - _3k_5k_6k
+ -  -  - _4k -  -  - _2h - 
+_1h_1k_1h_1k_#k_1k_1h_1k_7h
+_7k_1h - ^$h_8k - ^!k - _1h
+ - ^#h -  -  - ^5k -  -  - 
+ -  - ^1k^4h - ^8h - ^1k - 
+^1h^1k -  -  - ^1k^1h - ^1h
+^7h -  -  - ^2h^4k - ^2k^7k
+^6k - ^3k^8k -  - ^3h - ^6h
+~~~
+^5h^4h^2k
+

@@ -1,0 +1,36 @@
+vPlays2 sqNAI sqNAU Upward
+vPlays3 sqZO sqZO sqTY Downward
+vPlays3 sqTY sqLAI sqLY Upward
+vPlays3 sqXE sqCI sqPO Downward
+vPlays3 sqZIA sqTIA sqZAU Upward
+vPlays3 sqZA sqTE sqNE Downward
+vPlays3 sqZAU sqXAI sqCAU Upward
+vPlays3 sqLY sqKAI sqLO Downward
+vPlays2 sqLO sqNAI Upward
+vPlays3 sqNAI sqZAI sqZAU Downward
+vPlays3 sqNIA sqTAU sqKO Upward
+vPlays3 sqNE sqLI sqNU Downward
+vPlays3 sqZAU sqXAI sqZIA Upward
+vPlays3 sqCI sqMI sqMU Downward
+vPlays3 sqZIA sqZAI sqTY Upward
+vPlays2 sqZI sqZO Downward
+vPlays3 sqKO sqNI sqTU Upward
+vPlays3 sqTE sqNI sqLU Downward
+vPlays3 sqTY sqZO sqZI Upward
+vPlays3 sqZO sqZI sqZY Downward
+vPlays3 sqXAU sqCAI sqMY Upward
+vPlays3 sqXA sqCA sqCE Downward
+vPlays3 sqTU sqNI sqNU Upward
+[Dat2AIo]
+_6h_5h_3h_8h -  - _3k_5k_6k
+_7k_2k -  -  -  - _8k_2h_7h
+_1h_1k_1h_1k^$h_1k - _1k_1h
+ - _4k^3k -  -  -  - _1h - 
+ -  -  -  -  -  -  -  - _4h
+ -  -  -  - _!k -  - ^4k - 
+^1h^1k - ^1k^!h^1k^1h^1k^1h
+^7h^2h^1h^4h -  - ^#h^2k^7k
+^6k^5k - ^8k - ^8h^3h^5h^6h
+~~~
+^#k
+
