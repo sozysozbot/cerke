@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.6.0
+@version 0.5.7.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -776,6 +776,7 @@ Fullboard :: Board1 -> [Piece] -> Fullboard
 --   performance.
 testAll :: Side -> Fullboard -> [Move]
 data Move
+Drop :: (Color, Profession) -> Square -> Move
 Move2 :: Square -> Square -> Move
 Move3 :: Square -> Square -> Square -> Move
 instance GHC.Classes.Ord CerkeFS.VerifyRange.Move
@@ -900,6 +901,7 @@ playFromStart :: Monad m => StateT Fullboard m a -> m Fullboard
 --   </pre>
 toDebugOutput :: Operation a2 -> String
 data Move
+Drop :: (Color, Profession) -> Square -> Move
 Move2 :: Square -> Square -> Move
 Move3 :: Square -> Square -> Square -> Move
 

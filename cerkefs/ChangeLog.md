@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.7.0: RandomPlay can also drop a piece
 * ver 0.5.6.0: Forbid Tam2 to take a piece
 * ver 0.5.5.1: Improves the speed at which fedirrgavirs are generated
 * ver 0.5.5.0: Automatic generation of fedirrgavirs
