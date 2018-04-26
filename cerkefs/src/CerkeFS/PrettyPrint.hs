@@ -5,6 +5,7 @@ module CerkeFS.PrettyPrint
 ) where
 import CerkeFS.Internal.Piece2
 import CerkeFS.Board2
+import qualified Data.IntMap as I
 import qualified Data.Map as M
 import Data.Char
 import Control.Monad
@@ -59,7 +60,7 @@ loadBoard :: String -> Maybe Board1
 loadBoard str = do
  pieces <- load Alpha str
  guard (length pieces == 81)
- return $ M.fromList [ (sq, p) | (sq, Just p) <- zip sqList pieces]
+ return $ fromBoard1_old $ M.fromList [ (sq, p) | (sq, Just p) <- zip sqList pieces]
 
 load :: Stat -> String -> Maybe [Maybe Piece]
 load a s@(x:_)
@@ -93,7 +94,7 @@ load (Gamma side_ profOrTam) (c:xs) = do
 -}
 -- | Converts the 'Board1' to the ASCII board format used in the <https://sozysozbot.github.io/cerke/ Cerke board image generator>.
 drawBoard :: Board1 -> String
-drawBoard b = foo [ maybe " - " convertPieceToStr (M.lookup sq b) | sq <- sqList]
+drawBoard b = foo [ maybe " - " convertPieceToStr (I.lookup (fromSquare sq) b) | sq <- sqList]
  where 
   foo [] = ""
   foo arr = let (a,c) = splitAt 9 arr in concat a ++ "\n" ++ foo c

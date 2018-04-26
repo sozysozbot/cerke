@@ -13,5 +13,7 @@ module CerkeFS.Board2
 ,sqList
 ,isOccupied
 ,Square()
+
+,Square2,fromBoard1_old,toSquare,fromSquare
 ) where
 import CerkeFS.Internal.Board
