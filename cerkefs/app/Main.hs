@@ -5,11 +5,11 @@ where
 import CerkeFS
 import Data.Either(isRight)
 import System.Random.MWC
-import Control.Monad
 
 dispatch :: Move -> Side -> Fullboard -> Either Error Fullboard
 dispatch (Move2 from to) sid fb = vPlays2 from to sid `execStateT` fb
 dispatch (Move3 from thru to) sid fb = vPlays3 from thru to sid `execStateT` fb
+dispatch (Drop (c,p) sq) sid fb = drops (c,p) sq sid `execStateT` fb
 
 canDeclare :: Side -> Fullboard -> [Dat2]
 canDeclare sid fb = [ dat | dat <- [Mun1MakMok1Hue .. Cuop2Mun1Mok1Hue], isRight (declare sid dat `runStateT` fb)] 
