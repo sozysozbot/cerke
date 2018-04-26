@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.7.5: Less coupled 
 * ver 0.5.7.4: Autogenerate; add some tests generated from random playing
 * ver 0.5.7.3: Faster code
 * ver 0.5.7.2: Change the data structure so that only non-Tam2 can reside in hand
