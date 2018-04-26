@@ -10,17 +10,17 @@ import Control.Monad.Trans.Class
 
 type PseudoStateT s = ReaderT (IORef s) IO
 
-pseudoStateT :: (a -> IO (b, a)) -> PseudoStateT a b
+pseudoStateT :: (s -> IO (b, s)) -> PseudoStateT s b
 pseudoStateT f = do
  ioref <- ask
- fb <- lift $ readIORef ioref
- (dats, new_fb) <- lift $ f fb
- lift $ writeIORef ioref new_fb
- return dats
+ s <- lift $ readIORef ioref
+ (b, new_s) <- lift $ f s
+ lift $ writeIORef ioref new_s
+ return b
 
-runPseudoStateT :: PseudoStateT a b -> a -> IO (b, a)
-runPseudoStateT (ReaderT f) fb = do
- ioref <- newIORef fb
+runPseudoStateT :: PseudoStateT s b -> s -> IO (b, s)
+runPseudoStateT (ReaderT f) s = do
+ ioref <- newIORef s
  b <- f ioref
- new_fb <- readIORef ioref
- return (b, new_fb)
+ new_s <- readIORef ioref
+ return (b, new_s)
