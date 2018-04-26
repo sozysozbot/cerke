@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.7.0
+@version 0.5.7.1
 
 module CerkeFS.Internal.Piece2
 data Color
