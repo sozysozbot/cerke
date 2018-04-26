@@ -3,7 +3,6 @@ module CerkeFSSpec (spec) where
 import Test.Hspec
 import CerkeFS
 import CerkeFS.TestUtilities
-import qualified Data.Set as S
 
 spec :: Spec
 spec = do
@@ -38,9 +37,9 @@ spec = do
      vPlays3 sqZI sqZAI sqZIA Downward
   describe "searching hands" $ do
     it "initialFullBoard, Downward" $ 
-      S.fromList (testAll Downward initialFullBoard) `shouldBe` S.fromList cand000
+      (testAll Downward initialFullBoard) `shouldBeSimilarTo` cand000
     it "After fedirrgavir 001" $
-      let Right board = playFromStart fed001'' in S.fromList (testAll Upward board) `shouldBe` S.fromList cand001
+      let Right board = playFromStart fed001'' in (testAll Upward board) `shouldBeSimilarTo` cand001
 
 cand000 = [Move2 sqTA sqNE,Move2 sqTA sqZE,Move2 sqZA sqZE,Move2 sqXA sqZE,Move2 sqXA sqCE,Move2 sqLE sqNE,Move2 sqME sqCE,Move2 sqKI sqKU,Move2 sqLI sqLU,Move2 sqNI sqNE,Move2 sqNI sqNU,Move2 sqNI sqNO,Move2 sqTI sqTU,Move2 sqZI sqZU,Move2 sqXI sqXU,Move2 sqCI sqCE,Move2 sqCI sqCU,Move2 sqCI sqCO,Move2 sqMI sqMU,Move2 sqPI sqPU,Move2 sqZO sqNU,Move2 sqZO sqTU,Move2 sqZO sqZU,Move2 sqZO sqXU,Move2 sqZO sqCU,Move2 sqZO sqNO,Move2 sqZO sqTO,Move2 sqZO sqXO,Move2 sqZO sqCO,Move2 sqZO sqNY,Move2 sqZO sqTY,Move2 sqZO sqZY,Move2 sqZO sqXY,Move2 sqZO sqCY,Move3 sqLA sqTI sqLO,Move3 sqLA sqTI sqXO,Move3 sqTA sqNA sqNE,Move3 sqTA sqZA sqZE,Move3 sqTA sqTE sqNE,Move3 sqTA sqTE sqZE,Move3 sqZA sqTA sqNE,Move3 sqZA sqTA sqZE,Move3 sqZA sqXA sqZE,Move3 sqZA sqXA sqCE,Move3 sqZA sqTE sqNE,Move3 sqZA sqTE sqZE,Move3 sqZA sqXE sqZE,Move3 sqZA sqXE sqCE,Move3 sqXA sqZA sqZE,Move3 sqXA sqCA sqCE,Move3 sqXA sqXE sqZE,Move3 sqXA sqXE sqCE,Move3 sqMA sqXI sqTO,Move3 sqMA sqXI sqMO,Move3 sqKE sqLE sqNE,Move3 sqKE sqKI sqKU,Move3 sqLE sqKE sqNE,Move3 sqLE sqTE sqZE,Move3 sqLE sqLI sqLU,Move3 sqLE sqLI sqLO,Move3 sqLE sqLI sqLY,Move3 sqLE sqLI sqLAI,Move3 sqTE sqNI sqLU,Move3 sqTE sqNI sqTU,Move3 sqTE sqNI sqKO,Move3 sqTE sqZI sqTU,Move3 sqTE sqZI sqXU,Move3 sqXE sqZI sqTU,Move3 sqXE sqZI sqXU,Move3 sqXE sqCI sqXU,Move3 sqXE sqCI sqMU,Move3 sqXE sqCI sqPO,Move3 sqME sqXE sqZE,Move3 sqME sqPE sqCE,Move3 sqME sqMI sqMU,Move3 sqME sqMI sqMO,Move3 sqME sqMI sqMY,Move3 sqME sqMI sqMAI,Move3 sqPE sqME sqCE,Move3 sqPE sqPI sqPU,Move3 sqNI sqLI sqLU,Move3 sqNI sqTI sqTU,Move3 sqZI sqZO sqZE,Move3 sqZI sqZO sqNO,Move3 sqZI sqZO sqTO,Move3 sqZI sqZO sqXO,Move3 sqZI sqZO sqCO,Move3 sqZI sqZO sqZY,Move3 sqZI sqZO sqZAI,Move3 sqCI sqXI sqXU,Move3 sqCI sqMI sqMU,Move3 sqZO sqNI sqNE,Move3 sqZO sqNI sqLU,Move3 sqZO sqNI sqNU,Move3 sqZO sqTI sqNE,Move3 sqZO sqTI sqZE,Move3 sqZO sqTI sqNU,Move3 sqZO sqTI sqTU,Move3 sqZO sqTI sqZU,Move3 sqZO sqZI sqZE,Move3 sqZO sqZI sqTU,Move3 sqZO sqZI sqZU,Move3 sqZO sqZI sqXU,Move3 sqZO sqXI sqZE,Move3 sqZO sqXI sqCE,Move3 sqZO sqXI sqZU,Move3 sqZO sqXI sqXU,Move3 sqZO sqXI sqCU,Move3 sqZO sqCI sqCE,Move3 sqZO sqCI sqCU,Move3 sqZO sqCI sqMU,Move3 sqZO sqZO sqTU,Move3 sqZO sqZO sqZU,Move3 sqZO sqZO sqXU,Move3 sqZO sqZO sqTO,Move3 sqZO sqZO sqXO,Move3 sqZO sqZO sqTY,Move3 sqZO sqZO sqZY,Move3 sqZO sqZO sqXY,Move3 sqZO sqNAI sqLY,Move3 sqZO sqNAI sqNY,Move3 sqZO sqNAI sqNAU,Move3 sqZO sqTAI sqNY,Move3 sqZO sqTAI sqTY,Move3 sqZO sqTAI sqZY,Move3 sqZO sqTAI sqNAU,Move3 sqZO sqTAI sqZAU,Move3 sqZO sqZAI sqTY,Move3 sqZO sqZAI sqZY,Move3 sqZO sqZAI sqXY,Move3 sqZO sqZAI sqZAU,Move3 sqZO sqXAI sqZY,Move3 sqZO sqXAI sqXY,Move3 sqZO sqXAI sqCY,Move3 sqZO sqXAI sqZAU,Move3 sqZO sqXAI sqCAU,Move3 sqZO sqCAI sqCY,Move3 sqZO sqCAI sqMY,Move3 sqZO sqCAI sqCAU]
 

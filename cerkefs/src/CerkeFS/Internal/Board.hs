@@ -10,7 +10,7 @@ module CerkeFS.Internal.Board
 --,movePieceFromTo
 ,movePieceFromToFull
 ,Error(..)
-,add,minus
+,add,add_,minus
 ,getNeighborsAndSelf
 ,getNeighbors
 ,sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA, 
@@ -122,7 +122,19 @@ inherentTam2Hue' :: [Square2]
 inherentTam2Hue' = map fromSquare [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
 getNeighborsAndSelf :: Square2 -> [Square2]
-getNeighborsAndSelf sq = mapMaybe (`add_` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
+getNeighborsAndSelf 0 = [0,1,9,10]
+getNeighborsAndSelf 8 = [7,8,16,17]
+getNeighborsAndSelf 72 = [63,64,72,73]
+getNeighborsAndSelf 80 = [70,71,79,80]
+getNeighborsAndSelf a
+ | 1 <= a && a <= 7 = [a-1, a, a+1, a+8, a+9, a+10]
+ | 73 <= a && a <= 79 = [a-1, a, a+1, a-10, a-9, a-8]
+ | a `mod` 9 == 0 = [a, a+1, a-9, a-8, a+9, a+10]
+ | a `mod` 9 == 8 = [a, a-1, a-9, a-10, a+9, a+8]
+ | otherwise = [a-10, a-9, a-8, a-1, a, a+1, a+8, a+9, a+10]
+
+
+-- 
 
 getNeighbors :: Square -> [Square2]
 getNeighbors sq = mapMaybe (`add_` (fromSquare sq))
