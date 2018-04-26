@@ -26,7 +26,7 @@ import CerkeFS.VerifyDisplacement
 
 import Control.Exception.Base(assert)
 import Control.Monad(unless)
-import Data.List(intersect)
+import Data.List(intersect, partition)
 import Data.Either(isRight)
 import qualified Data.Map as M
 
@@ -36,23 +36,27 @@ data Move = Drop (Color, Profession) Square | Move2 Square Square | Move3 Square
 testAll :: Side -> Fullboard -> [Move]
 testAll sid fb =
  [ Move2 from to | from <- m, to <- l, isValid2 sid fb from to, from /= to ] ++
- [ Move3 from thru to | from <- m, thru <- nonEmptySquares fb, to <- l, isValid3 sid fb from thru to, from /= to] ++
- [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- emptySquares fb ]
+ [ Move3 from thru to | from <- m, thru <- nes, to <- l, isValid3 sid fb from thru to, from /= to] ++
+ [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- es ]
   where 
    l = sqList
    m = ofSide sid fb
+   (nes,es) = nonEmpty_empty fb
 isValid2 :: Side -> Fullboard -> Square -> Square -> Bool
 isValid2 sid fb from to = isRight $ execStateT (vPlays2 from to sid) fb
 
 isValid3 :: Side -> Fullboard -> Square -> Square -> Square -> Bool
 isValid3 sid fb from thru to = isRight $ execStateT (vPlays3 from thru to sid) fb
 
+nonEmpty_empty :: Fullboard -> ([Square], [Square])
+nonEmpty_empty Fullboard{board = b} = partition (`isOccupied` b) sqList
+{-
 nonEmptySquares :: Fullboard -> [Square]
 nonEmptySquares Fullboard{board = b} = [ sq | sq <- sqList, sq `isOccupied` b]
 
 emptySquares :: Fullboard -> [Square]
 emptySquares Fullboard{board = b} = [ sq | sq <- sqList, not(sq `isOccupied` b)]
-
+-}
 ofSide :: Side -> Fullboard -> [Square]
 ofSide sid Fullboard{board = b} = do
  sq <- sqList
