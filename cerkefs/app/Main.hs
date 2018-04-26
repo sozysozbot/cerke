@@ -5,8 +5,7 @@ where
 import CerkeFS
 import Data.Either(isRight)
 import System.Random.MWC
-import Data.IORef
-import Control.Monad.Trans.Reader
+import PseudoStateT
 
 dispatch :: Move -> Side -> Fullboard -> Either Error Fullboard
 dispatch (Move2 from to) sid fb = vPlays2 from to sid `execStateT` fb
@@ -36,10 +35,10 @@ randomPlay_ = do
    if(null arr2) then randomPlay_ else lift $ print arr2
  else lift $ print arr1
 
-type App = ReaderT (IORef Fullboard) IO
+type App = PseudoStateT Fullboard
 
 randomlyPlayOnce_ :: Side -> App [Dat2]
-randomlyPlayOnce_ sid = toApp $ \fb -> do
+randomlyPlayOnce_ sid = pseudoStateT $ \fb -> do
  let list = testAll sid fb
  i <- withSystemRandom . asGenIO $ \gen -> uniformR (0, length list - 1) gen
  let move = list !! i
@@ -47,20 +46,6 @@ randomlyPlayOnce_ sid = toApp $ \fb -> do
  let Right new_fb = dispatch move sid fb
  return (canDeclare sid new_fb,new_fb)
 
-toApp :: (Fullboard -> IO (b, Fullboard)) -> App b
-toApp f = do
- ioref <- ask
- fb <- lift $ readIORef ioref
- (dats, new_fb) <- lift $ f fb
- lift $ writeIORef ioref new_fb
- return dats
-
-runPseudoStateT :: App b -> Fullboard -> IO (b, Fullboard)
-runPseudoStateT (ReaderT f) fb = do
- ioref <- newIORef fb
- b <- f ioref
- new_fb <- readIORef ioref
- return (b, new_fb)
 
  --print $ toDebugOutput $ do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
  {-
