@@ -37,7 +37,7 @@ testAll :: Side -> Fullboard -> [Move]
 testAll sid fb =
  [ Move2 from to | from <- m, to <- l, isValid2 sid fb from to, from /= to ] ++
  [ Move3 from thru to | from <- m, thru <- nonEmptySquares fb, to <- l, isValid3 sid fb from thru to, from /= to] ++
- [ Drop (c,p) to | Just(c,p,s) <- map toPhantom (hand fb), s == sid, to <- emptySquares fb ]
+ [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- emptySquares fb ]
   where 
    l = sqList
    m = ofSide sid fb

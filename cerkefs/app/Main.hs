@@ -19,7 +19,7 @@ canDeclare sid fb = [ dat | dat <- [Mun1MakMok1Hue .. Cuop2Mun1Mok1Hue], isRight
 main :: IO ()
 main = do
  ((), Fullboard{board = final, hand = pieces}) <- runPseudoStateT randomPlay2_ initialFullBoard
- putStrLn $ drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
+ putStrLn $ drawBoard final ++ "~~~\n" ++ concatMap (convertPieceToStr . toFullPiece) pieces ++ "\n"
 
 randomPlay2_ :: App ()
 randomPlay2_ = do

@@ -58,5 +58,5 @@ toDebugOutput :: Operation a2 -> String
 toDebugOutput fed = case playFromStart fed of
   Left e -> "error: " ++ show e
   Right Fullboard{board = final, hand = pieces} -> 
-   drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
+   drawBoard final ++ "~~~\n" ++ concatMap (convertPieceToStr . toFullPiece) pieces ++ "\n"
 
