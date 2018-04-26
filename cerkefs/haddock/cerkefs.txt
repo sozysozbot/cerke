@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.7.1
+@version 0.5.7.2
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -28,16 +28,18 @@ data Piece
 
 -- | Minds, 皇, tam
 Tam2 :: Piece
-Piece :: Color -> Profession -> Side -> Piece
+NonTam2Piece :: NonTam2Piece -> Piece
+data NonTam2Piece
+Piece :: Color -> Profession -> Side -> NonTam2Piece
 
 -- | The color of the piece
-[color] :: Piece -> Color
+[color] :: NonTam2Piece -> Color
 
 -- | The profession of the piece
-[prof] :: Piece -> Profession
+[prof] :: NonTam2Piece -> Profession
 
 -- | The side that the piece belongs to
-[side] :: Piece -> Side
+[side] :: NonTam2Piece -> Side
 data Profession
 
 -- | Vessel, 船, felkana
@@ -72,6 +74,9 @@ Io :: Profession
 instance GHC.Classes.Ord CerkeFS.Internal.Piece2.Piece
 instance GHC.Classes.Eq CerkeFS.Internal.Piece2.Piece
 instance GHC.Show.Show CerkeFS.Internal.Piece2.Piece
+instance GHC.Classes.Ord CerkeFS.Internal.Piece2.NonTam2Piece
+instance GHC.Classes.Eq CerkeFS.Internal.Piece2.NonTam2Piece
+instance GHC.Show.Show CerkeFS.Internal.Piece2.NonTam2Piece
 instance GHC.Enum.Enum CerkeFS.Internal.Piece2.Profession
 instance GHC.Classes.Ord CerkeFS.Internal.Piece2.Profession
 instance GHC.Classes.Eq CerkeFS.Internal.Piece2.Profession
@@ -140,6 +145,7 @@ type PhantomPiece = (Color, Profession, Side)  Not a physical piece; only serves
 
 -- | Gets the side that the piece belongs to.
 getSide :: Piece -> Maybe Side
+getSide' :: NonTam2Piece -> Side
 
 -- | Converts <a>Piece</a> into <a>PhantomPiece</a>.
 toPhantom :: Piece -> Maybe PhantomPiece
@@ -182,6 +188,16 @@ toPhantom :: Piece -> Maybe PhantomPiece
 
 -- | An alias for <a>Nothing</a>, that is, <tt><a>toPhantom</a> Tam2</tt>.
 phantomTam :: Maybe PhantomPiece
+data NonTam2Piece
+toNonTam2Piece :: Piece -> Maybe NonTam2Piece
+toFullPiece :: NonTam2Piece -> Piece
+
+-- | Flip the side that the piece belongs to, or <a>Nothing</a> if
+--   <a>Tam2</a>.
+flipSide_ :: NonTam2Piece -> NonTam2Piece
+
+-- | Converts <a>NonTam2Piece</a> into <a>PhantomPiece</a>.
+toPhantom' :: NonTam2Piece -> PhantomPiece
 
 module CerkeFS.Internal.Board
 data Col
@@ -415,9 +431,9 @@ instance GHC.Show.Show CerkeFS.Internal.Board.Square
 
 module CerkeFS.Operations
 data Fullboard
-Fullboard :: Board1 -> [Piece] -> Fullboard
+Fullboard :: Board1 -> [NonTam2Piece] -> Fullboard
 [board] :: Fullboard -> Board1
-[hand] :: Fullboard -> [Piece]
+[hand] :: Fullboard -> [NonTam2Piece]
 
 -- | An alias for the monad that represents an operation.
 type Operation = StateT Fullboard (Either Error)
@@ -768,9 +784,9 @@ HuetKaikADat2 :: Dat2
 -- | 声無行処; la ytartanerfergal
 Cuop2Mun1Mok1Hue :: Dat2
 data Fullboard
-Fullboard :: Board1 -> [Piece] -> Fullboard
+Fullboard :: Board1 -> [NonTam2Piece] -> Fullboard
 [board] :: Fullboard -> Board1
-[hand] :: Fullboard -> [Piece]
+[hand] :: Fullboard -> [NonTam2Piece]
 
 -- | Generates all the possible moves. Implemented here to gain the speed
 --   performance.
@@ -881,9 +897,9 @@ HuetKaikADat2 :: Dat2
 -- | 声無行処; la ytartanerfergal
 Cuop2Mun1Mok1Hue :: Dat2
 data Fullboard
-Fullboard :: Board1 -> [Piece] -> Fullboard
+Fullboard :: Board1 -> [NonTam2Piece] -> Fullboard
 [board] :: Fullboard -> Board1
-[hand] :: Fullboard -> [Piece]
+[hand] :: Fullboard -> [NonTam2Piece]
 
 -- | Initial configuration of the cerke board.
 initialBoard :: Board1
