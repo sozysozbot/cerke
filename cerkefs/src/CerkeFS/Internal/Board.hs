@@ -28,9 +28,11 @@ module CerkeFS.Internal.Board
 ,isTam2Hue
 ,isNeighborOf
 --,toEither
+,Square2,Board2,toBoard2,fromBoard2,toSquare,fromSquare
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
+import qualified Data.IntMap as I
 import Control.Monad(guard, unless)
 import Data.Maybe(isJust,mapMaybe)
 
@@ -42,7 +44,9 @@ instance Show Square where
  show Square{col=c,row=r} = "sq" ++ length "Column" `drop` show c ++ length "Row" `drop` show r
 
 type Board1 = M.Map Square Piece
+type Board2 = I.IntMap Piece
 
+type Square2 = Int
 
 data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
 
@@ -187,3 +191,14 @@ sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA,
  sqKAU, sqLAU, sqNAU, sqTAU, sqZAU, sqXAU, sqCAU, sqMAU, sqPAU,
  sqKIA, sqLIA, sqNIA, sqTIA, sqZIA, sqXIA, sqCIA, sqMIA, sqPIA] = sqList
 
+toSquare :: Square2 -> Square
+toSquare i = sqList !! i
+
+fromSquare :: Square -> Square2
+fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
+
+toBoard2 :: Board1 -> Board2
+toBoard2 = I.fromList . map (\(s,p) -> (fromSquare s, p)) . M.toList
+
+fromBoard2 :: Board2 -> Board1
+fromBoard2 = M.fromList . map (\(s,p) -> (toSquare s, p)) . I.toList
