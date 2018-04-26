@@ -1,7 +1,7 @@
 {-|
 Module      : CerkeFS
 Description : Public APIs for the CerkeFS. It should be possible to depict most valid operations with functions exported from this module.
-Maintainer  : sozysozbot@email.com
+Maintainer  : sozysozbot@gmail.com
 Stability   : experimental
 
 CerkeFS, which stands for cerke'd fedirrgavir'i slergyl, is a library to check whether the given record of the game of Cerke is valid or not. It should be possible to depict most valid operations with functions exported from this module.
@@ -33,6 +33,7 @@ module CerkeFS
 ,toDebugOutput
 ,Move(..)
 ,testAll
+,testAll'
 ) where
 import CerkeFS.Board2
 --import CerkeFS.GameState

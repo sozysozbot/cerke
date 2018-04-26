@@ -39,14 +39,14 @@ type App = PseudoStateT Fullboard
 
 randomlyPlayOnce_ :: Side -> App [Dat2]
 randomlyPlayOnce_ sid = pseudoStateT $ \fb -> do
- let list = testAll sid fb
+ let (list, alpha, beta, gamma) = testAll' sid fb
  i <- withSystemRandom . asGenIO $ \gen -> uniformR (0, length list - 1) gen
  let move = list !! i
  case move of
   Move2 from to -> putStrLn $ unwords["vPlays2",show from, show to,show sid]
   Move3 from thru to -> putStrLn $ unwords["vPlays3",show from, show thru, show to, show sid]
   Drop (c,p) sq -> putStrLn $ unwords["drops", show (c,p), show sq, show sid]
- appendFile "count_candidate.txt" $ show (length list) ++ "\n"
+ appendFile "count_candidate_2.txt" $ unwords (map show [alpha+beta+gamma, alpha, beta, gamma]) ++ "\n"
  let Right new_fb = dispatch move sid fb
  return (canDeclare sid new_fb,new_fb)
 

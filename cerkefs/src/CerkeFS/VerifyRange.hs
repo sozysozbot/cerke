@@ -15,6 +15,7 @@ module CerkeFS.VerifyRange
 ,Dat2(..)
 ,Fullboard(..)
 ,testAll
+,testAll'
 ,Move(..)
 ) where
 import CerkeFS.Internal.Board
@@ -33,14 +34,24 @@ data Move = Drop (Color, Profession) Square | Move2 Square Square | Move3 Square
 
 -- | Generates all the possible moves. Implemented here to gain the speed performance.
 testAll :: Side -> Fullboard -> [Move]
-testAll sid fb =
- [ Move2 from to | from <- m, to <- l, isValid2 sid fb from to, from /= to ] ++
- [ Move3 from thru to | from <- m, thru <- nes, to <- l, isValid3 sid fb from thru to, from /= to] ++
- [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- es ]
-  where 
+testAll sid fb = alpha ++ beta ++ gamma
+ where 
    l = sqList
    m = ofSide sid fb
    (nes,es) = nonEmpty_empty fb
+   alpha = [ Move2 from to | from <- m, to <- l, isValid2 sid fb from to, from /= to ]
+   beta =  [ Move3 from thru to | from <- m, thru <- nes, to <- l, isValid3 sid fb from thru to, from /= to] 
+   gamma =  [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- es ]
+
+testAll' sid fb = (alpha ++ beta ++ gamma, length alpha, length beta, length gamma)
+ where 
+   l = sqList
+   m = ofSide sid fb
+   (nes,es) = nonEmpty_empty fb
+   alpha = [ Move2 from to | from <- m, to <- l, isValid2 sid fb from to, from /= to ]
+   beta =  [ Move3 from thru to | from <- m, thru <- nes, to <- l, isValid3 sid fb from thru to, from /= to] 
+   gamma =  [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- es ]
+
 isValid2 :: Side -> Fullboard -> Square -> Square -> Bool
 isValid2 sid fb from to = isRight $ execStateT (vPlays2 from to sid) fb
 
