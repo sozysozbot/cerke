@@ -137,11 +137,25 @@ getNeighborsAndSelf a
 -- 
 
 getNeighbors :: Square -> [Square2]
-getNeighbors sq = mapMaybe (`add_` (fromSquare sq))
- [Vec a b | (a,b) <- [(1,1),(1,-1),(-1,1),(-1,-1),(0,1),(1,0),(0,-1),(-1,0)]]
+getNeighbors sq = getNeighbors' (fromSquare sq)
+
+getNeighbors' :: Square2 -> [Square2]
+getNeighbors' 0 = [1,9,10]
+getNeighbors' 8 = [7,16,17]
+getNeighbors' 72 = [63,64,73]
+getNeighbors' 80 = [70,71,79]
+getNeighbors' a
+ | 1 <= a && a <= 7 = [a-1, a+1, a+8, a+9, a+10]
+ | 73 <= a && a <= 79 = [a-1, a+1, a-10, a-9, a-8]
+ | a `mod` 9 == 0 = [ a+1, a-9, a-8, a+9, a+10]
+ | a `mod` 9 == 8 = [a-1, a-9, a-10, a+9, a+8]
+ | otherwise = [a-10, a-9, a-8, a-1, a+1, a+8, a+9, a+10]
 
 isNeighborOf :: Square -> Square -> Bool
 isNeighborOf s1 s2 = (fromSquare s1) `elem` getNeighbors s2
+
+isNeighborOf' :: Square2 -> Square2 -> Bool
+isNeighborOf' s1 s2 = s1 `elem` getNeighbors' s2
 
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool
