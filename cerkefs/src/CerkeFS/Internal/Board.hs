@@ -35,8 +35,9 @@ module CerkeFS.Internal.Board
 import CerkeFS.Piece3
 import qualified Data.Map as M
 import qualified Data.IntMap as I
-import Control.Monad(guard, unless)
+import Control.Monad(guard)
 import Data.Maybe(isJust,mapMaybe)
+import CerkeFS.Internal.Board_Internal
 
 data Col = ColumnK | ColumnL | ColumnN | ColumnT | ColumnZ | ColumnX | ColumnC | ColumnM | ColumnP deriving(Show, Eq, Ord, Enum)
 data Row = RowA | RowE | RowI | RowU | RowO | RowY | RowAI | RowAU | RowIA deriving(Show,Eq, Ord,Enum)
@@ -45,10 +46,8 @@ data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
 instance Show Square where
  show Square{col=c,row=r} = "sq" ++ length "Column" `drop` show c ++ length "Row" `drop` show r
 
-type Board1_old = M.Map Square Piece
-newtype Board1 = Board1{ unBoard1 :: I.IntMap Piece } deriving(Show, Eq, Ord)
+type Board1_old = [(Square, Piece)]
 
-type Square2 = Int
 
 data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
 
@@ -161,40 +160,38 @@ isNeighborOf' s1 s2 = s1 `elem` getNeighbors' s2
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
- piece <- sq `I.lookup` unBoard1 board
+ piece <- sq `iLookup` unBoard1 board
  (_,Uai1,s) <- toPhantom piece
  guard(s == sid && isTam2Hue board sq)
 
 -- | Checks whether a given square is in Tam2Hue.
 isTam2Hue :: Board1 -> Square2 -> Bool
-isTam2Hue board sq = isJust $
- if sq `elem` inherentTam2Hue'
-  then return ()
-  else let ps = mapMaybe (`I.lookup` unBoard1 board) $ getNeighborsAndSelf sq in
-   unless (phantomTam `elem` map toPhantom ps) Nothing
+isTam2Hue board sq = (sq `elem` inherentTam2Hue') || 
+  let ps = mapMaybe (`iLookup` unBoard1 board) $ getNeighborsAndSelf sq in
+   phantomTam `elem` map toPhantom ps
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
-isOccupied sq (Board1 b) = I.member (fromSquare sq) b
+isOccupied sq (Board1 b) = iMember (fromSquare sq) b
 
 isOccupied' :: Square2 -> Board1 -> Bool
-isOccupied' sq (Board1 b) = I.member sq b
+isOccupied' sq (Board1 b) = iMember sq b
 
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> Either Error Board1
 putPiece p sq b = 
  if sq `isOccupied` b 
   then Left (AlreadyOccupied sq) 
-  else Right(Board1 $ I.insert (fromSquare sq) p (unBoard1 b))
+  else Right(Board1 $ iInsert (fromSquare sq) p (unBoard1 b))
 
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
 removePiece sq (Board1 b) = toEither (EmptySquare sq) $ do
  p <- sq `lookup_` (Board1 b)
- return (p, Board1 $ I.delete (fromSquare sq) b)
+ return (p, Board1 $ iDelete (fromSquare sq) b)
 
 lookup_ :: Square -> Board1 -> Maybe Piece
-lookup_ sq (Board1 b) = (fromSquare sq) `I.lookup` b
+lookup_ sq (Board1 b) = (fromSquare sq) `iLookup` b
 
 -- | Moves a piece on a square according to the vector. Raises: 
 --
@@ -251,4 +248,4 @@ fromSquare :: Square -> Square2
 fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
 
 fromBoard1_old :: Board1_old -> Board1
-fromBoard1_old = Board1 . I.fromList . map (\(s,p) -> (fromSquare s, p)) . M.toList
+fromBoard1_old = Board1 . I.fromList . map (\(s,p) -> (fromSquare s, p))
