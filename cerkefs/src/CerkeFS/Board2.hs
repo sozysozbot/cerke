@@ -14,6 +14,6 @@ module CerkeFS.Board2
 ,isOccupied
 ,Square()
 
-,Square2,fromBoard1_old,toSquare,fromSquare
+,Square2,fromBoard1_old,toSquare,fromSquare,isOccupied'
 ) where
 import CerkeFS.Internal.Board

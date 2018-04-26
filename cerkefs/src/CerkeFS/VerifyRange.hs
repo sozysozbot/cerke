@@ -85,7 +85,7 @@ vPlTam2_latter from to = do
 --
 -- If candidate is empty, returns False as expected.
 doesMeetingPlaceExist :: Board1 -> Square -> Square -> Bool
-doesMeetingPlaceExist b alpha beta = not(all (`isOccupied` b) candidate)
+doesMeetingPlaceExist b alpha beta = not(all (`isOccupied'` b) candidate)
  where candidate = getNeighbors alpha `intersect` getNeighbors beta  
 
 -- | Plays Tam2, which stepped on a piece.

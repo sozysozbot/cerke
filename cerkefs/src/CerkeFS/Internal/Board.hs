@@ -29,6 +29,7 @@ module CerkeFS.Internal.Board
 ,isNeighborOf
 --,toEither
 ,Square2,fromBoard1_old,toSquare,fromSquare
+,isOccupied'
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
@@ -56,6 +57,16 @@ add (Vec x y) Square{col=c,row=r} = do
  new_c <- add' x c
  new_r <- add' y r
  return Square{col=new_c, row=new_r}
+
+add_ :: Vec -> Square2 -> Maybe Square2
+add_ (Vec x y) sq = do
+ let (r,c) = sq `divMod` 9
+ new_c <- add' x c
+ new_r <- add' y r
+ return $ new_r * 9 + new_c
+
+--fromSquare :: Square -> Square2
+--fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
 
 -- | Takes the difference of two squares as a vec. @p `minus` q@ is p minus q.
 minus :: Square -> Square -> Vec
@@ -102,37 +113,40 @@ data Error
 ********************************************
 -}
 -- | The list of squares that are inherently tam2Hue
-inherentTam2Hue :: [Square]
-inherentTam2Hue = [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
+inherentTam2Hue' :: [Square2]
+inherentTam2Hue' = map fromSquare [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
-getNeighborsAndSelf :: Square -> [Square]
-getNeighborsAndSelf sq = mapMaybe (`add` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
+getNeighborsAndSelf :: Square2 -> [Square2]
+getNeighborsAndSelf sq = mapMaybe (`add_` sq) [Vec a b | a <- [-1,0,1], b <- [-1,0,1]]
 
-getNeighbors :: Square -> [Square]
-getNeighbors sq = mapMaybe (`add` sq) 
+getNeighbors :: Square -> [Square2]
+getNeighbors sq = mapMaybe (`add_` (fromSquare sq))
  [Vec a b | (a,b) <- [(1,1),(1,-1),(-1,1),(-1,-1),(0,1),(1,0),(0,-1),(-1,0)]]
 
 isNeighborOf :: Square -> Square -> Bool
-isNeighborOf s1 s2 = s1 `elem` getNeighbors s2
+isNeighborOf s1 s2 = (fromSquare s1) `elem` getNeighbors s2
 
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
-isTam2HueAUai1 :: Side -> Board1 -> Square -> Bool
+isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
- piece <- (fromSquare sq) `I.lookup` board
+ piece <- sq `I.lookup` board
  (_,Uai1,s) <- toPhantom piece
  guard(s == sid && isTam2Hue board sq)
 
 -- | Checks whether a given square is in Tam2Hue.
-isTam2Hue :: Board1 -> Square -> Bool
+isTam2Hue :: Board1 -> Square2 -> Bool
 isTam2Hue board sq = isJust $
- if sq `elem` inherentTam2Hue
+ if sq `elem` inherentTam2Hue'
   then return ()
-  else let ps = mapMaybe (`I.lookup` board) $ map fromSquare $ getNeighborsAndSelf sq in
+  else let ps = mapMaybe (`I.lookup` board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
 isOccupied sq b = I.member (fromSquare sq) b
+
+isOccupied' :: Square2 -> Board1 -> Bool
+isOccupied' sq b = I.member sq b
 
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> Either Error Board1

@@ -100,7 +100,7 @@ validator `validatesTaking` (from, to, sid) = do
 validateUai1Protection :: Square -> Side -> Operation ()
 validateUai1Protection to s = do
  fb <- get
- let sqs = getNeighborsAndSelf to  -- Vec 0 0 does not cause any problem, since the piece at 'to' is already removed 
+ let sqs = getNeighborsAndSelf (fromSquare to)  -- Vec 0 0 does not cause any problem, since the piece at 'to' is already removed 
  when (any (isTam2HueAUai1 s (board fb)) sqs) $
   lift $ Left Tam2HueAUai1Violation
 
