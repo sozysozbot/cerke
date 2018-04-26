@@ -1,5 +1,5 @@
 module Main 
-(module Main
+(main
 )
 where
 import CerkeFS
@@ -22,25 +22,11 @@ main = do
  ((), Fullboard{board = final, hand = pieces}) <- runPseudoStateT randomPlay2_ initialFullBoard
  putStrLn $ drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
 
-randomPlay2 :: StateT Fullboard IO ()
-randomPlay2 = do
- coin <- lift . withSystemRandom . asGenIO $ \gen -> uniformR (0, 1) gen
- [] <- if coin == (0 :: Int) then randomlyPlayOnce Downward else return []
- randomPlay'
-
 randomPlay2_ :: App ()
 randomPlay2_ = do
  coin <- lift . withSystemRandom . asGenIO $ \gen -> uniformR (0, 1) gen
  [] <- if coin == (0 :: Int) then randomlyPlayOnce_ Downward else return []  
  randomPlay_
-
-randomPlay' :: StateT Fullboard IO ()
-randomPlay' = do
- arr1 <- randomlyPlayOnce Upward
- if(null arr1) then do
-   arr2 <- randomlyPlayOnce Downward
-   if(null arr2) then randomPlay' else lift $ print arr2
- else lift $ print arr1
 
 randomPlay_ :: App ()
 randomPlay_ = do
@@ -50,23 +36,16 @@ randomPlay_ = do
    if(null arr2) then randomPlay_ else lift $ print arr2
  else lift $ print arr1
 
+type App = ReaderT (IORef Fullboard) IO
 
-randomlyPlayOnce :: Side -> StateT Fullboard IO [Dat2]
-randomlyPlayOnce sid = StateT (randomlyPlayOnce' sid)
-
-randomlyPlayOnce' :: Side -> Fullboard -> IO ([Dat2], Fullboard)
-randomlyPlayOnce' sid = \fb -> do
+randomlyPlayOnce_ :: Side -> App [Dat2]
+randomlyPlayOnce_ sid = toApp $ \fb -> do
  let list = testAll sid fb
  i <- withSystemRandom . asGenIO $ \gen -> uniformR (0, length list - 1) gen
  let move = list !! i
  print $ (move, length list)
  let Right new_fb = dispatch move sid fb
  return (canDeclare sid new_fb,new_fb)
-
-type App = ReaderT (IORef Fullboard) IO
-
-randomlyPlayOnce_ :: Side -> App [Dat2]
-randomlyPlayOnce_ sid = toApp (randomlyPlayOnce' sid)
 
 toApp :: (Fullboard -> IO (b, Fullboard)) -> App b
 toApp f = do
