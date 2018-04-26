@@ -24,7 +24,7 @@ import qualified Data.Map as M
 data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
  board :: Board1,
- hand :: [Piece] -- whose hand the piece is in is designated in Piece itself
+ hand :: [NonTam2Piece] -- whose hand the piece is in is designated in Piece itself
 } deriving(Show, Eq, Ord)
 
 -- | An alias for the monad that represents an operation.
@@ -39,8 +39,8 @@ f >+> g = f Upward >> g Downward
 f >-> g = f Downward >> g Upward
 
 
-match :: PhantomPiece -> Piece -> Bool
-match (c,p,s) piece = Just (c,p,s) == toPhantom piece
+match :: PhantomPiece -> NonTam2Piece -> Bool
+match (c,p,s) piece = (c,p,s) == toPhantom' piece
 
 liftBoardOp :: Monad m => (Board1 -> m (b, Board1)) -> StateT Fullboard m b
 liftBoardOp op = do
@@ -84,11 +84,11 @@ validator `validatesPlaying` (from, to, sid) = do
 
 validator `validatesTaking` (from, to, sid) = do
  piece <- liftBoardOp $ removePiece to
- case getSide piece of
+ case toNonTam2Piece piece of
   Nothing -> lift $ Left TamCapture
-  Just s -> if s == sid then lift $ Left FriendlyFire else do
+  Just pie -> let s = getSide' pie in if s == sid then lift $ Left FriendlyFire else do
    validateUai1Protection to s
-   let Just flippedPiece = flipSide piece -- fails for Tam2, which doesn't belong here
+   let flippedPiece = flipSide_ pie
    phantom <- liftBoardOp $ movePieceFromToFull from to
    case validator phantom of
     Right () -> do
@@ -171,7 +171,7 @@ dropPiece pp sq = do
  case filter (match pp) pieces of
   [] -> lift $ Left NoCorrespondingPieceInHand -- cannot drop
   (x:xs) -> do
-   liftBoardOpFoo $ putPiece x sq -- modify the board,
+   liftBoardOpFoo $ putPiece (toFullPiece x) sq -- modify the board,
    modify (\k -> k{hand = xs ++ filter (not . match pp) pieces}) -- modify the hand
 
 -- | Wraps an operation to show that the operation must theoretically succeed but did not happen. Fails if the wrapped operation is illegal.
@@ -212,7 +212,7 @@ type Validator2 = [(Color, Profession)] -> Bool
 declare'' :: Side -> Validator2 -> Operation ()
 declare'' s_ f = do
  Fullboard{hand = h} <- get
- let cplist = [ (c,p) | Just(c,p,s) <- map toPhantom h, s == s_]
+ let cplist = [ (c,p) | (c,p,s) <- map toPhantom' h, s == s_]
  if f cplist then return () else lift $ Left FalseDeclaration
 
 declare' :: Side -> [Profession] -> Operation ()

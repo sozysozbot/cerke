@@ -2,6 +2,7 @@ module CerkeFS.Internal.Piece2
 (Color(..)
 ,Side(..)
 ,Piece(..)
+,NonTam2Piece(..)
 ,Profession(..)
 ) where
 data Color
@@ -14,7 +15,9 @@ data Side
  deriving(Show, Eq, Ord)
 data Piece 
  = Tam2 -- ^ Minds, 皇, tam
- | Piece {
+ | NonTam2Piece NonTam2Piece
+ deriving(Show, Eq, Ord)
+data NonTam2Piece = Piece {
   color :: Color, -- ^ The color of the piece
   prof :: Profession, -- ^ The profession of the piece
   side :: Side -- ^ The side that the piece belongs to
