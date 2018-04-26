@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.7.3
+@version 0.5.7.4
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -807,6 +807,7 @@ Fullboard :: Board1 -> [NonTam2Piece] -> Fullboard
 -- | Generates all the possible moves. Implemented here to gain the speed
 --   performance.
 testAll :: Side -> Fullboard -> [Move]
+testAll' :: Side -> Fullboard -> ([Move], Int, Int, Int)
 data Move
 Drop :: (Color, Profession) -> Square -> Move
 Move2 :: Square -> Square -> Move
@@ -940,3 +941,4 @@ Move3 :: Square -> Square -> Square -> Move
 -- | Generates all the possible moves. Implemented here to gain the speed
 --   performance.
 testAll :: Side -> Fullboard -> [Move]
+testAll' :: Side -> Fullboard -> ([Move], Int, Int, Int)
