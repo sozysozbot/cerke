@@ -61,8 +61,8 @@ add (Vec x y) Square{col=c,row=r} = do
 add_ :: Vec -> Square2 -> Maybe Square2
 add_ (Vec x y) sq = do
  let (r,c) = sq `divMod` 9
- new_c <- add' x c
- new_r <- add' y r
+ new_c <- add'' x c
+ new_r <- add'' y r
  return $ new_r * 9 + new_c
 
 --fromSquare :: Square -> Square2
@@ -80,6 +80,11 @@ add' a c
  | otherwise = Just $ toEnum (a+b)
  where b = fromEnum c
 
+add'' :: Int -> Int -> Maybe Int
+add'' a b
+ | a+b < 0 = Nothing  
+ | a+b > 8 = Nothing  
+ | otherwise = Just $ a+b
 
 toEither :: c -> Maybe a -> Either c a
 toEither = (`maybe` Right) . Left
@@ -207,6 +212,7 @@ sqKA,  sqLA,  sqNA,  sqTA,  sqZA,  sqXA,  sqCA,  sqMA,  sqPA,
 
 toSquare :: Square2 -> Square
 toSquare i = sqList !! i
+-- let (r,c) = i `divMod` 9 in (Square (toEnum r) (toEnum c)) was slightly slower
 
 fromSquare :: Square -> Square2
 fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
