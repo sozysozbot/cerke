@@ -1,10 +1,11 @@
 module Main 
-(module Main
+(main
 )
 where
 import CerkeFS
 import Data.Either(isRight)
 import System.Random.MWC
+import PseudoStateT
 
 dispatch :: Move -> Side -> Fullboard -> Either Error Fullboard
 dispatch (Move2 from to) sid fb = vPlays2 from to sid `execStateT` fb
@@ -17,34 +18,33 @@ canDeclare sid fb = [ dat | dat <- [Mun1MakMok1Hue .. Cuop2Mun1Mok1Hue], isRight
 
 main :: IO ()
 main = do
- ((), Fullboard{board = final, hand = pieces}) <- runStateT randomPlay initialFullBoard
+ ((), Fullboard{board = final, hand = pieces}) <- runPseudoStateT randomPlay2_ initialFullBoard
  putStrLn $ drawBoard final ++ "~~~\n" ++ concatMap convertPieceToStr pieces ++ "\n"
 
-randomPlay :: StateT Fullboard IO ()
-randomPlay = do
+randomPlay2_ :: App ()
+randomPlay2_ = do
  coin <- lift . withSystemRandom . asGenIO $ \gen -> uniformR (0, 1) gen
- [] <- if coin == (0 :: Int) then randomlyPlayOnce Downward else return []
- randomPlay'
+ [] <- if coin == (0 :: Int) then randomlyPlayOnce_ Downward else return []  
+ randomPlay_
 
-randomPlay' :: StateT Fullboard IO ()
-randomPlay' = do
- arr1 <- randomlyPlayOnce Upward
+randomPlay_ :: App ()
+randomPlay_ = do
+ arr1 <- randomlyPlayOnce_ Upward
  if(null arr1) then do
-   arr2 <- randomlyPlayOnce Downward
-   if(null arr2) then randomPlay' else lift $ print arr2
+   arr2 <- randomlyPlayOnce_ Downward
+   if(null arr2) then randomPlay_ else lift $ print arr2
  else lift $ print arr1
 
+type App = PseudoStateT Fullboard
 
-randomlyPlayOnce :: Side -> StateT Fullboard IO [Dat2]
-randomlyPlayOnce sid = StateT $ \fb -> do
+randomlyPlayOnce_ :: Side -> App [Dat2]
+randomlyPlayOnce_ sid = pseudoStateT $ \fb -> do
  let list = testAll sid fb
  i <- withSystemRandom . asGenIO $ \gen -> uniformR (0, length list - 1) gen
  let move = list !! i
  print $ (move, length list)
  let Right new_fb = dispatch move sid fb
  return (canDeclare sid new_fb,new_fb)
-
-
 
 
  --print $ toDebugOutput $ do{vPlays3' sqKE  Tuk2 sqLE sqNE Downward; vPlays2' sqTAI Kauk2 sqTY Upward}
