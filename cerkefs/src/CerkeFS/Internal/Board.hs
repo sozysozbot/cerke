@@ -46,7 +46,7 @@ data Square = Square{row :: Row, col :: Col} deriving(Eq, Ord)
 instance Show Square where
  show Square{col=c,row=r} = "sq" ++ length "Column" `drop` show c ++ length "Row" `drop` show r
 
-type Board1_old = M.Map Square Piece
+type Board1_old = [(Square, Piece)]
 
 
 data Vec = Vec{dx :: Int, dy :: Int} deriving(Show, Eq, Ord)
@@ -248,4 +248,4 @@ fromSquare :: Square -> Square2
 fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
 
 fromBoard1_old :: Board1_old -> Board1
-fromBoard1_old = Board1 . I.fromList . map (\(s,p) -> (fromSquare s, p)) . M.toList
+fromBoard1_old = Board1 . I.fromList . map (\(s,p) -> (fromSquare s, p))

@@ -5,7 +5,6 @@ module CerkeFS.PrettyPrint
 ) where
 import CerkeFS.Internal.Piece2
 import CerkeFS.Board2
-import qualified Data.Map as M
 import Data.Char
 import Control.Monad
 import Data.Maybe(maybe)
@@ -59,7 +58,7 @@ loadBoard :: String -> Maybe Board1
 loadBoard str = do
  pieces <- load Alpha str
  guard (length pieces == 81)
- return $ fromBoard1_old $ M.fromList [ (sq, p) | (sq, Just p) <- zip sqList pieces]
+ return $ fromBoard1_old [ (sq, p) | (sq, Just p) <- zip sqList pieces]
 
 load :: Stat -> String -> Maybe [Maybe Piece]
 load a s@(x:_)
