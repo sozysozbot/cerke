@@ -19,7 +19,6 @@ import Control.Monad.Trans.Class
 import Control.Monad.Trans.State.Lazy
 import qualified Data.MultiSet as S
 import Control.Monad(when)
-import qualified Data.IntMap as I
 
 data Fullboard = Fullboard{
 -- turn :: Maybe Side, -- `Nothing` means no info about the turn
@@ -69,7 +68,7 @@ validator `validatesPlaying` (from, to, sid) = do
  fb <- get
  case movePieceFromToFull from to (board fb) of
   Left (AlreadyOccupied _) -> do
-   case (fromSquare from) `I.lookup` board fb of
+   case from `lookup_` board fb of
     Nothing -> error "cannot happen bjirdgnsfk;ml"
     Just pie -> case toPhantom pie of
      Nothing -> lift $ Left CaptureByTam

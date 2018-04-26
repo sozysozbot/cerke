@@ -2,7 +2,7 @@ module CerkeFS.Internal.Board
 (Col(..)
 ,Row(..)
 ,Square(..)
-,Board1
+,Board1()
 ,Vec(..)
 ,putPiece
 ,removePiece
@@ -30,6 +30,7 @@ module CerkeFS.Internal.Board
 --,toEither
 ,Square2,fromBoard1_old,toSquare,fromSquare
 ,isOccupied'
+,lookup_
 ) where
 import CerkeFS.Piece3
 import qualified Data.Map as M
@@ -45,7 +46,7 @@ instance Show Square where
  show Square{col=c,row=r} = "sq" ++ length "Column" `drop` show c ++ length "Row" `drop` show r
 
 type Board1_old = M.Map Square Piece
-type Board1 = I.IntMap Piece
+newtype Board1 = Board1{ unBoard1 :: I.IntMap Piece } deriving(Show, Eq, Ord)
 
 type Square2 = Int
 
@@ -160,7 +161,7 @@ isNeighborOf' s1 s2 = s1 `elem` getNeighbors' s2
 -- | Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
 isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool
 isTam2HueAUai1 sid board sq = isJust $ do
- piece <- sq `I.lookup` board
+ piece <- sq `I.lookup` unBoard1 board
  (_,Uai1,s) <- toPhantom piece
  guard(s == sid && isTam2Hue board sq)
 
@@ -169,25 +170,31 @@ isTam2Hue :: Board1 -> Square2 -> Bool
 isTam2Hue board sq = isJust $
  if sq `elem` inherentTam2Hue'
   then return ()
-  else let ps = mapMaybe (`I.lookup` board) $ getNeighborsAndSelf sq in
+  else let ps = mapMaybe (`I.lookup` unBoard1 board) $ getNeighborsAndSelf sq in
    unless (phantomTam `elem` map toPhantom ps) Nothing
 
 -- | Returns whether the square is occupied
 isOccupied :: Square -> Board1 -> Bool
-isOccupied sq b = I.member (fromSquare sq) b
+isOccupied sq (Board1 b) = I.member (fromSquare sq) b
 
 isOccupied' :: Square2 -> Board1 -> Bool
-isOccupied' sq b = I.member sq b
+isOccupied' sq (Board1 b) = I.member sq b
 
 -- | Puts a piece on a square. Fails with 'AlreadyOccupied' if already occupied.
 putPiece :: Piece -> Square -> Board1 -> Either Error Board1
-putPiece p sq b = if sq `isOccupied` b then Left (AlreadyOccupied sq) else Right(I.insert (fromSquare sq) p b)
+putPiece p sq b = 
+ if sq `isOccupied` b 
+  then Left (AlreadyOccupied sq) 
+  else Right(Board1 $ I.insert (fromSquare sq) p (unBoard1 b))
 
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
-removePiece sq b = toEither (EmptySquare sq) $ do
- p <- (fromSquare sq) `I.lookup` b
- return (p, I.delete (fromSquare sq) b)
+removePiece sq (Board1 b) = toEither (EmptySquare sq) $ do
+ p <- sq `lookup_` (Board1 b)
+ return (p, Board1 $ I.delete (fromSquare sq) b)
+
+lookup_ :: Square -> Board1 -> Maybe Piece
+lookup_ sq (Board1 b) = (fromSquare sq) `I.lookup` b
 
 -- | Moves a piece on a square according to the vector. Raises: 
 --
@@ -244,4 +251,4 @@ fromSquare :: Square -> Square2
 fromSquare (Square r c) = fromEnum r * 9 + fromEnum c
 
 fromBoard1_old :: Board1_old -> Board1
-fromBoard1_old = I.fromList . map (\(s,p) -> (fromSquare s, p)) . M.toList
+fromBoard1_old = Board1 . I.fromList . map (\(s,p) -> (fromSquare s, p)) . M.toList

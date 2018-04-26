@@ -28,7 +28,6 @@ import Control.Exception.Base(assert)
 import Control.Monad(unless)
 import Data.List(intersect, partition)
 import Data.Either(isRight)
-import qualified Data.IntMap as I
 
 data Move = Drop (Color, Profession) Square | Move2 Square Square | Move3 Square Square Square deriving(Show, Eq, Ord)
 
@@ -60,7 +59,7 @@ emptySquares Fullboard{board = b} = [ sq | sq <- sqList, not(sq `isOccupied` b)]
 ofSide :: Side -> Fullboard -> [Square]
 ofSide sid Fullboard{board = b} = do
  sq <- sqList
- Just piece <- [(fromSquare sq) `I.lookup` b]
+ Just piece <- [sq `lookup_` b]
  case toPhantom piece of
   Nothing {- phantomTam -} -> return sq
   Just (_,_,s) -> if s == sid then return sq else []
