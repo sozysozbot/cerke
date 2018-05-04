@@ -4,7 +4,9 @@ module Main
 where
 import CerkeFS
 import System.IO
+import System.IO.Error
 import PseudoStateT
+import Control.Exception
 
 
 type App = PseudoStateT Env
@@ -53,12 +55,27 @@ loadAsciiBoard2 :: FilePath -> App ()
 loadAsciiBoard2 file = pseudoStateT $ \orig -> do
  putStrLn "--------------------"
  putStrLn $ "Loading " ++ file
- str <- readFile file
- case loadBoard str of
-  Just b -> do
-   putStrLn $ drawBoard b
-   return ((),Just $ Fullboard{board = b, hand = []})
-  Nothing -> do
-   putStrLn "loading failed."
+ str' <- tryJustReadFile file
+ case str' of
+  Left err -> do
+   putStrLn $ "loading failed: " ++ err
    return ((),orig)
+  Right str -> do 
+   case loadBoard str of
+    Just b -> do
+     putStrLn $ drawBoard b
+     return ((),Just $ Fullboard{board = b, hand = []})
+    Nothing -> do
+     putStrLn "loading failed: incorrect format."
+     return ((),orig)
+
+tryJustReadFile :: FilePath -> IO (Either String String)
+tryJustReadFile filePath = tryJust handleReadFile (readFile filePath)
+  where
+    handleReadFile :: IOError -> Maybe String
+    handleReadFile er
+      | isDoesNotExistError er = Just "file does not exist."
+      | isPermissionError   er = Just "permission denied."
+      | otherwise              = Nothing
+
 
