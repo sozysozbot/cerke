@@ -43,6 +43,7 @@ testAll sid fb = alpha ++ beta ++ gamma
    beta =  [ Move3 from thru to | from <- m, thru <- nes, to <- l, isValid3 sid fb from thru to, from /= to] 
    gamma =  [ Drop (c,p) to | (c,p,s) <- map toPhantom' (hand fb), s == sid, to <- es ]
 
+testAll' :: Side -> Fullboard -> ([Move], Int, Int, Int)
 testAll' sid fb = (alpha ++ beta ++ gamma, length alpha, length beta, length gamma)
  where 
    l = sqList

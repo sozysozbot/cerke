@@ -33,7 +33,6 @@ module CerkeFS.Internal.Board
 ,lookup_
 ) where
 import CerkeFS.Piece3
-import qualified Data.Map as M
 import qualified Data.IntMap as I
 import Control.Monad(guard)
 import Data.Maybe(isJust,mapMaybe)
