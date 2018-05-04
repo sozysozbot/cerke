@@ -5,7 +5,7 @@
 -- | Please see the README on Github at
 --   <a>https://github.com/sozysozbot/cerke/tree/cfs/cfs#readme</a>
 @package cerkefs
-@version 0.5.7.4
+@version 0.5.8.0
 
 module CerkeFS.Internal.Piece2
 data Color
@@ -199,6 +199,20 @@ flipSide_ :: NonTam2Piece -> NonTam2Piece
 -- | Converts <a>NonTam2Piece</a> into <a>PhantomPiece</a>.
 toPhantom' :: NonTam2Piece -> PhantomPiece
 
+module CerkeFS.Internal.Board_Internal
+type Square2 = Int
+type Internal = IntMap Piece
+iLookup :: Int -> Internal -> Maybe Piece
+iInsert :: Int -> Piece -> Internal -> Internal
+iMember :: Int -> Internal -> Bool
+iDelete :: Int -> Internal -> Internal
+newtype Board1
+Board1 :: Internal -> Board1
+[unBoard1] :: Board1 -> Internal
+instance GHC.Classes.Ord CerkeFS.Internal.Board_Internal.Board1
+instance GHC.Classes.Eq CerkeFS.Internal.Board_Internal.Board1
+instance GHC.Show.Show CerkeFS.Internal.Board_Internal.Board1
+
 module CerkeFS.Internal.Board
 data Col
 ColumnK :: Col
@@ -300,9 +314,9 @@ ProfessionPrivilegeExceeded :: Profession -> Square -> Error
 CaptureByTam :: Error
 
 -- | Trying a movement that the Tam2 cannot do
-Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
+Tam2PrivilegeExceeded :: Square -> Maybe Square -> Square -> Error
 [_from] :: Error -> Square
-[_thru] :: Error -> (Maybe Square)
+[_thru] :: Error -> Maybe Square
 [_to] :: Error -> Square
 
 -- | Add a vector to the square to get a new square. <a>Nothing</a> if it
@@ -424,9 +438,6 @@ instance GHC.Show.Show CerkeFS.Internal.Board.Error
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Vec
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Vec
 instance GHC.Show.Show CerkeFS.Internal.Board.Vec
-instance GHC.Classes.Ord CerkeFS.Internal.Board.Board1
-instance GHC.Classes.Eq CerkeFS.Internal.Board.Board1
-instance GHC.Show.Show CerkeFS.Internal.Board.Board1
 instance GHC.Classes.Ord CerkeFS.Internal.Board.Square
 instance GHC.Classes.Eq CerkeFS.Internal.Board.Square
 instance GHC.Enum.Enum CerkeFS.Internal.Board.Row
@@ -582,9 +593,9 @@ ProfessionPrivilegeExceeded :: Profession -> Square -> Error
 CaptureByTam :: Error
 
 -- | Trying a movement that the Tam2 cannot do
-Tam2PrivilegeExceeded :: Square -> (Maybe Square) -> Square -> Error
+Tam2PrivilegeExceeded :: Square -> Maybe Square -> Square -> Error
 [_from] :: Error -> Square
-[_thru] :: Error -> (Maybe Square)
+[_thru] :: Error -> Maybe Square
 [_to] :: Error -> Square
 sqKA :: Square
 sqLA :: Square

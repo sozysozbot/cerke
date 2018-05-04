@@ -1,5 +1,6 @@
 # Changelog for cerkefs
 
+* ver 0.5.8.0: Split Main.hs into three; make one of them REPL
 * ver 0.5.7.5: Less coupled 
 * ver 0.5.7.4: Autogenerate; add some tests generated from random playing
 * ver 0.5.7.3: Faster code
