@@ -33,7 +33,6 @@ module CerkeFS.Internal.Board
 ,lookup_
 ) where
 import CerkeFS.Piece3
-import qualified Data.Map as M
 import qualified Data.IntMap as I
 import Control.Monad(guard)
 import Data.Maybe(isJust,mapMaybe)
@@ -107,7 +106,7 @@ data Error
  | CaptureByTam -- ^ Trying to capture a piece by Tam2
  | Tam2PrivilegeExceeded{
   _from :: Square,
-  _thru :: (Maybe Square),
+  _thru :: Maybe Square,
   _to :: Square
   } -- ^ Trying a movement that the Tam2 cannot do
   deriving(Show, Eq, Ord) 
@@ -152,7 +151,7 @@ getNeighbors' a
  | otherwise = [a-10, a-9, a-8, a-1, a+1, a+8, a+9, a+10]
 
 isNeighborOf :: Square -> Square -> Bool
-isNeighborOf s1 s2 = (fromSquare s1) `elem` getNeighbors s2
+isNeighborOf s1 s2 = fromSquare s1 `elem` getNeighbors s2
 
 isNeighborOf' :: Square2 -> Square2 -> Bool
 isNeighborOf' s1 s2 = s1 `elem` getNeighbors' s2
@@ -187,11 +186,11 @@ putPiece p sq b =
 -- | Removes a piece. Fails with 'EmptySquare' if the specified square is empty.
 removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
 removePiece sq (Board1 b) = toEither (EmptySquare sq) $ do
- p <- sq `lookup_` (Board1 b)
- return (p, Board1 $ iDelete (fromSquare sq) b)
+ p <- sq `lookup_` Board1 b
+ return (p, Board1 $ fromSquare sq `iDelete` b)
 
 lookup_ :: Square -> Board1 -> Maybe Piece
-lookup_ sq (Board1 b) = (fromSquare sq) `iLookup` b
+lookup_ sq (Board1 b) = fromSquare sq `iLookup` b
 
 -- | Moves a piece on a square according to the vector. Raises: 
 --

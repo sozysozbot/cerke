@@ -39,6 +39,28 @@ executables:
     dependencies:
     - cerkefs
     - mwc-random
+  sandbox-exe:
+    main:                Sandbox.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Sandbox
+    dependencies:
+    - cerkefs
+    - mwc-random
+  randomplay-exe:
+    main:                RandomPlay.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is RandomPlay
+    dependencies:
+    - cerkefs
+    - mwc-random
 
 tests:
   cerkefs-test:

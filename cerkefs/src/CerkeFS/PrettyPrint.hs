@@ -79,7 +79,7 @@ load (Gamma _ _) "" = Nothing
 load (Gamma side_ profOrTam) (c:xs) = do
  color_ <- asciiToColor c
  let piece = case profOrTam of{
-   Right prof_ -> NonTam2Piece $ Piece{color=color_, side=side_, prof=prof_};
+   Right prof_ -> NonTam2Piece Piece{color=color_, side=side_, prof=prof_};
    Left () -> Tam2
  }
  (Just piece :) <$> load Alpha xs
