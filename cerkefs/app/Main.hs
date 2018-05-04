@@ -4,32 +4,39 @@ module Main
 where
 import CerkeFS
 import System.IO
+import PseudoStateT
+
+
+type App = PseudoStateT Env
+
+type Env = Maybe Fullboard
 
 main :: IO ()
 main = do
   guide
-  bar
+  runPseudoStateT bar' Nothing
+  return ()
 
-bar :: IO ()
-bar = do
- --hSetBuffering stdout NoBuffering
- putStr "CerkeFS> "
- hFlush stdout
- arr <- words <$> getLine
+bar' :: App ()
+bar' = do
+ arr <- lift $ do
+  putStr "CerkeFS> "
+  hFlush stdout
+  words <$> getLine
  case arr of
   ("quit":_) -> return ()
   ("exit":_) -> return ()
-  [] -> bar
+  [] -> bar'
   (x:xs) -> do
    command x xs
-   bar
+   bar'
 
-command :: String -> [String] -> IO ()
-command "load_ascii" [] = putStrLn explain_load_ascii
+command :: String -> [String] -> App ()
+command "load_ascii" [] = lift $ putStrLn explain_load_ascii
 command "load_ascii" (path:_) = do
- loadAsciiBoard' path
-command x xs = do
-  putStrLn $ "Unknown command " ++ x ++ "."
+ loadAsciiBoard2 path
+command x _ = do
+ lift $ putStrLn $ "Unknown command " ++ x ++ "."
 
 guide :: IO ()
 guide = putStr $ unlines 
@@ -39,23 +46,19 @@ guide = putStr $ unlines
  ,explain_load_ascii
  ]
 
+explain_load_ascii :: [Char]
 explain_load_ascii = "    load_ascii FILENAME: loads the ASCII representation of the board."
 
-loadAsciiBoard :: FilePath -> IO Board1
-loadAsciiBoard file = do
- str <- readFile file
- let Just b = loadBoard str
- return b
-
-loadAsciiBoard' :: String -> IO ()
-loadAsciiBoard' file = do
+loadAsciiBoard2 :: FilePath -> App ()
+loadAsciiBoard2 file = pseudoStateT $ \orig -> do
  putStrLn "--------------------"
  putStrLn $ "Loading " ++ file
  str <- readFile file
- putStrLn str
- putStrLn ""
- print $ loadBoard str
- putStrLn ""
- putStrLn "Reverse:"
- let Just b = loadBoard str
- putStrLn $ drawBoard b
+ case loadBoard str of
+  Just b -> do
+   putStrLn $ drawBoard b
+   return ((),Just $ Fullboard{board = b, hand = []})
+  Nothing -> do
+   putStrLn "loading failed."
+   return ((),orig)
+
