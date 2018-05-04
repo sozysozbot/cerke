@@ -31,6 +31,8 @@ module CerkeFS.Internal.Board
 ,Square2,fromBoard1_old,toSquare,fromSquare
 ,isOccupied'
 ,lookup_
+--,inherentTam2Hue'
+,isInherentTam2Hue'
 ) where
 import CerkeFS.Piece3
 import qualified Data.IntMap as I
@@ -116,9 +118,10 @@ data Error
 * Primitive operations on the board 
 ********************************************
 -}
--- | The list of squares that are inherently tam2Hue
-inherentTam2Hue' :: [Square2]
-inherentTam2Hue' = map fromSquare [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
+-- -- | The list of squares that are inherently tam2Hue
+--inherentTam2Hue' :: [Square2]
+--inherentTam2Hue' = [20, 30, 40, 50, 60, 24, 32, 48, 56]
+ -- map fromSquare [sqNI, sqNAI, sqTU, sqTY, sqZO, sqXU, sqXY, sqCI, sqCAI]
 
 getNeighborsAndSelf :: Square2 -> [Square2]
 getNeighborsAndSelf 0 = [0,1,9,10]
@@ -163,9 +166,11 @@ isTam2HueAUai1 sid board sq = isJust $ do
  (_,Uai1,s) <- toPhantom piece
  guard(s == sid && isTam2Hue board sq)
 
+isInherentTam2Hue' sq = 20 <= sq && sq <= 60 && (sq `rem` 10 == 0 || sq `rem` 8 == 0)
+
 -- | Checks whether a given square is in Tam2Hue.
 isTam2Hue :: Board1 -> Square2 -> Bool
-isTam2Hue board sq = (sq `elem` inherentTam2Hue') || 
+isTam2Hue board sq = isInherentTam2Hue' sq || 
   let ps = mapMaybe (`iLookup` unBoard1 board) $ getNeighborsAndSelf sq in
    phantomTam `elem` map toPhantom ps
 
