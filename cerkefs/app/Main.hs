@@ -56,18 +56,19 @@ loadAsciiBoard2 file = pseudoStateT $ \orig -> do
  putStrLn "--------------------"
  putStrLn $ "Loading " ++ file
  str' <- tryJustReadFile file
- case str' of
-  Left err -> do
+ case str' >>= loadBoard' of
+  Left err -> do 
    putStrLn $ "loading failed: " ++ err
    return ((),orig)
-  Right str -> do 
-   case loadBoard str of
-    Just b -> do
-     putStrLn $ drawBoard b
-     return ((),Just $ Fullboard{board = b, hand = []})
-    Nothing -> do
-     putStrLn "loading failed: incorrect format."
-     return ((),orig)
+  Right b -> do
+   putStrLn $ drawBoard b
+   return ((),Just $ Fullboard{board = b, hand = []})
+
+
+loadBoard' :: String -> Either String Board1
+loadBoard' str = case loadBoard str of
+ Just b -> Right b
+ Nothing -> Left "incorrect format."
 
 tryJustReadFile :: FilePath -> IO (Either String String)
 tryJustReadFile filePath = tryJust handleReadFile (readFile filePath)
