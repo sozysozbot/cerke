@@ -71,12 +71,11 @@ loadBoard' str = case loadBoard str of
  Nothing -> Left "incorrect format."
 
 tryJustReadFile :: FilePath -> IO (Either String String)
-tryJustReadFile filePath = tryJust handleReadFile (readFile filePath)
-  where
-    handleReadFile :: IOError -> Maybe String
-    handleReadFile er
-      | isDoesNotExistError er = Just "file does not exist."
-      | isPermissionError   er = Just "permission denied."
-      | otherwise              = Nothing
+tryJustReadFile filePath = tryJust handleReadFile (readFile filePath) where
+ handleReadFile :: IOError -> Maybe String
+ handleReadFile er
+  | isDoesNotExistError er = Just "file does not exist."
+  | isPermissionError   er = Just "permission denied."
+  | otherwise              = Nothing
 
 
