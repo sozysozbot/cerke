@@ -32,7 +32,7 @@ pub enum Color {
     Huok2,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Side {
     /// Pieces that points upward. Denoted by @^@ in the ASCII notation.
     Upward,

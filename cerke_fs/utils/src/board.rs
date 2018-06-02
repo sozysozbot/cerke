@@ -4,6 +4,7 @@ use piece2::to_phantom;
 use piece2::PhantomPiece;
 use piece2::Piece;
 use piece2::Profession;
+use piece2::Profession::Uai1;
 use piece2::Side;
 use std::fmt;
 use std::fmt::Debug;
@@ -143,31 +144,28 @@ impl Board1 {
         if is_inherent_tam2_hue(sq) {
             return true;
         }
-        /*
-  let ps = mapMaybe (`iLookup` unBoard1 board) $ getNeighborsAndSelf sq in
-   phantomTam `elem` map toPhantom ps
 
-
-        */
-        unimplemented!("{}", sq.get_num())
+        for neighbor in get_neighbors_and_self(sq) {
+            match self.internal[neighbor.get_num()] {
+                None => continue,
+                Some(ref piece) => match piece {
+                    Piece::Tam2 => return true, // Tam2 exists
+                    _ => continue,
+                },
+            }
+        }
+        false
     }
 
     /// Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
-    pub fn is_tam2_hue_a_uai1(&self, s: Side, sq: Square2) -> bool {
-        unimplemented!("{}", sq.get_num())
+    pub fn is_tam2_hue_a_uai1(&self, sid: Side, sq: Square2) -> bool {
+        if let Some(ref p) = self.internal[sq.get_num()] {
+            if let Some(phantom) = to_phantom(&p) {
+                return phantom.1 == Uai1 && phantom.2 == sid && self.is_tam2_hue(sq);
+            }
+        }
+        false
     }
-    /*
-
-isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool Source#
-
-
-
-
-isTam2Hue :: Board1 -> Square2 -> Bool Source#
-
-Checks whether a given square is in Tam2Hue.
-
-    */
 }
 
 pub fn is_inherent_tam2_hue(sq: Square2) -> bool {
@@ -206,6 +204,13 @@ pub fn get_neighbors_(q: Square2) -> Vec<Square2> {
         },
     }
 }
+
+pub fn get_neighbors_and_self(q: Square2) -> Vec<Square2> {
+    let mut v = get_neighbors_(q);
+    v.push(q);
+    v
+}
+
 /*
 
 
