@@ -4,6 +4,7 @@ use piece2::to_phantom;
 use piece2::PhantomPiece;
 use piece2::Piece;
 use piece2::Profession;
+use piece2::Side;
 use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Formatter;
@@ -52,6 +53,13 @@ impl Square2 {
     pub fn get_num(&self) -> usize {
         self.num
     }
+    pub fn from_num(u: usize) -> Option<Square2> {
+        if u < 81 {
+            Some(Square2 { num: u })
+        } else {
+            None
+        }
+    }
 }
 
 impl Debug for Square2 {
@@ -87,11 +95,6 @@ impl Debug for Square2 {
 }
 
 impl Board1 {
-    /// Checks whether a given square is in Tam2Hue.
-    pub fn is_tam2_hue(&self, sq: Square2) -> bool {
-        unimplemented!("{}", sq.get_num())
-    }
-
     /// Returns whether the square is occupied
     pub fn is_occupied(&self, sq: Square2) -> bool {
         match self.internal[sq.get_num()] {
@@ -130,19 +133,79 @@ impl Board1 {
         from: Square2,
         to: Square2,
     ) -> Result<(Option<PhantomPiece>, Board1), Error> {
-        match self.remove_piece(from) {
-            Err(e) => Err(e),
-            Ok((p, new_self)) => {
-                let phantom = to_phantom(&p);
-                match new_self.put_piece(p, to) {
-                    Err(f) => Err(f),
-                    Ok(newer_board) => Ok((phantom, newer_board)),
-                }
-            }
-        }
+        let (p, new_self) = self.remove_piece(from)?;
+        let phantom = to_phantom(&p);
+        let newer_board = new_self.put_piece(p, to)?;
+        Ok((phantom, newer_board))
     }
+    /// Checks whether a given square is in Tam2Hue.
+    pub fn is_tam2_hue(&self, sq: Square2) -> bool {
+        if is_inherent_tam2_hue(sq) {
+            return true;
+        }
+        /*
+  let ps = mapMaybe (`iLookup` unBoard1 board) $ getNeighborsAndSelf sq in
+   phantomTam `elem` map toPhantom ps
+
+
+        */
+        unimplemented!("{}", sq.get_num())
+    }
+
+    /// Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
+    pub fn is_tam2_hue_a_uai1(&self, s: Side, sq: Square2) -> bool {
+        unimplemented!("{}", sq.get_num())
+    }
+    /*
+
+isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool Source#
+
+
+
+
+isTam2Hue :: Board1 -> Square2 -> Bool Source#
+
+Checks whether a given square is in Tam2Hue.
+
+    */
 }
 
+pub fn is_inherent_tam2_hue(sq: Square2) -> bool {
+    let sq = sq.get_num();
+    20 <= sq && sq <= 60 && (sq % 10 == 0 || sq % 8 == 0)
+}
+
+macro_rules! vec_sq {
+    ( $( $x:expr ),* ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push(Square2::from_num($x).unwrap());
+            )*
+            temp_vec
+        }
+    };
+}
+
+pub fn get_neighbors_(q: Square2) -> Vec<Square2> {
+    match q.get_num() {
+        0 => vec_sq![1, 9, 10],
+        8 => vec_sq![7, 16, 17],
+        72 => vec_sq![63, 64, 73],
+        80 => vec_sq![70, 71, 79],
+        a => if 1 <= a && a <= 7 {
+            vec_sq![a - 1, a + 1, a + 8, a + 9, a + 10]
+        } else if 73 <= a && a <= 79 {
+            vec_sq![a - 1, a + 1, a - 10, a - 9, a - 8]
+        } else {
+            match a % 9 {
+                0 => vec_sq![a + 1, a - 9, a - 8, a + 9, a + 10],
+                8 => vec_sq![a - 1, a - 9, a - 10, a + 9, a + 8],
+                _ => vec_sq![a - 10, a - 9, a - 8, a - 1, a + 1, a + 8, a + 9, a + 10],
+            }
+        },
+    }
+}
 /*
 
 
