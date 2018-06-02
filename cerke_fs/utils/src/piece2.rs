@@ -65,4 +65,28 @@ pub fn to_phantom(piece: &Piece) -> Option<PhantomPiece> {
     }
 }
 
+/// Not a physical piece; only serves to be a template
 pub type PhantomPiece = (Color, Profession, Side);
+
+/// Flip the side that the piece belongs to, or 'Nothing' if 'Tam2'.
+pub fn flip_side(p: Piece) -> Option<Piece> {
+    match p {
+        NonTam2Piece {
+            color: c,
+            prof: p,
+            side: s,
+        } => Some(NonTam2Piece {
+            color: c,
+            prof: p,
+            side: {
+                use piece2::Side::Downward;
+                use piece2::Side::Upward;
+                match s {
+                    Upward => Downward,
+                    Downward => Upward,
+                }
+            },
+        }),
+        _ => None,
+    }
+}

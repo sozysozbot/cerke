@@ -211,7 +211,6 @@ pub fn get_neighbors_and_self(q: Square2) -> Vec<Square2> {
     v
 }
 
-
 #[derive(Debug)]
 pub enum Error {
     /// The square you're moving to is already occupied.
