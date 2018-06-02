@@ -1,4 +1,6 @@
-#[derive(Debug, PartialEq, Eq)]
+use piece2::Piece::NonTam2Piece;
+
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Profession {
     /// Vessel, 船, felkana
     Nuak1,
@@ -22,7 +24,7 @@ pub enum Profession {
     Io,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Color {
     /// Red, 赤
     Kok1,
@@ -30,7 +32,7 @@ pub enum Color {
     Huok2,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Side {
     /// Pieces that points upward. Denoted by @^@ in the ASCII notation.
     Upward,
@@ -38,7 +40,7 @@ pub enum Side {
     Downward,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Piece {
     /// Minds, 皇, tam
     Tam2,
@@ -51,3 +53,16 @@ pub enum Piece {
         side: Side,
     },
 }
+
+pub fn to_phantom(piece: &Piece) -> Option<PhantomPiece> {
+    match piece {
+        NonTam2Piece {
+            color: c,
+            prof: p,
+            side: s,
+        } => Some((c.clone(), p.clone(), s.clone())),
+        _ => None,
+    }
+}
+
+pub type PhantomPiece = (Color, Profession, Side);

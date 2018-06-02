@@ -197,7 +197,7 @@ removePiece sq (Board1 b) = toEither (EmptySquare sq) $ do
 lookup_ :: Square -> Board1 -> Maybe Piece
 lookup_ sq (Board1 b) = fromSquare sq `iLookup` b
 
--- | Moves a piece on a square according to the vector. Raises: 
+-- ~ | Moves a piece on a square according to the vector. Raises: 
 --
 --   * 'OutOfBoard' if the piece goes out of the board
 --   * 'EmptySquare' if the original square is empty
