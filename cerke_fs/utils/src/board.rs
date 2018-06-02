@@ -211,19 +211,6 @@ pub fn get_neighbors_and_self(q: Square2) -> Vec<Square2> {
     v
 }
 
-/*
-
-
-
-
-
-isTam2HueAUai1 :: Side -> Board1 -> Square2 -> Bool 
-
-Checks whether the piece on a given square is a Tam2HueAUai1 that belong to the side.
-
-
-
-*/
 
 #[derive(Debug)]
 pub enum Error {
