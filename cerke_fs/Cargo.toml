@@ -1,0 +1,7 @@
+[package]
+name = "cerke_fs"
+version = "0.1.0"
+authors = ["sozysozbot <sozysozbot@gmail.com>"]
+
+[dependencies]
+utils = { path = "utils" }

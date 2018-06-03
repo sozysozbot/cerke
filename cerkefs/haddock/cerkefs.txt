@@ -252,16 +252,7 @@ putPiece :: Piece -> Square -> Board1 -> Either Error Board1
 --   is empty.
 removePiece :: Square -> Board1 -> Either Error (Piece, Board1)
 
--- | Moves a piece on a square according to the vector. Raises:
---   
---   <ul>
---   <li><tt>OutOfBoard</tt> if the piece goes out of the board</li>
---   <li><a>EmptySquare</a> if the original square is empty</li>
---   <li><a>AlreadyOccupied</a> if the resulting square is already
---   occupied</li>
---   </ul>
---   
---   Moves a piece from a square to a square, returning the phantom version
+-- | Moves a piece from a square to a square, returning the phantom version
 --   of the piece that was moved. Raises:
 --   
 --   <ul>
