@@ -12,5 +12,8 @@
 ## ルール(y1 huap「官定」バージョン)
 - 近日確定 & 公開予定
 
+## 情報
+- [パイグ将棋について考察する](https://sozysozbot.github.io/cerke/hia1.html)
+
 ## サブプロジェクト
 - [机戦棋譜検証機](https://github.com/sozysozbot/cerke/tree/master/cerkefs) (pek1 tam2 py「強皇力」バージョンのみ対応)
