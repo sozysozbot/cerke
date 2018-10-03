@@ -7,7 +7,7 @@
 
 ## ルール(pek1 tam2 py「硬皇力」バージョン)
 <!-- outdated [机戦（パイグ将棋）](https://sites.google.com/site/syxobo/airu-gong-he-guo-wen-hua-ting/ji-zhan-paigu-jiang-qi) 記述が少々古い -->
-- [机戦のルール](https://drive.google.com/file/d/1kTSRYXsha-qoSWZr9dUiXXQFhxDPc64h/view)
+- [机戦のルール](https://drive.google.com/file/d/1GMnbM5yeqwySTRimGzk-Hvr1eKxo8le6/view?usp=sharing)
 
 ## ルール(y1 huap「官定」バージョン)
 - 近日確定 & 公開予定
