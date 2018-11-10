@@ -16,4 +16,4 @@
 - [パイグ将棋について考察する](https://sozysozbot.github.io/cerke/hia1.html)
 
 ## サブプロジェクト
-- [机戦棋譜検証機](https://github.com/sozysozbot/cerke/tree/master/cerkefs) (pek1 tam2 py「強皇力」バージョンのみ対応)
+- [机戦棋譜検証機](https://github.com/sozysozbot/cerke/tree/master/cerkefs) (pek1 tam2 py「硬皇力」バージョンのみ対応)
