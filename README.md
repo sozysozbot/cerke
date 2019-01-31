@@ -6,11 +6,11 @@
 - [机戦盤面ジェネレーター](https://sozysozbot.github.io/cerke/generator.html)
 
 ## ルール(pek1 tam2 py「硬皇力」バージョン)
-<!-- outdated [机戦（パイグ将棋）](https://sites.google.com/site/syxobo/airu-gong-he-guo-wen-hua-ting/ji-zhan-paigu-jiang-qi) 記述が少々古い -->
+- [越淮書房 - 机戦（パイグ将棋）](https://sites.google.com/site/syxobo/%E6%9C%BA%E6%88%A6%E3%83%91%E3%82%A4%E3%82%B0%E5%B0%86%E6%A3%8B?authuser=0)
 - [机戦のルール](https://drive.google.com/file/d/1GMnbM5yeqwySTRimGzk-Hvr1eKxo8le6/view?usp=sharing)
 
 ## ルール(y1 huap「官定」バージョン)
-- 近日確定 & 公開予定
+- [越淮書房 - 机戦（パイグ将棋）](https://sites.google.com/site/syxobo/%E6%9C%BA%E6%88%A6%E3%83%91%E3%82%A4%E3%82%B0%E5%B0%86%E6%A3%8B?authuser=0)
 
 ## 情報
 - [パイグ将棋について考察する](https://sozysozbot.github.io/cerke/hia1.html)
