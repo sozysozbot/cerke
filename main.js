@@ -1,5 +1,5 @@
-var img = new Image();
- 	img.src = "cert_kaik.png"; 
+var img_board = new Image();
+ 	img_board.src = "cert_kaik.png"; 
 
 var ctx = null;
 
@@ -35,7 +35,7 @@ function draw1(){
 		ctx.fillRect(0, 0, full_w, full_h);
 	}
 
-	ctx.drawImage(img,pads[3],pads[0],height,height);
+	ctx.drawImage(img_board,pads[3],pads[0],height,height);
 }
 
 function drawChar(x, y, txt, isRed, isReversed)
