@@ -196,16 +196,18 @@ var conv_obj = {
   $: "皇"
 };
 
-function load_board() {
+function load_board(swallow_error) {
   draw1();
   var info = document.getElementById("load_board").value;
   var res_arr = parser(info);
   if (res_arr.length !== 81) {
-    error(
-      "Parse error: Expected 81 elements, but got " +
-        res_arr.length +
-        " element(s)"
-    );
+    if (!swallow_error) {
+      error(
+        "Parse error: Expected 81 elements, but got " +
+          res_arr.length +
+          " element(s)"
+      );
+    }
     return null;
   }
 
