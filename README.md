@@ -1,6 +1,10 @@
 # cerke
 パイグ将棋の盤面を描画します。盤面ジェネレータ本体は[ここ](https://sozysozbot.github.io/cerke/generator.html)に移動しました。
 
+## 情報
+- [官定 (y1 huap1)ルール](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary.pdf)
+- [パイグ将棋について考察する](https://sozysozbot.github.io/cerke/hia1.html)
+
 ## 外部リンク
 
 - [日本机戦連盟](https://sites.google.com/view/cet2kaik/)
@@ -9,9 +13,6 @@
 
 ## 描画機
 - [机戦盤面ジェネレーター](https://sozysozbot.github.io/cerke/generator.html)
-
-## 情報
-- [パイグ将棋について考察する](https://sozysozbot.github.io/cerke/hia1.html)
 
 ## サブプロジェクト
 - [机戦棋譜検証機](https://github.com/sozysozbot/cerke/tree/master/cerkefs) (pek1 tam2 py「硬皇力」バージョンのみ対応)
