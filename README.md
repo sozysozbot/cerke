@@ -1,6 +1,9 @@
 # cerke
 パイグ将棋/机戦/cerke/cetkaik/cet2 kaik
 
+## in English
+ - [The Standardized Rule of Cetkaik](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_en.pdf)
+
 ## 盤面ジェネレータ
 - [盤面ジェネレータ](https://sozysozbot.github.io/cerke/generator.html)
 
