@@ -1,6 +1,9 @@
 # cerke
 パイグ将棋/机戦/cerke/cetkaik/cet2 kaik
 
+## JO PEMECEPE LUKUP
+ - [AIL PANIT LETI CETKAIK LETI KULANTE](https://docs.google.com/document/d/1hucBatoIvOQPu4rPglqiWqsDM9_6GAa6ZiuvSQKRIzI/edit)
+
 ## in English
  - [The Standardized Rule of Cetkaik](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_en.pdf)
 
