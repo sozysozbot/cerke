@@ -1,5 +1,8 @@
 # cerke
-パイグ将棋の盤面を描画します。盤面ジェネレータ本体は[ここ](https://sozysozbot.github.io/cerke/generator.html)に移動しました。
+パイグ将棋/机戦/cerke/cetkaik/cet2 kaik
+
+## 盤面ジェネレータ
+- [盤面ジェネレータ](https://sozysozbot.github.io/cerke/generator.html)
 
 ## 情報
 - [官定 (y1 huap1)ルール](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary.pdf)
