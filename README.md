@@ -3,6 +3,7 @@
 
 ## JO PEMECEPE LUKUP
  - [AIL PANIT LETI CETKAIK LETI KULANTE](https://docs.google.com/document/d/1hucBatoIvOQPu4rPglqiWqsDM9_6GAa6ZiuvSQKRIzI/edit)
+ - [AIL PANIT LETI CETKAIK LETI KULANTE, JO PEMECEPE LUJOT](https://github.com/sozysozbot/cerke/blob/master/AIL%20PANIT%20LETI%20CETKAIK%20LETI%20KULANTE.pdf)
 
 ## in English
  - [The Standardized Rule of Cetkaik](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_en.pdf)
