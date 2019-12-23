@@ -1,5 +1,7 @@
 # cerke
-パイグ将棋/机戦/cerke/cetkaik/cet2 kaik
+架空世界ファイクレオネの遊戯「パイグ将棋/机戦/cerke/cetkaik/cet2 kaik」の情報をお届けします
+
+Twitter: [@cet2kaik](https://twitter.com/cet2kaik)
 
 ## JO PEMECEPE LUKUP
  - [AIL PANIT LETI CETKAIK LETI KULANTE](https://docs.google.com/document/d/1hucBatoIvOQPu4rPglqiWqsDM9_6GAa6ZiuvSQKRIzI/edit)
