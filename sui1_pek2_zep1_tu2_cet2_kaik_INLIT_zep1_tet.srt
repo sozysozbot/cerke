@@ -1,856 +1,853 @@
 1
 00:00:04,000 --> 00:00:06,060
-tai! kait kia1 xizi. pai2 kua2 huo2 pua2 a. / Hello everyone. This is Quafo.
+Hello everyone. This is Quafo.
 
 2
 00:00:06,130 --> 00:00:06,490
-at / And
+And
 
 3
 00:00:06,540 --> 00:00:09,310
-pai2 pet2 sep nuok2. / This is Pezepunuk.
+This is Pezepunuk.
 
 4
 00:00:09,340 --> 00:00:11,910
-ua ka1 kia1 / And today,
+And today,
 
 5
 00:00:11,940 --> 00:00:15,140
-pai2 at pet2 sep nuok2 at kuai1 gau2 kak / Me and Pezepunuk and Kuiui Gaukaku
+Me and Pezepunuk and Kuiui Gaukaku
 
 6
 00:00:15,180 --> 00:00:17,310
-sak2 ka1 / I'm here
+I'm here
 
 7
 00:00:19,810 --> 00:00:21,480
-ua pai2 ge tu2 cet2 kaik a. / And we play Setkaik.
+And we play Setkaik.
 
 8
 00:00:21,510 --> 00:00:23,130
-hut2 a! / Let's get started!
+Let's get started!
 
 9
 00:00:22,840 --> 00:00:24,740
-iei2 / spring
+spring
 
 10
 00:00:26,920 --> 00:00:28,620
-sak2! / Come on!
+Come on!
 
 11
 00:00:28,660 --> 00:00:29,180
-om2 / three.
+three.
 
 12
 00:00:29,230 --> 00:00:30,460
-om2 / three.
+three.
 
 13
 00:00:30,480 --> 00:00:32,080
-ik2 / two.
+two.
 
 14
 00:00:32,110 --> 00:00:33,710
-mok1 / go!
+go!
 
 15
 00:00:34,840 --> 00:00:36,240
-a. ka1 kait. / Oh good.
+Oh good.
 
 16
 00:00:37,940 --> 00:00:39,340
-ua... / Then...
+Then...
 
 17
 00:00:40,410 --> 00:00:42,780
-mok1 ka1 hue. / Let's go here
+Let's go here
 
 18
 00:00:43,720 --> 00:00:45,520
-uai1? / General, right?
+General, right?
 
 19
 00:00:46,270 --> 00:00:48,070
-mok1 kauk2. / Let's advance the soldiers.
+Let's advance the soldiers.
 
 20
 00:00:51,650 --> 00:00:52,850
-kit kait. / Very good.
+Very good.
 
 21
 00:00:52,880 --> 00:00:55,080
-kit pek1 a. / Very strong
+Very strong
 
 22
 00:00:57,080 --> 00:00:58,480
-ua / Well then
+Well then
 
 23
 00:00:59,250 --> 00:01:01,620
-pai2 mok1 ka1 hue. / I'll go here
+I'll go here
 
 24
 00:01:02,450 --> 00:01:05,780
-ua pai2 mok1 huap1 gua2. / Then advance the bow and it's a constant bow.
+Then advance the bow and it's a constant bow.
 
 25
 00:01:05,810 --> 00:01:06,950
-huap1 gua2. / A constant bow?
+A constant bow?
 
 26
 00:01:06,980 --> 00:01:08,150
-he he hen. / Hmm, hmm.
+Hmm, hmm.
 
 27
 00:01:08,180 --> 00:01:08,910
-aim2. / Yup.
+Yup.
 
 28
 00:01:08,950 --> 00:01:09,680
-ka1 kait a. / Good
+Good
 
 29
 00:01:11,250 --> 00:01:12,980
-kait a po1. / It's a good road.
+It's a good road.
 
 30
 00:01:14,680 --> 00:01:16,410
-om2. / three.
+three.
 
 31
 00:01:22,680 --> 00:01:24,250
-om2. / three.
+three.
 
 32
 00:01:24,280 --> 00:01:25,510
-ua pai2 bap / Then I too
+Then I too
 
 33
 00:01:26,910 --> 00:01:28,480
-huap1 gua2 a. / Constant bow.
+Constant bow.
 
 34
 00:01:28,510 --> 00:01:30,350
-huap1 gua2 a. / A constant bow?
+A constant bow?
 
 35
 00:01:30,850 --> 00:01:32,350
-n... / Hmm
+Hmm
 
 36
 00:01:32,380 --> 00:01:36,510
-hop1 mua2 gua2. / Take that bow.
+Take that bow.
 
 37
 00:01:37,380 --> 00:01:39,610
-gua2. hen hop1 gua2. / Bow, oh do you take a bow?
+Bow, oh do you take a bow?
 
 38
 00:01:40,110 --> 00:01:44,050
-ua pai2 / Then I
+Then I
 
 39
 00:01:45,350 --> 00:01:49,280
-sui1 kauk2 hop1 gua2 a. ka1 kait yn2? / Take a bow with a soldier. Isn't it good?
+Take a bow with a soldier. Isn't it good?
 
 40
 00:01:50,610 --> 00:01:53,510
-ua pai2 mok1 gua2 a. / Then move the bow.
+Then move the bow.
 
 41
 00:01:53,550 --> 00:01:55,080
-mok1 gua2 a. / Will you move the bow~~
+Will you move the bow~~
 
 42
 00:01:56,250 --> 00:01:56,980
-kit kait. / very good.
+very good.
 
 43
 00:01:58,150 --> 00:02:02,410
-ua pai2 hia1 mok1 kaun1. / Then I want to move the car.
+Then I want to move the car.
 
 44
 00:02:02,450 --> 00:02:06,710
-ua pai2 mun1 py mok1 kaun1 a. / But I can't move it.
+But I can't move it.
 
 45
 00:02:08,510 --> 00:02:09,850
-a. mun1 mun1 mun1. / Ah, different, different.
+Ah, different, different.
 
 46
 00:02:09,880 --> 00:02:11,810
-aim2 yn2? / Is there?
+Is there?
 
 47
 00:02:11,850 --> 00:02:16,810
-pai2 mok1 py ka1 hue. / You can go here.
+You can go here.
 
 48
 00:02:16,850 --> 00:02:18,310
-ua ua ua / Oops
+Oops
 
 49
 00:02:19,580 --> 00:02:23,680
-ua pai2 mok1 pai2 tuk2 / Then proceed with the shrine maiden.
+Then proceed with the shrine maiden.
 
 50
 00:02:26,160 --> 00:02:30,310
-hop1 kua2. / Take a brush
+Take a brush
 
 51
 00:02:30,350 --> 00:02:31,550
-o / Oh
+Oh
 
 52
 00:02:31,580 --> 00:02:33,950
-a! / Ah!
+Ah!
 
 53
 00:02:33,980 --> 00:02:35,450
-ua pai2 / Then I
+Then I
 
 54
 00:02:35,480 --> 00:02:37,310
-a. kait. / Oh good
+Oh good
 
 55
 00:02:37,350 --> 00:02:40,950
-pai2 kau... mok1 pai2 kaun1. / Move the car... move the car.
+Move the car... move the car.
 
 56
 00:02:40,980 --> 00:02:44,410
-tai! pai2 mok1 ka1 hue a! / Alright! Then here!
+Alright! Then here!
 
 57
 00:02:44,580 --> 00:02:46,680
-uai1 aim2 tam2 hue a. / The shogun is in the Imperial Palace...
+The shogun is in the Imperial Palace...
 
 58
 00:02:46,710 --> 00:02:48,850
-tam2 hue a uai1. / General of the Imperial Palace.
+General of the Imperial Palace.
 
 59
 00:02:52,710 --> 00:02:53,350
-a. / Oh.
+Oh.
 
 60
 00:02:53,380 --> 00:02:55,710
-om2. / three.
+three.
 
 61
 00:02:55,780 --> 00:02:59,050
-a! mua2 hop1... / Oh
+Oh
 
 62
 00:02:59,610 --> 00:03:01,310
-em / Yup
+Yup
 
 63
 00:03:02,180 --> 00:03:03,880
-hop1 uai1 hem / If you take a general
+If you take a general
 
 64
 00:03:04,180 --> 00:03:05,010
-uai1? a. / Sho? Oh.
+Sho? Oh.
 
 65
 00:03:05,040 --> 00:03:05,870
-uai1? / Sho?
+Sho?
 
 66
 00:03:05,910 --> 00:03:07,780
-hop1 uai1 hem / If you take a general
+If you take a general
 
 67
 00:03:07,810 --> 00:03:10,550
-pai2 py zau huep2 hia1 a. / You can make a "culture".
+You can make a "culture".
 
 68
 00:03:11,580 --> 00:03:14,480
-ua pai2 hia1 / Then this is
+Then this is
 
 69
 00:03:14,510 --> 00:03:15,660
-maun1 / Horse.
+Horse.
 
 70
 00:03:15,700 --> 00:03:16,130
-maun1 yn2? / Horse?
+Horse?
 
 71
 00:03:16,160 --> 00:03:17,030
-ia. maun1. / so. Horse.
+so. Horse.
 
 72
 00:03:17,060 --> 00:03:18,360
-y kauk2. y kauk2. / Or soldiers. Or soldiers.
+Or soldiers. Or soldiers.
 
 73
 00:03:18,390 --> 00:03:19,530
-maun1 / Horse
+Horse
 
 74
 00:03:19,560 --> 00:03:20,190
-y kauk2. / Or soldiers.
+Or soldiers.
 
 75
 00:03:20,230 --> 00:03:21,360
-maun1 y kauk2 / Horse or soldier.
+Horse or soldier.
 
 76
 00:03:21,390 --> 00:03:22,530
-em... / HM…
+HM…
 
 77
 00:03:22,690 --> 00:03:25,260
-pai2 hia1 hop1 hauk2. / I want to get soldiers.
+I want to get soldiers.
 
 78
 00:03:27,260 --> 00:03:29,830
-a! / Ah!
+Ah!
 
 79
 00:03:36,160 --> 00:03:38,030
-a. mok1 ut2. / Oh, go down?
+Oh, go down?
 
 80
 00:03:38,060 --> 00:03:39,230
-mok1 ut2. / Went down.
+Went down.
 
 81
 00:03:39,490 --> 00:03:41,560
-pai2 hia1 ka1 mok1 kait. / I think this move is good.
+I think this move is good.
 
 82
 00:03:42,160 --> 00:03:42,930
-kait yn2? / Is it good?
+Is it good?
 
 83
 00:03:43,230 --> 00:03:44,090
-kait. / good.
+good.
 
 84
 00:03:43,930 --> 00:03:44,660
-m... / Hmm...
+Hmm...
 
 85
 00:03:44,690 --> 00:03:45,560
-kait a. / good.
+good.
 
 86
 00:03:45,730 --> 00:03:51,890
-"ut2" mok1 hem mua2 "ut2" ie ka1 kait a. / Going "down" would be "at a disadvantage" in this battle.
+Going "down" would be "at a disadvantage" in this battle.
 
 87
 00:03:51,920 --> 00:03:53,590
-kait nan2? / What is good?
+What is good?
 
 88
 00:03:53,620 --> 00:03:55,290
-nan2 kait a? / What is good
+What is good
 
 89
 00:03:55,320 --> 00:03:56,990
-ua... / Then...
+Then...
 
 90
 00:03:58,320 --> 00:03:59,990
-mok1. / Let's move.
+Let's move.
 
 91
 00:04:00,020 --> 00:04:02,020
-tam2!? / Emperor! ?
+Emperor! ?
 
 92
 00:04:02,060 --> 00:04:02,460
-tam2... / The emperor...
+The emperor...
 
 93
 00:04:02,490 --> 00:04:02,920
-a... / Ahhhhh
+Ahhhhh
 
 94
 00:04:02,960 --> 00:04:04,960
-tarm / Emperor...
+Emperor...
 
 95
 00:04:04,990 --> 00:04:06,220
-nan2 ka1 kait... / Why this is good...
+Why this is good...
 
 96
 00:04:09,620 --> 00:04:13,720
-tam2 ie. pai2 mok1 ka1 hue. / Move the emperor here.
+Move the emperor here.
 
 97
 00:04:13,760 --> 00:04:14,220
-a!? / e! ?
+e! ?
 
 98
 00:04:14,960 --> 00:04:16,190
-nn / Yup
+Yup
 
 99
 00:04:16,220 --> 00:04:21,320
-ua pai2 tuk2 mok1. / The shrine moves here.
+The shrine moves here.
 
 100
 00:04:23,120 --> 00:04:23,720
-ua / Well then
+Well then
 
 101
 00:04:23,760 --> 00:04:25,260
-aim2 tam2 hue a. / I'm in the Imperial Palace.
+I'm in the Imperial Palace.
 
 102
 00:04:25,290 --> 00:04:25,690
-tam2 hue a. et? / Emperor's office. eh?
+Emperor's office. eh?
 
 103
 00:04:25,720 --> 00:04:27,220
-ua / Well then
+Well then
 
 104
 00:04:27,250 --> 00:04:29,850
-pai2 sau2 ut2! / Climb up and down!
+Climb up and down!
 
 105
 00:04:31,320 --> 00:04:31,980
-ua... pai2 kut2 xy1 / Then... throw the throwing rod
+Then... throw the throwing rod
 
 106
 00:04:32,020 --> 00:04:33,250
-a...!! / Aa! !!
+Aa! !!
 
 107
 00:04:34,400 --> 00:04:37,070
-a! om2! / Alright! three!
+Alright! three!
 
 108
 00:04:37,100 --> 00:04:40,300
-pai2 hop1 io! / Take the king!
+Take the king!
 
 109
 00:04:40,330 --> 00:04:45,270
-ua pai2 zau huep2 hia1 at io! / And "Culture" and "King" are completed!
+And "Culture" and "King" are completed!
 
 110
 00:04:45,300 --> 00:04:47,100
-taxt? / Last season?
+Last season?
 
 111
 00:04:47,370 --> 00:04:49,530
-ua pai2 nun1 ik2 mak2! / And 12 points.
+And 12 points.
 
 112
 00:04:49,570 --> 00:04:51,370
-tymor? tymor? / Rerun? Rerun?
+Rerun? Rerun?
 
 113
 00:04:52,330 --> 00:04:53,570
-nun1 ik2. / 12.
+12.
 
 114
 00:04:53,600 --> 00:04:56,030
-ua... / Well then
+Well then
 
 115
 00:04:56,170 --> 00:04:57,270
-ta xot1! / The end of the season!
+The end of the season!
 
 116
 00:04:59,130 --> 00:05:01,430
-a kait a! / Oh, good.
+Oh, good.
 
 117
 00:05:01,700 --> 00:05:03,570
-xo1 / summer
+summer
 
 118
 00:05:03,600 --> 00:05:04,610
-kait a! / Alright!
+Alright!
 
 119
 00:05:04,640 --> 00:05:05,010
-kait a! kait a! / Okay.
+Okay.
 
 120
 00:05:05,040 --> 00:05:05,410
-kait a! / Alright!
+Alright!
 
 121
 00:05:05,440 --> 00:05:07,110
-kut2 xy1! / Throw a throwing rod!
+Throw a throwing rod!
 
 122
 00:05:07,910 --> 00:05:08,940
-kut2 xy1 a kaik! / Fight throwing throwers!
+Fight throwing throwers!
 
 123
 00:05:10,110 --> 00:05:11,810
-sak2! / Come on!
+Come on!
 
 124
 00:05:12,070 --> 00:05:12,640
-a! / Ah!
+Ah!
 
 125
 00:05:12,670 --> 00:05:13,170
-bap! / the same!
+the same!
 
 126
 00:05:13,210 --> 00:05:14,910
-bap! / the same!
+the same!
 
 127
 00:05:15,210 --> 00:05:16,910
-bap a. / Is it the same~
+Is it the same~
 
 128
 00:05:17,240 --> 00:05:18,270
-ty mok1! / again!
+again!
 
 129
 00:05:18,340 --> 00:05:20,270
-ap1 kak kut2 xy1 / I threw a throwing bar four times...
+I threw a throwing bar four times...
 
 130
 00:05:22,210 --> 00:05:22,810
-ik2. / two.
+two.
 
 131
 00:05:23,140 --> 00:05:24,170
-ap1. / four.
+four.
 
 132
 00:05:24,570 --> 00:05:26,040
-pai2 huap1 gua2 a. / Constant bow
+Constant bow
 
 133
 00:05:26,070 --> 00:05:27,770
-huap1 gua2? / A constant bow?
+A constant bow?
 
 134
 00:05:27,810 --> 00:05:31,170
-ka1 kait yn2? pai2 mun1 can2 a. / Is this good? do not know.
+Is this good? do not know.
 
 135
 00:05:35,940 --> 00:05:38,310
-mun1!? / zero! ?
+zero! ?
 
 136
 00:05:45,520 --> 00:05:47,880
-nan2 tun2 sak2 ka1 hue!? / What god came here! ?
+What god came here! ?
 
 137
 00:05:48,580 --> 00:05:50,280
-huap1 gua2 a. / Constant bow.
+Constant bow.
 
 138
 00:05:51,520 --> 00:05:53,880
-mua2 bap mun1. / That's zero too, right?
+That's zero too, right?
 
 139
 00:05:56,480 --> 00:05:59,350
-ty huap1 gua2 a. / Another constant bow.
+Another constant bow.
 
 140
 00:05:59,480 --> 00:06:01,180
-mua2 xy1 mun1. / There are no throwing rods, right?
+There are no throwing rods, right?
 
 141
 00:06:01,620 --> 00:06:04,480
-pai2 mun1 aim2 hop1 non1 tun2 a. / I don't have a god.
+I don't have a god.
 
 142
 00:06:04,520 --> 00:06:05,250
-sak2! / Come on!
+Come on!
 
 143
 00:06:05,920 --> 00:06:06,650
-kait a! / Alright!
+Alright!
 
 144
 00:06:10,820 --> 00:06:13,580
-ua hop1 mua2 a kait. / Then it seems good to take it.
+Then it seems good to take it.
 
 145
 00:06:13,650 --> 00:06:14,380
-ka1 kait po1. / It's a good road.
+It's a good road.
 
 146
 00:06:16,050 --> 00:06:17,750
-ua pai2 hop1. / I'll take it.
+I'll take it.
 
 147
 00:06:22,050 --> 00:06:25,080
-huap1 gua2 a. / A constant bow?
+A constant bow?
 
 148
 00:06:25,120 --> 00:06:27,780
-pai2 mok1 ka1 hue. / Then here.
+Then here.
 
 149
 00:06:27,820 --> 00:06:29,820
-vynut. / Good
+Good
 
 150
 00:06:29,850 --> 00:06:31,650
-y-nut yn2? / Good idea?
+Good idea?
 
 151
 00:06:31,680 --> 00:06:33,250
-lip zep1? / Lipaline?
+Lipaline?
 
 152
 00:06:33,750 --> 00:06:35,550
-a. lip zep1. / Yup.
+Yup.
 
 153
 00:06:36,280 --> 00:06:38,080
-mua2 py zep1 lip zep1 yn2? / Can speak Lipaline?
+Can speak Lipaline?
 
 154
 00:06:38,120 --> 00:06:39,680
-a... mun1. / can not speak.
+can not speak.
 
 155
 00:06:40,780 --> 00:06:40,980
-mun1 py. / can not speak.
+can not speak.
 
 156
 00:06:41,020 --> 00:06:42,820
-mun1 py. / Can't you talk?
+Can't you talk?
 
 157
 00:06:42,850 --> 00:06:45,220
-pai2 py zep1 "salarua". / "Hello" it can be said.
+"Hello" it can be said.
 
 158
 00:06:51,250 --> 00:06:52,380
-o.
-or. / Oh
+Oh
 Oh
 
 159
 00:06:52,420 --> 00:06:53,880
-pai2 hia1 kait. / I think it's good.
+I think it's good.
 
 160
 00:06:53,920 --> 00:06:55,950
-pai2 ly mak1! / I have to fight.
+I have to fight.
 
 161
 00:06:55,980 --> 00:07:01,220
-gua2 dat2 sak2 pai2 a kaik dat2! / A bow is approaching us!
+A bow is approaching us!
 
 162
 00:07:01,250 --> 00:07:04,720
-pai2 mok1 sau2 io a. / Raise the king.
+Raise the king.
 
 163
 00:07:04,750 --> 00:07:06,220
-io a? / King?
+King?
 
 164
 00:07:11,480 --> 00:07:14,280
-pai2 ly hop1 ka1? / What to take
+What to take
 
 165
 00:07:14,320 --> 00:07:17,580
-pai2 ly mok1... pai2 ly hop1 ka1. / Should go... should take
+Should go... should take
 
 166
 00:07:17,620 --> 00:07:20,880
-gua2 ik2 hi1! / A pair of bows!
+A pair of bows!
 
 167
 00:07:22,150 --> 00:07:23,750
-ka1 kait! / this is good!
+this is good!
 
 168
 00:07:23,780 --> 00:07:28,620
-ua ie ka1 tu2 mun1 kait a. / But this play is not good.
+But this play is not good.
 
 169
 00:07:29,780 --> 00:07:31,550
-zau nan2 yn2? / What are you doing?
+What are you doing?
 
 170
 00:07:35,780 --> 00:07:37,120
-tarfe. / Emperor's office.
+Emperor's office.
 
 171
 00:07:37,150 --> 00:07:37,950
-a! / Ah!
+Ah!
 
 172
 00:07:37,980 --> 00:07:39,850
-cene co... / I can do this.
+I can do this.
 
 173
 00:07:39,880 --> 00:07:42,080
-a. kait a. / How nice.
+How nice.
 
 174
 00:07:42,120 --> 00:07:49,550
-pai2 io mok1 guk2 hop1 ie mua2 a. / My king will be taken by you.
+My king will be taken by you.
 
 175
 00:07:49,580 --> 00:07:52,180
-ua tam2 nua2 a... / But the imperial water...
+But the imperial water...
 
 176
 00:07:54,920 --> 00:07:57,520
-hop1 ka1... / Do you take...
+Do you take...
 
 177
 00:08:02,550 --> 00:08:05,320
-o. xy1!? / Oh, throwing stick! ?
+Oh, throwing stick! ?
 
 178
 00:08:05,350 --> 00:08:09,220
-sak2! / Come on!
+Come on!
 
 179
 00:08:09,250 --> 00:08:11,350
-kait!
-or. / Alright!
+Alright!
 Oh
 
 180
 00:08:15,150 --> 00:08:18,220
-nan2 cuk2 sui1 om2 gua2? / Who uses three bows
+Who uses three bows
 
 181
 00:08:18,780 --> 00:08:19,980
-gua2 gua2 gua2 / Bow bow bow
+Bow bow bow
 
 182
 00:08:20,020 --> 00:08:23,080
-gua2 gua2 gua2 / Bow bow bow
+Bow bow bow
 
 183
 00:08:23,120 --> 00:08:26,550
-ut2 kauk2. / Lower the soldiers.
+Lower the soldiers.
 
 184
 00:08:26,580 --> 00:08:29,650
-ut2 kauk2. / Lower the soldiers.
+Lower the soldiers.
 
 185
 00:08:29,680 --> 00:08:33,950
-pai2 hop1 maun1 a. / Let's take a horse.
+Let's take a horse.
 
 186
 00:08:33,980 --> 00:08:34,850
-maun1 a. / Is it a horse?
+Is it a horse?
 
 187
 00:08:34,880 --> 00:08:35,620
-vynut. / good.
+good.
 
 188
 00:08:37,050 --> 00:08:38,350
-sak2 / I came.
+I came.
 
 189
 00:08:39,150 --> 00:08:42,720
-kait tun2 sak2 pai2 a. / A good god has come.
+A good god has come.
 
 190
 00:08:42,750 --> 00:08:47,220
-pai2 mok1 hop1 mua2 a gua2. / Let's take a bow.
+Let's take a bow.
 
 191
 00:08:47,650 --> 00:08:52,550
-tuk2 ie ka1 hue. / The shrine here.
+The shrine here.
 
 192
 00:08:55,380 --> 00:08:57,080
-nan2 hue mok1 yn2? / Where are you going?
+Where are you going?
 
 193
 00:08:58,980 --> 00:09:03,680
-pai2 hia1 hop1 maun1. / I want to get a horse.
+I want to get a horse.
 
 194
 00:09:07,620 --> 00:09:10,720
-ka1 hue. / here
+here
 
 195
 00:09:15,820 --> 00:09:17,050
-py hop1 ka1 kua2. / I can take this bow.
+I can take this bow.
 
 196
 00:09:17,080 --> 00:09:19,580
-ja, ja. / Yes Yes
+Yes Yes
 
 197
 00:09:24,610 --> 00:09:30,110
-pai2 mok1 ut2 a. / Let's go down.
+Let's go down.
 
 198
 00:09:37,980 --> 00:09:39,810
-em... mok1 ka1. / Let's go here
+Let's go here
 
 199
 00:09:41,010 --> 00:09:42,080
-sak2! / Come on!
+Come on!
 
 200
 00:09:46,610 --> 00:09:47,780
-em. kait a. kait a. / Yes Yes
+Yes Yes
 
 201
 00:09:49,810 --> 00:09:55,310
-ua pai2 mok1 ka1 hue. / Then here.
+Then here.
 
 202
 00:09:58,180 --> 00:10:02,350
-a. tam2 hue a. / Oh
+Oh
 
 203
 00:10:10,950 --> 00:10:15,650
-mal, deliu co... / And this should be
+And this should be
 
 204
 00:10:15,690 --> 00:10:21,520
-deliu co amol gustu fqa mol. / You should put your bow here. This is
+You should put your bow here. This is
 
 205
 00:10:25,880 --> 00:10:28,900
-cene co afnar fqa ad fqa. / This and this can be removed.
+This and this can be removed.
 
 206
 00:10:31,170 --> 00:10:33,670
-nan2 mak2 yn2? / How many points?
+How many points?
 
 207
 00:10:33,700 --> 00:10:35,330
-un1? un1 un1. / Five points? Five points five points.
+Five points? Five points five points.
 
 208
 00:10:35,370 --> 00:10:36,270
-un1 yn2. / Five
+Five
 
 209
 00:10:36,670 --> 00:10:37,000
-un1 ua... / If five...
+If five...
 
 210
 00:10:44,770 --> 00:10:47,470
-ta xot1 yn2? / Last season?
+Last season?
 
 211
 00:10:47,500 --> 00:10:48,830
-ty mok1? / Rerun?
+Rerun?
 
 212
 00:10:49,300 --> 00:10:50,930
-em. ta xot1. / Hmm. Last season.
+Hmm. Last season.
 
 213
 00:10:50,970 --> 00:10:54,270
-ta xot1!? mua2 mok1 ut2 yn2? / The end of the season! ? Will you lose?
-
+The end of the season! ? Will you lose?
