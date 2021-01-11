@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+<title>バート語文法</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="menu.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/leipzig/latest/leipzig.min.css">
+<style>
+.non_starting{background-color: #ffeeee}
+.starting{background-color: #eeeeff}
+.foreign{background-color: #eeeeee}
+</style>
+<style>.vow{color:red}.cons{color:blue}</style>
+</head>
+<body class="cool" style="font-family: Arial, Helvetica, sans-serif;">
+
+<div class="box" style="width:1000px;">
+	<div data-gloss>
+		<p>lu2 pet2 kait sak2</p>
+		<p>新しい 星(=年) よく 来たれ</p>
+		<p>新年がいい感じになりますように。</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>sau2 pet2 non1_pua2 zie1_mok1 ua kit ten1_ten1 a</p>
+        <p>前の 年は 病気が 広がる そして とても 混沌としていた のだなぁ</p>
+        <p>昨年は病気が広がり、とても混沌としていたのだなぁ。</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>pau1_ua ie zep1-uai1 cuk2_ge mun1_pau1 tu2 cet2_kaik ua hia1_kait ua</p>
+        <p>しかし 〜において 話す上司（=日本） 人々 変わらず 遊ぶ パイグ将棋 そして よく思う（=楽しむ) そして</p>
+        <p>しかし、日本においては、人々は変わらずパイグ将棋を遊び、楽しみ、</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>tut1 hue1 ua naip2 ie zie1_mok1 hem put_hia1 kait zep1 sau2 ka1_kait</p>
+        <p>〜ごと 少し そして はたらく ～において 広げる なので どうか 良く 言う させてください 良い</p>
+        <p>少しずつ広報に注力してくれたので、どうかお礼をさせてください。</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>ka1 pet2 bap hia1 lit1 a uo1 put hia1 sau2 a</p>
+        <p>この 年 も どうか 入れる ということ 本当に 思う させてほしい なぁ</p>
+        <p>本年も注力のほど何卒よろしくお願いします。</p>
+    </div>
+</div>
+
+<div class="box" style="width:1000px;">
+    <div data-gloss>
+        <p>pankaleti lot delu mol!</p>
+        <p>良い 年 ～べし ある</p>
+        <p>良い年あれ！</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>jo launza leti lot kude e_xep tude pi unde e zakan-zakanleti.</p>
+        <p>〜において 下 の 年 病 大きく 行く そして 世界 ～である 地震的（=混乱）</p>
+        <p>去年において病気が流行し、世界が混乱した。</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>pi jo nippon lata_cet it cetkaik pi ticotit pankaleti pi</p>
+        <p>そして 〜において 日本の 人々 する 机戦 そして 思う 良い そして</p>
+        <p>そして日本においても人々が机戦を行っていることを良いと思い、</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>it cetkaik leti lata leti kin e_tude jo xep polto pi mi_cet ticotit pankaleti cila</p>
+        <p>する 机戦 の 人 の 数 行く 〜において 大きい 場所 そして 私たち 思う 良い 本当に</p>
+        <p>机戦をする人が増えていることは我々は大変良いと思い、</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>pi celene mi_cet e co_cet e pankaleti.</p>
+        <p>そして したい 私たち ～させる あなたたち である よい</p>
+        <p>そしてあなた方も良いものであるとしたい。</p>
+    </div>
+    <hr>
+    <div data-gloss>
+        <p>metica jo kaleti lot co ticotit pankaleti jo mi_cet a.</p>
+        <p>きっと おいて この 年 あなた 思う 良い おいて 私たち だなあ</p>
+        <p>今年もよろしくお願いします。</p>
+    </div>
+</div>
+
+<div id="menu">読み込み中…</div>
+<div id="menuButton" onclick="openClose()">≡</div>
+
+<script src="./header.js" async></script>
+<script src="https://cdn.jsdelivr.net/leipzig/latest/leipzig.min.js"></script>
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+  	var leipzig = Leipzig();
+    leipzig.addAbbreviations({REAL:"realis",ZERO:"zero",POST:"postpositional",REL:"relativizer", CF: "counterfactual conditional"/* https://en.wikipedia.org/wiki/Counterfactual_conditional */});
+    leipzig.gloss()
+  });
+</script>
+</body>
+</html>
