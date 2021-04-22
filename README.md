@@ -10,11 +10,14 @@ Twitter: [@cet2kaik](https://twitter.com/cet2kaik)
 ## in English
  - [The Standardized Rule of Cetkaik](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_en.pdf)
 
+## 한국어
+ - [아이르 공화국 표준화 셋카익 규칙](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_ko.pdf)
+
 ## 盤面ジェネレータ
 - [盤面ジェネレータ](https://sozysozbot.github.io/cerke/generator.html)
 
 ## 情報
-- [官定 (y1 huap1)ルール](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary.pdf)
+- [官定 (y1 huap1)ルール](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_ja.pdf)
 - [パイグ将棋について考察する](https://sozysozbot.github.io/cerke/hia1.html)
 
 ## 外部リンク
