@@ -13,6 +13,9 @@ Twitter: [@cet2kaik](https://twitter.com/cet2kaik)
 ## 한국어
  - [아이르 공화국 표준화 셋카익 규칙](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_ko.pdf)
 
+## 中文
+ - [标准机战规则书](https://github.com/sozysozbot/cerke/blob/master/y1_huap1_summary_zh.pdf)
+
 ## 盤面ジェネレータ
 - [盤面ジェネレータ](https://sozysozbot.github.io/cerke/generator.html)
 
